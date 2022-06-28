@@ -19,11 +19,6 @@ public:
 	// Sets default values for this character's properties
 	AClientCharacter();
 
-	FORCEINLINE class UClientAnimInstance* GetClientAnimInstance() 
-	{
-		return AnimationInst;
-	}
-
 	FORCEINLINE class UObjectMessageComponent* GetMessage()
 	{
 		return Messages;
@@ -86,7 +81,7 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ClientData", meta = (AllowPrivateAccess = "true"))
 	TMap <ClientAnimationType, class UAnimMontage* > Animations_;
 
-	class UClientAnimInstance* AnimationInst;
+
 
 	class UObjectMessageComponent* Messages;
 

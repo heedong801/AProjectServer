@@ -27,7 +27,7 @@ void AClientOtherCharacter::BeginPlay()
 	Super::BeginPlay();
 
 
-	GetClientAnimInstance()->AddEndFunctionBind(std::bind(&AClientOtherCharacter::AnimationEnd, this, std::placeholders::_1));
+	//AnimationInst->AddEndFunctionBind(std::bind(&AClientOtherCharacter::AnimationEnd, this, std::placeholders::_1));
 }
 
 // Called every frame
@@ -63,7 +63,7 @@ void AClientOtherCharacter::Tick(float DeltaTime)
 
 			std::shared_ptr<PlayerUpdateMessage> UpdateMessage = std::static_pointer_cast<PlayerUpdateMessage>(Message);
 
-			GetClientAnimInstance()->ChangeAnimation(UpdateMessage->Data.GetState<ClientAnimationType>());
+			//GetClientAnimInstance()->ChangeAnimation(UpdateMessage->Data.GetState<ClientAnimationType>());
 
 			FVector4 Rot = UpdateMessage->Data.Rot;
 			FQuat RotData = FQuat(Rot.X, Rot.Y, Rot.Z, Rot.W);
@@ -97,6 +97,6 @@ void AClientOtherCharacter::AnimationEnd(ClientAnimationType _Value)
 	if (_Value == ClientAnimationType::Attack)
 	{
 		UClientGameInstance* Inst = Cast<UClientGameInstance>(GetGameInstance());
-		GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Idle);
+		//GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Idle);
 	}
 }

@@ -24,12 +24,20 @@ AClientPlayCharacter::AClientPlayCharacter()
 	UDPReady = false;
 	ServerPost = false;
 
+	static ConstructorHelpers::FObjectFinder<UAnimMontage>	Attack1Asset(TEXT("AnimMontage'/Game/Player/Wukong/Anim/AM_AttackA.AM_AttackA'"));
+
+	if (Attack1Asset.Succeeded())
+	{
+		m_AttackMontage = Attack1Asset.Object;
+		m_AttackMontageArray.Add(Attack1Asset.Object);
+	}
 }
 
 // Called when the game starts or when spawned
 void AClientPlayCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	m_AnimInst = Cast<UClientAnimInstance>(GetMesh()->GetAnimInstance());
 
 	APlayGameMode* GameMode = Cast<APlayGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 
@@ -49,9 +57,6 @@ void AClientPlayCharacter::BeginPlay()
 	SetObjectId(Inst->ObjectIndex);
 	GameMode->RegistObject(Inst->ObjectIndex, EGameObjectType::Player, this);
 
-	GetClientAnimInstance()->AddEndFunctionBind(std::bind(&AClientPlayCharacter::AnimationEnd, this, std::placeholders::_1));
-	GetClientAnimInstance()->AddEndFunctionBind(std::bind(&AClientPlayCharacter::AnimationStart, this, std::placeholders::_1));
-
 	ClientToReadyMessage Msg;
 
 	Msg.ObjectIndex = Inst->ObjectIndex;
@@ -66,21 +71,21 @@ void AClientPlayCharacter::BeginPlay()
 
 }
 
-void AClientPlayCharacter::AnimationStart(ClientAnimationType _Value)
-{
-	if (_Value == ClientAnimationType::Attack)
-	{
-
-	}
-}
-
-void AClientPlayCharacter::AnimationEnd(ClientAnimationType _Value)
-{
-	if (_Value == ClientAnimationType::Attack)
-	{
-		GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Idle);
-	}
-}
+//void AClientPlayCharacter::AnimationStart(ClientAnimationType _Value)
+//{
+//	if (_Value == ClientAnimationType::Attack)
+//	{
+//
+//	}
+//}
+//
+//void AClientPlayCharacter::AnimationEnd(ClientAnimationType _Value)
+//{
+//	if (_Value == ClientAnimationType::Attack)
+//	{
+//		m_AnimInst->ChangeAnimation(ClientAnimationType::Idle);
+//	}
+//}
 
 void AClientPlayCharacter::SendPlayerUpdatePacket()
 {
@@ -99,13 +104,13 @@ void AClientPlayCharacter::SendPlayerUpdatePacket()
 	UpdateMsg.Data.ObjectIndex = Inst->ObjectIndex;
 	UpdateMsg.Data.SectionIndex = Inst->SectionIndex;
 	UpdateMsg.Data.ThreadIndex = Inst->ThreadIndex;
-	UpdateMsg.Data.SetState(GetClientAnimInstance()->GetAnimationType());
+	UpdateMsg.Data.SetState(m_AnimInst->GetAnimationType());
 	// UpdateMsg.Data.SetState(EPlayerState::PState_Idle);
 
 	GameServerSerializer Sr;
 	UpdateMsg.Serialize(Sr);
 
-	if (GetClientAnimInstance()->GetAnimationType() == ClientAnimationType::Attack)
+	if (m_AnimInst->GetAnimationType() == ClientAnimationType::Attack)
 	{
 		if (false == Inst->Send(Sr.GetData()))
 		{
@@ -229,51 +234,50 @@ void AClientPlayCharacter::Tick(float DeltaTime)
 // Called to bind functionality to input
 void AClientPlayCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	//Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	static bool bBindingsAdded = false;
-	if (!bBindingsAdded)
-	{
-		bBindingsAdded = true;
+	PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &AClientPlayCharacter::MoveForward);
+	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &AClientPlayCharacter::MoveRight);
 
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping("ClientPlayer_MoveForward", EKeys::W, 1.f));
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping("ClientPlayer_MoveForward", EKeys::S, -1.f));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::W));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::S));
+	UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::W));
+	UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::S));
+	UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::D));
+	UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::A));
 
+	PlayerInputComponent->BindAction(TEXT("Attack"), EInputEvent::IE_Pressed, this, &AClientPlayCharacter::Attack);
+	/*PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &APlayerCharacter::LookUp);
+	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &APlayerCharacter::Turn);
+	PlayerInputComponent->BindAxis(TEXT("Zoom"), this, &APlayerCharacter::ZoomInKey);
 
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping("ClientPlayer_MoveRight", EKeys::D, 1.f));
-		UPlayerInput::AddEngineDefinedAxisMapping(FInputAxisKeyMapping("ClientPlayer_MoveRight", EKeys::A, -1.f));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::D));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::A));
+	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &APlayerCharacter::JumpKey);
 
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Attack", EKeys::LeftMouseButton));
+	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Sprint);
+	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Released, this, &APlayerCharacter::StopSprint);
+	PlayerInputComponent->BindAction(TEXT("Skill1"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Skill1Key);
+	PlayerInputComponent->BindAction(TEXT("Skill2"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Skill2Key);
+	PlayerInputComponent->BindAction(TEXT("Skill3"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Skill3Key);
 
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("TestPacket0", EKeys::NumPadZero));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("TestPacket1", EKeys::NumPadOne));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("TestPacket2", EKeys::NumPadTwo));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("TestPacket3", EKeys::NumPadThree));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("TestPacket4", EKeys::NumPadFour));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("TestPacket5", EKeys::NumPadFive));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("TestPacket6", EKeys::NumPadSix));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("TestPacket7", EKeys::NumPadSeven));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("TestPacket8", EKeys::NumPadEight));
-		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("TestPacket9", EKeys::NumPadNine));
-	}
+	PlayerInputComponent->BindAction(TEXT("Quest"), EInputEvent::IE_Pressed, this, &APlayerCharacter::QuestKey);
+	PlayerInputComponent->BindAction(TEXT("Quit"), EInputEvent::IE_Pressed, this, &APlayerCharacter::QuitKey);
+	PlayerInputComponent->BindAction(TEXT("Interaction"), EInputEvent::IE_Pressed, this, &APlayerCharacter::InteractionKey);
+	PlayerInputComponent->BindAction(TEXT("Equipment"), EInputEvent::IE_Pressed, this, &APlayerCharacter::EquipmentKey);
+	PlayerInputComponent->BindAction(TEXT("Inventory"), EInputEvent::IE_Pressed, this, &APlayerCharacter::InventoryKey);*/
 
 	// 얼마나 지속적으로 오래눌렀고 세게 눌렀다 약하게 눌렀다는 체크해야할때가 많습니다.
 	// 정의 내린 키가 입력되었을대 
-	PlayerInputComponent->BindAxis("DefaultPawn_MoveForward", this, &AClientPlayCharacter::MoveForward);
-	PlayerInputComponent->BindAxis("ClientPlayer_MoveRight", this, &AClientPlayCharacter::MoveRight);
+	//PlayerInputComponent->BindAxis("DefaultPawn_MoveForward", this, &AClientPlayCharacter::MoveForward);
+	//PlayerInputComponent->BindAxis("ClientPlayer_MoveRight", this, &AClientPlayCharacter::MoveRight);
+	//PlayerInputComponent->BindAction("ClientPlayer_Move", EInputEvent::IE_Pressed, this, &AClientPlayCharacter::MoveStart);
+	//PlayerInputComponent->BindAction("ClientPlayer_Move", EInputEvent::IE_Released, this, &AClientPlayCharacter::MoveEnd);
+
+	// 얼마나 지속적으로 오래눌렀고 세게 눌렀다 약하게 눌렀다는 체크해야할때가 많습니다.
+	// 정의 내린 키가 입력되었을대 
+	//PlayerInputComponent->BindAxis("DefaultPawn_MoveForward", this, &AClientPlayCharacter::MoveForward);
+	//PlayerInputComponent->BindAxis("ClientPlayer_MoveRight", this, &AClientPlayCharacter::MoveRight);
 	PlayerInputComponent->BindAction("ClientPlayer_Move", EInputEvent::IE_Pressed, this, &AClientPlayCharacter::MoveStart);
 	PlayerInputComponent->BindAction("ClientPlayer_Move", EInputEvent::IE_Released, this, &AClientPlayCharacter::MoveEnd);
 
-	PlayerInputComponent->BindAction("ClientPlayer_Attack", EInputEvent::IE_Released, this, &AClientPlayCharacter::Attack);
-
-	PlayerInputComponent->BindAction("SetChatType_InSection", EInputEvent::IE_Pressed, this, &AClientPlayCharacter::SetChatTypeInSec);
-	PlayerInputComponent->BindAction("SetChatType_OnePlayer", EInputEvent::IE_Pressed, this, &AClientPlayCharacter::SetChatTypeOne);
-	PlayerInputComponent->BindAction("SetChatType_All", EInputEvent::IE_Pressed, this, &AClientPlayCharacter::SetChatTypeAll);
-
+	//PlayerInputComponent->BindAction("ClientPlayer_Attack", EInputEvent::IE_Released, this, &AClientPlayCharacter::Attack);
 	//PlayerInputComponent->BindAction("TestPacket0", EInputEvent::IE_Released, this, &AClientPlayCharacter::TestPacketUpdate0);
 
 	FInputModeGameAndUI InputMode;
@@ -341,18 +345,21 @@ void AClientPlayCharacter::SetChatTypeAll()
 	Inst->SetMsgType(EChatMessageType::ALL);
 }
 
-void AClientPlayCharacter::MoveRight(float _Rate) 
+void AClientPlayCharacter::MoveForward(float _Rate)
 {
-	if (false == UDPReady)
+	if (0.0f == _Rate)
 	{
 		return;
 	}
 
-	if (GetClientAnimInstance()->GetAnimationType() == ClientAnimationType::Attack)
-	{
-		return;
-	}
+	LOG(TEXT("A"));
+	AddControllerYawInput(LookZ(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal() * _Rate, 0.1f));
 
+	AddMovementInput(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal(), _Rate);
+}
+
+void AClientPlayCharacter::MoveRight(float _Rate)
+{
 	if (0.0f == _Rate)
 	{
 		return;
@@ -361,31 +368,53 @@ void AClientPlayCharacter::MoveRight(float _Rate)
 	AddControllerYawInput(LookZ(FVector(1.0f, 1.0f, 0.0f).GetSafeNormal() * _Rate, 0.1f));
 
 	AddMovementInput(FVector(1.0f, 1.0f, 0.0f).GetSafeNormal(), _Rate);
-	GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Move);
+
 }
-
-void AClientPlayCharacter::MoveForward(float _Rate) 
-{
-	if (false == UDPReady)
-	{
-		return;
-	}
-
-	if (GetClientAnimInstance()->GetAnimationType() == ClientAnimationType::Attack)
-	{
-		return;
-	}
-	if (0.0f == _Rate)
-	{
-		return;
-	}
-
-
-	AddControllerYawInput(LookZ(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal() * _Rate, 0.1f));
-
-	AddMovementInput(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal(), _Rate);
-	GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Move);
-}
+//void AClientPlayCharacter::MoveRight(float _Rate) 
+//{
+//	if (false == UDPReady)
+//	{
+//		return;
+//	}
+//
+//	if (m_AnimInst->GetAnimationType() == ClientAnimationType::Attack)
+//	{
+//		return;
+//	}
+//
+//	if (0.0f == _Rate)
+//	{
+//		return;
+//	}
+//
+//	AddControllerYawInput(LookZ(FVector(1.0f, 1.0f, 0.0f).GetSafeNormal() * _Rate, 0.1f));
+//
+//	AddMovementInput(FVector(1.0f, 1.0f, 0.0f).GetSafeNormal(), _Rate);
+//	m_AnimInst->ChangeAnimation(ClientAnimationType::Move);
+//}
+//
+//void AClientPlayCharacter::MoveForward(float _Rate) 
+//{
+//	if (false == UDPReady)
+//	{
+//		return;
+//	}
+//
+//	if (m_AnimInst->GetAnimationType() == ClientAnimationType::Attack)
+//	{
+//		return;
+//	}
+//	if (0.0f == _Rate)
+//	{
+//		return;
+//	}
+//
+//
+//	AddControllerYawInput(LookZ(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal() * _Rate, 0.1f));
+//
+//	AddMovementInput(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal(), _Rate);
+//	//m_AnimInst->ChangeAnimation(ClientAnimationType::Move);
+//}
 
 void AClientPlayCharacter::MoveStart()
 {
@@ -394,11 +423,11 @@ void AClientPlayCharacter::MoveStart()
 		return;
 	}
 
-	if (GetClientAnimInstance()->GetAnimationType() == ClientAnimationType::Attack)
+	if (m_AnimInst->GetAnimationType() == ClientAnimationType::Attack)
 	{
 		return;
 	}
-	GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Move);
+	m_AnimInst->ChangeAnimation(ClientAnimationType::Move);
 }
 
 void AClientPlayCharacter::MoveEnd()
@@ -408,11 +437,11 @@ void AClientPlayCharacter::MoveEnd()
 		return;
 	}
 
-	if (GetClientAnimInstance()->GetAnimationType() == ClientAnimationType::Attack)
+	if (m_AnimInst->GetAnimationType() == ClientAnimationType::Attack)
 	{
 		return;
 	}
-	GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Idle);
+	m_AnimInst->ChangeAnimation(ClientAnimationType::Idle);
 }
 
 void AClientPlayCharacter::Attack() 
@@ -425,8 +454,37 @@ void AClientPlayCharacter::Attack()
 	// 화면을 바라보는건 클라이언트 뿐입니다.
 
 	// LookZ(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal(), 0.1f);
+	if (m_AnimInst->GetCanAttack())
+	{
+		//LOG(TEXT("C"));
+
+		if (!m_AnimInst->GetOnSky())			//하늘에 있으면 땅에서 하는 콤보 공격 불가
+		{
+			if (m_CurrentCombo == 0)
+				m_AnimInst->Montage_Play(m_AttackMontage);
+			else
+				m_AnimInst->Montage_JumpToSection(m_AnimInst->GetAttackMontageSectionName(m_CurrentCombo + 1 % 5));
+
+
+			m_CurrentCombo++;
+
+			m_AnimInst->SetCanAttack(false);
+		}
+		else
+		{
+
+			//LOG(TEXT("SKY ATTACK"));
+			if (!m_AnimInst->GetDoubleJump())
+			{
+				m_AnimInst->Montage_Play(m_SkyAttackMontage);
+			}
+
+			m_AnimInst->SetCanAttack(false);
+		}
+	}
+
 	AddControllerYawInput(LookZ(MouseVectorToWorldVector() - GetActorLocation(), 1.0F));
-	GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Attack);
+	m_AnimInst->ChangeAnimation(ClientAnimationType::Attack);
 	SendPlayerUpdatePacket();
 }
 

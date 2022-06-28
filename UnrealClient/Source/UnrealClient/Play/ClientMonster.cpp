@@ -6,9 +6,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "../Global/ClientGameInstance.h"
 #include "../Play/PlayGameMode.h"
-#include "../Global/ClientGameInstance.h"
 #include "Animation/AnimMontage.h"
-#include "ClientAnimInstance.h"
+#include "MonsterAnimInstance.h"
 #include "DrawDebugHelpers.h"
 #include "../UnrealClient.h"
 
@@ -207,6 +206,9 @@ void AClientMonster::AnimationEnd(ClientAnimationType _Value)
 void AClientMonster::BeginPlay() 
 {
 	Super::BeginPlay();
+
+	AnimationInst = Cast<UMonsterAnimInstance>(GetMesh()->GetAnimInstance());
+
 
 	State_ = EMonsterState::MState_Idle;
 

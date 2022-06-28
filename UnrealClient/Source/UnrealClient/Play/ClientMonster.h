@@ -43,6 +43,11 @@ protected:
 	virtual void BeginPlay() override;
 
 	void Tick(float DeltaTime);
+
+	FORCEINLINE class UMonsterAnimInstance* GetClientAnimInstance()
+	{
+		return AnimationInst;
+	}
 	//////////////////////////////////////// ClientCode
 
 private:
@@ -66,6 +71,7 @@ private:
 	void AnimationStart(ClientAnimationType _Value);
 	void AnimationEnd(ClientAnimationType _Value);
 
+	class UMonsterAnimInstance* AnimationInst;
 /////////////////////////////////////////////////////////////////////////////////////////// 클라이언트 함수
 public:
 	void ClientUpdate(float _DelataTime);

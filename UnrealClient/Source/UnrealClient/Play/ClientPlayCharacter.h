@@ -16,6 +16,11 @@ public:
 	// Sets default values for this character's properties
 	AClientPlayCharacter();
 
+	FORCEINLINE class UClientAnimInstance* GetClientAnimInstance()
+	{
+		return m_AnimInst;
+	}
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -31,6 +36,9 @@ private:
 
 	FVector MoveVector;
 	FVector PrevVector;
+
+	int32 m_MaxCombo;
+	int32 m_CurrentCombo;
 
 	// 서버가 허락을 내렸냐?
 	bool ServerPost;
@@ -53,5 +61,16 @@ private:
 	void SetChatTypeOne();
 	void SetChatTypeInSec();
 	void SetChatTypeAll();
+
+	class UClientAnimInstance* m_AnimInst;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+		UAnimMontage* m_AttackMontage;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+		UAnimMontage* m_SkyAttackMontage;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+		TArray<UAnimMontage*> m_AttackMontageArray;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+		TArray<UAnimMontage*> m_SkyAttackMontageArray;
 	// void TestPacketUpdate0();
 };

@@ -27,9 +27,6 @@ void AClientCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	AnimationInst = Cast<UClientAnimInstance>(GetMesh()->GetAnimInstance());
-	AnimationInst->SetAnimationMap(&Animations_);
-	AnimationInst->ChangeAnimation(ClientAnimationType::Idle);
 }
 
 // Called every frame

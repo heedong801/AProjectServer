@@ -20,35 +20,65 @@ class UNREALCLIENT_API UClientAnimInstance : public UAnimInstance
 	GENERATED_BODY()
 
 public:
-	FORCEINLINE void SetAnimationMap(TMap <ClientAnimationType, UAnimMontage* >* _Map)
-	{
-		Animations_ = _Map;
-	}
+	UClientAnimInstance();
+	virtual void NativeInitializeAnimation();
+	virtual void NativeUpdateAnimation(float DeltaSeconds);
+
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+		float m_Dir;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+		float m_Speed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+		bool m_CanAttack;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+		bool m_UseFullbody;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+		bool m_OnSky;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+		bool m_DoubleJump;
+
+	FTimerHandle m_AddGravityTimer;
+
+	ClientAnimationType CurrentAnimationType_;
+
+	// UFUNCTION	///////////////////////////////////////////////////////////////////
+	UFUNCTION()
+		void AnimNotify_AttackCombo();
+	UFUNCTION()
+		void AnimNotify_HitDamage();
+	UFUNCTION()
+		void AnimNotify_SlamEnd();
+	UFUNCTION()
+		void AnimNotify_AddGravity();
+	UFUNCTION()
+		void AnimNotify_AttackEnd();
+	UFUNCTION()
+		void AnimNotify_UseSkill();
+	void AddGravity();
+public:
+	void SetDirection(float Dir) { m_Dir = Dir; }
+	bool GetCanAttack() { return m_CanAttack; }
+	void SetCanAttack(bool AttackEnable) { m_CanAttack = AttackEnable; }
+	FName GetAttackMontageSectionName(int32 Section);
+
+	void SetDoubleJump(bool jump) { m_DoubleJump = jump; }
+	bool GetDoubleJump()	const { return m_DoubleJump; }
+
+	void SetFullbody(float useFullbody);
+	float GetFullbody() { return m_UseFullbody; }
+
+	bool GetOnSky() { return m_OnSky; }
 
 	FORCEINLINE ClientAnimationType GetAnimationType()
 	{
 		return CurrentAnimationType_;
 	}
-
-	void ChangeAnimation(ClientAnimationType _Type);
-
-	UClientAnimInstance();
-
-	void AddEndFunctionBind(std::function<void(ClientAnimationType)> _BindFunction);
-	void AddStartFunctionBind(std::function<void(ClientAnimationType)> _BindFunction);
-
-protected:
-	void NativeUpdateAnimation(float _DeltaTime);
-
-	UFUNCTION()
-	void AnimNotify_End();
-
-private:
-	ClientAnimationType CurrentAnimationType_;
-
-	TMap <ClientAnimationType, UAnimMontage* >* Animations_;
-
-	std::vector<std::function<void(ClientAnimationType)>> EndFunctions_;
-	std::vector<std::function<void(ClientAnimationType)>> StartFunctions_;
 	
+	void ChangeAnimation(ClientAnimationType _Type);
 };

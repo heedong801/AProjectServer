@@ -1,56 +1,162 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+#include"ClientAnimInstance.h"
+#include "ClientCharacter.h"
 
 
-#include "ClientAnimInstance.h"
-#include "../UnrealClient.h"
-
-UClientAnimInstance::UClientAnimInstance() 
-	: Animations_(nullptr)
+UClientAnimInstance::UClientAnimInstance()
+	: m_Dir(0), m_Speed(0), m_CanAttack(true), m_OnSky(false)
 {
-
 }
 
-void UClientAnimInstance::NativeUpdateAnimation(float _DeltaTime)
+void UClientAnimInstance::NativeInitializeAnimation()
 {
-	if (nullptr == Animations_) 
+	Super::NativeInitializeAnimation();
+}
+
+void UClientAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
+{
+	Super::NativeUpdateAnimation(DeltaSeconds);
+
+	AClientCharacter* Player = Cast<AClientCharacter>(TryGetPawnOwner());
+
+	//LOG(TEXT("%f"), Player->GetActorScale3D().Size());
+	if (Player)
 	{
-		return;
-	}
+		UCharacterMovementComponent* Movement = Player->GetCharacterMovement();
 
-	Super::NativeUpdateAnimation(_DeltaTime);
-
-	if (false == (*Animations_).Contains(CurrentAnimationType_))
-	{
-		return;
-	}
-
-	UAnimMontage* FindAnimation = (* Animations_)[CurrentAnimationType_];
-
-	if (nullptr == FindAnimation)
-	{
-		UE_LOG(ClientLog, Error, TEXT("%S(%u) > Animation Is Null"), __FUNCTION__, __LINE__);
-	}
-
-
-	if (true == Montage_IsPlaying(FindAnimation))
-	{
-		return;
-	}
-
-	if (0 != StartFunctions_.size())
-	{
-
-		for (auto& Function : StartFunctions_)
+		if (Movement)
 		{
-			Function(CurrentAnimationType_);
+			m_Speed = Movement->Velocity.Size();
+			//LOG(TEXT("%f"), m_Speed);
+			m_OnSky = Movement->IsFalling();
+
+			//LOG(TEXT("%f"), Player->GetCharacterMovement()->GravityScale);
+			//LOG(TEXT("%f"), Player->GetCharacterMovement()->JumpZVelocity);
+
+			if (!m_OnSky)
+			{
+				m_DoubleJump = false;
+				//Player->GetCharacterMovement()->GravityScale = 1.f;
+
+			}
+			else
+			{
+				
+
+
+				//Player->GetCharacterMovement()->GravityScale = 3.f;
+			}
+
 		}
 	}
-
-
-	Montage_Play(FindAnimation);
 }
 
-void UClientAnimInstance::ChangeAnimation(ClientAnimationType _Type) 
+void UClientAnimInstance::AnimNotify_AttackCombo()
+{
+	//LOG(TEXT("true : %s"), *GetSkelMeshComponent()->GetName());
+
+
+	m_CanAttack = true;
+}
+
+void UClientAnimInstance::AnimNotify_HitDamage()
+{
+	//AClientCharacter* Player = Cast<AClientCharacter>(TryGetPawnOwner());
+
+	//if (Player)
+	//	Player->HitDamage();
+}
+
+FName UClientAnimInstance::GetAttackMontageSectionName(int32 Section)
+{
+	return FName(*FString::Printf(TEXT("Attack%d"), Section));
+}
+
+
+void UClientAnimInstance::SetFullbody(float useFullbody)
+{
+	if (useFullbody > 0.f)
+		m_UseFullbody = true;
+	else
+		m_UseFullbody = false;
+}
+
+void UClientAnimInstance::AnimNotify_AddGravity()
+{
+	////LOG(TEXT("AnimNotify_AddGravity"));
+	//AClientCharacter* Player = Cast<AClientCharacter>(TryGetPawnOwner());
+
+	//if (Player)
+	//{
+	//	Player->SetTimeDillation();
+	//	Player->GetCharacterMovement()->Velocity.X = 0.f;
+	//	Player->GetCharacterMovement()->Velocity.Y = 0.f;
+	//	//Player->SetActorLocation( FVector(Player->GetActorLocation().X, Player->GetActorLocation().Y, Player->GetActorLocation().Z + 200)) ;
+
+	//	GetWorld()->GetTimerManager().SetTimer(m_AddGravityTimer,
+	//		this, &UPlayerAnim::AddGravity, 1.f, false, 0.1f);
+	//	//Player->GetCharacterMovement()->Velocity.Z = 0.f;
+	//	//Player->GetCharacterMovement()->GravityScale = 200.0f;
+	//	//LOG(TEXT("%f %f %f"), Player->GetCharacterMovement()->Velocity.X, Player->GetCharacterMovement()->Velocity.Y, Player->GetCharacterMovement()->Velocity.Z);
+	//}
+}
+
+void UClientAnimInstance::AddGravity()
+{
+	AClientCharacter* Player = Cast<AClientCharacter>(TryGetPawnOwner());
+	if (Player)
+		Player->GetCharacterMovement()->GravityScale = 200.0f;
+
+}
+
+
+void UClientAnimInstance::AnimNotify_SlamEnd()
+{
+	////LOG(TEXT("AnimNotify_SlamEnd"));
+
+	//AWukong* Wukong = Cast<AWukong>(TryGetPawnOwner());
+	//Wukong->SlamDamage();
+}
+
+void UClientAnimInstance::AnimNotify_AttackEnd()
+{
+	////LOG(TEXT("true : %s"), *GetSkelMeshComponent()->GetName());
+
+	//m_CanAttack = true;
+
+	//AClientCharacter* Player = Cast<AClientCharacter>(TryGetPawnOwner());
+
+	//if (Player)
+	//{
+	//	Player->SetCurrentCombo(0);
+	//	Player->SetMovable(true);
+	//	Player->CameraArmYawReset();
+
+	//	AWukong* Wukong = Cast<AWukong>(Player);
+	//	if (Wukong)
+	//		Wukong->SetCanAttack();
+
+	//}
+
+
+}
+
+
+void UClientAnimInstance::AnimNotify_UseSkill()
+{
+
+	//m_CanAttack = false;
+	//AClientCharacter* Player = Cast<AClientCharacter>(TryGetPawnOwner());
+
+	//if (Player)
+	//{
+	//	//LOG(TEXT("C"));
+	//	Player->SetMovable(false);
+
+	//	Player->UseSkill(Player->GetSkillIdx());
+	//}
+}
+
+void UClientAnimInstance::ChangeAnimation(ClientAnimationType _Type)
 {
 	if (CurrentAnimationType_ == _Type)
 	{
@@ -58,29 +164,4 @@ void UClientAnimInstance::ChangeAnimation(ClientAnimationType _Type)
 	}
 
 	CurrentAnimationType_ = _Type;
-}
-
-void UClientAnimInstance::AnimNotify_End()
-{
-	if (0 == EndFunctions_.size())
-	{
-		return;
-	}
-
-	for (auto& Function : EndFunctions_)
-	{
-		Function(CurrentAnimationType_);
-	}
-
-	// CurrentAnimationType_ = ClientAnimationType::Idle;
-}
-
-void UClientAnimInstance::AddEndFunctionBind(std::function<void(ClientAnimationType)> _BindFunction)
-{
-	EndFunctions_.push_back(_BindFunction);
-}
-
-void UClientAnimInstance::AddStartFunctionBind(std::function<void(ClientAnimationType)> _BindFunction) 
-{
-	StartFunctions_.push_back(_BindFunction);
 }

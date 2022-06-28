@@ -28,4 +28,7 @@ protected:
 	virtual void Tick(float DeltaTime) override;
 
 	void AnimationEnd(ClientAnimationType _Value);
+
+private:
+	class UClientAnimInstance* AnimationInst;
 };

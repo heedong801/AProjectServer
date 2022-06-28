@@ -74,3 +74,12 @@ Plugins/*/Intermediate/*
 DerivedDataCache/*
 
 UnrealClient/Content/ParagonSunWukong
+UnrealClient/.vs
+UnrealClient/Binaries
+UnrealClient/DerivedDataCache
+UnrealClient/Intermediate
+UnrealClient/Saved
+UnrealClient/Script
+UnrealClient/UnrealClient.sln
+
+ProjectCode/Bin
