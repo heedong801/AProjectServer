@@ -1,5 +1,5 @@
 #include"ClientAnimInstance.h"
-#include "ClientCharacter.h"
+#include "ClientPlayCharacter.h"
 
 
 UClientAnimInstance::UClientAnimInstance()
@@ -16,7 +16,7 @@ void UClientAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 {
 	Super::NativeUpdateAnimation(DeltaSeconds);
 
-	AClientCharacter* Player = Cast<AClientCharacter>(TryGetPawnOwner());
+	AClientPlayCharacter* Player = Cast<AClientPlayCharacter>(TryGetPawnOwner());
 
 	//LOG(TEXT("%f"), Player->GetActorScale3D().Size());
 	if (Player)
@@ -60,7 +60,7 @@ void UClientAnimInstance::AnimNotify_AttackCombo()
 
 void UClientAnimInstance::AnimNotify_HitDamage()
 {
-	//AClientCharacter* Player = Cast<AClientCharacter>(TryGetPawnOwner());
+	//AClientPlayCharacter* Player = Cast<AClientPlayCharacter>(TryGetPawnOwner());
 
 	//if (Player)
 	//	Player->HitDamage();
@@ -83,7 +83,7 @@ void UClientAnimInstance::SetFullbody(float useFullbody)
 void UClientAnimInstance::AnimNotify_AddGravity()
 {
 	////LOG(TEXT("AnimNotify_AddGravity"));
-	//AClientCharacter* Player = Cast<AClientCharacter>(TryGetPawnOwner());
+	//AClientPlayCharacter* Player = Cast<AClientPlayCharacter>(TryGetPawnOwner());
 
 	//if (Player)
 	//{
@@ -102,7 +102,7 @@ void UClientAnimInstance::AnimNotify_AddGravity()
 
 void UClientAnimInstance::AddGravity()
 {
-	AClientCharacter* Player = Cast<AClientCharacter>(TryGetPawnOwner());
+	AClientPlayCharacter* Player = Cast<AClientPlayCharacter>(TryGetPawnOwner());
 	if (Player)
 		Player->GetCharacterMovement()->GravityScale = 200.0f;
 
@@ -119,24 +119,18 @@ void UClientAnimInstance::AnimNotify_SlamEnd()
 
 void UClientAnimInstance::AnimNotify_AttackEnd()
 {
-	////LOG(TEXT("true : %s"), *GetSkelMeshComponent()->GetName());
+	//LOG(TEXT("true : %s"), *GetSkelMeshComponent()->GetName());
 
-	//m_CanAttack = true;
+	AClientPlayCharacter* Player = Cast<AClientPlayCharacter>(TryGetPawnOwner());
 
-	//AClientCharacter* Player = Cast<AClientCharacter>(TryGetPawnOwner());
+	if (Player)
+	{
+		m_CanAttack = true;
+		Player->SetCurrentCombo(0);
+		//Player->SetMovable(true);
+		//Player->CameraArmYawReset();
 
-	//if (Player)
-	//{
-	//	Player->SetCurrentCombo(0);
-	//	Player->SetMovable(true);
-	//	Player->CameraArmYawReset();
-
-	//	AWukong* Wukong = Cast<AWukong>(Player);
-	//	if (Wukong)
-	//		Wukong->SetCanAttack();
-
-	//}
-
+	}
 
 }
 
@@ -145,7 +139,7 @@ void UClientAnimInstance::AnimNotify_UseSkill()
 {
 
 	//m_CanAttack = false;
-	//AClientCharacter* Player = Cast<AClientCharacter>(TryGetPawnOwner());
+	//AClientPlayCharacter* Player = Cast<AClientPlayCharacter>(TryGetPawnOwner());
 
 	//if (Player)
 	//{

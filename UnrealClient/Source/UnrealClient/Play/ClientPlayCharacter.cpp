@@ -14,7 +14,7 @@
 #include "ClientOtherCharacter.h"
 #include "GameFramework/PlayerInput.h"
 #include "DrawDebugHelpers.h"
-
+#include"../DebugClass.h"
 
 // Sets default values
 AClientPlayCharacter::AClientPlayCharacter()
@@ -132,6 +132,7 @@ void AClientPlayCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	AttTimeCheck -= DeltaTime;
+	m_AnimInst->SetFullbody(m_AnimInst->GetCurveValue("FullBody"));
 
 	APlayGameMode* GameMode = Cast<APlayGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 
@@ -352,7 +353,6 @@ void AClientPlayCharacter::MoveForward(float _Rate)
 		return;
 	}
 
-	LOG(TEXT("A"));
 	AddControllerYawInput(LookZ(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal() * _Rate, 0.1f));
 
 	AddMovementInput(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal(), _Rate);
@@ -456,7 +456,7 @@ void AClientPlayCharacter::Attack()
 	// LookZ(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal(), 0.1f);
 	if (m_AnimInst->GetCanAttack())
 	{
-		//LOG(TEXT("C"));
+		LOG(TEXT("C"));
 
 		if (!m_AnimInst->GetOnSky())			//하늘에 있으면 땅에서 하는 콤보 공격 불가
 		{
@@ -483,7 +483,7 @@ void AClientPlayCharacter::Attack()
 		}
 	}
 
-	AddControllerYawInput(LookZ(MouseVectorToWorldVector() - GetActorLocation(), 1.0F));
+	//AddControllerYawInput(LookZ(MouseVectorToWorldVector() - GetActorLocation(), 1.0F));
 	m_AnimInst->ChangeAnimation(ClientAnimationType::Attack);
 	SendPlayerUpdatePacket();
 }

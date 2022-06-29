@@ -21,6 +21,9 @@ public:
 		return m_AnimInst;
 	}
 
+	FORCEINLINE int32 GetCurrentCombo() { return m_CurrentCombo; }
+	FORCEINLINE void SetCurrentCombo(int32 curCombo) { m_CurrentCombo = curCombo; }
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
