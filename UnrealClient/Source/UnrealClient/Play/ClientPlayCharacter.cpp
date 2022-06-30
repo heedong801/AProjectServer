@@ -52,7 +52,7 @@ void AClientPlayCharacter::BeginPlay()
 	{
 		return;
 	}
-
+	GetCharacterMovement()->JumpZVelocity = 800.f;
 	SetObjectType(EGameObjectType::Player);
 	SetObjectId(Inst->ObjectIndex);
 	GameMode->RegistObject(Inst->ObjectIndex, EGameObjectType::Player, this);
@@ -239,7 +239,7 @@ void AClientPlayCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 
 	PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &AClientPlayCharacter::MoveForward);
 	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &AClientPlayCharacter::MoveRight);
-
+	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &AClientPlayCharacter::JumpKey);
 	UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::W));
 	UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::S));
 	UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::D));
@@ -286,6 +286,20 @@ void AClientPlayCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;
 }
 
+void AClientPlayCharacter::JumpKey()
+{
+	//LOG(TEXT("%d"), JumpCurrentCount);
+	if (m_AnimInst->GetOnSky() == false || JumpCurrentCount == 1)
+	{
+		Jump();
+
+		if (JumpCurrentCount == 1)
+		{
+			m_AnimInst->SetDoubleJump(true);
+		}
+	}
+
+}
 //XX
 void AClientPlayCharacter::SetChatTypeOne()
 {
@@ -517,7 +531,18 @@ FVector AClientPlayCharacter::MouseVectorToWorldVector()
 	return TraceHitResult.Location;
 }
 
+void AClientPlayCharacter::SetTimeDefaultTimeDilation()
+{
+	GetWorld()->GetWorldSettings()->SetTimeDilation(1.f);
 
+}
+
+void AClientPlayCharacter::SetTimeDillation()
+{
+	GetWorld()->GetWorldSettings()->SetTimeDilation(0.5f);
+	GetWorld()->GetTimerManager().SetTimer(TimeDillationHandle,
+		this, &AClientPlayCharacter::SetTimeDefaultTimeDilation, 1.f, false, 0.25f);
+}
 //void AClientPlayCharacter::TestPacketUpdate0()
 //{
 //	UClientGameInstance* Inst = Cast<UClientGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));

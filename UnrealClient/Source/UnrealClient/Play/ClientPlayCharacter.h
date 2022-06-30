@@ -24,6 +24,11 @@ public:
 	FORCEINLINE int32 GetCurrentCombo() { return m_CurrentCombo; }
 	FORCEINLINE void SetCurrentCombo(int32 curCombo) { m_CurrentCombo = curCombo; }
 
+	void SetTimeDillation();
+	void SetTimeDefaultTimeDilation();
+
+	void JumpKey();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -48,6 +53,7 @@ private:
 	bool UDPReady;
 	bool IsAttack;
 	float AttTimeCheck;
+	FTimerHandle TimeDillationHandle;
 
 	void MoveForward(float _Rate);
 	void MoveRight(float _Rate);

@@ -35,7 +35,7 @@ void UClientAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 			if (!m_OnSky)
 			{
 				m_DoubleJump = false;
-				//Player->GetCharacterMovement()->GravityScale = 1.f;
+				Player->GetCharacterMovement()->GravityScale = 1.f;
 
 			}
 			else
@@ -83,21 +83,21 @@ void UClientAnimInstance::SetFullbody(float useFullbody)
 void UClientAnimInstance::AnimNotify_AddGravity()
 {
 	////LOG(TEXT("AnimNotify_AddGravity"));
-	//AClientPlayCharacter* Player = Cast<AClientPlayCharacter>(TryGetPawnOwner());
+	AClientPlayCharacter* Player = Cast<AClientPlayCharacter>(TryGetPawnOwner());
 
-	//if (Player)
-	//{
-	//	Player->SetTimeDillation();
-	//	Player->GetCharacterMovement()->Velocity.X = 0.f;
-	//	Player->GetCharacterMovement()->Velocity.Y = 0.f;
-	//	//Player->SetActorLocation( FVector(Player->GetActorLocation().X, Player->GetActorLocation().Y, Player->GetActorLocation().Z + 200)) ;
+	if (Player)
+	{
+		Player->SetTimeDillation();
+		Player->GetCharacterMovement()->Velocity.X = 0.f;
+		Player->GetCharacterMovement()->Velocity.Y = 0.f;
+		//Player->SetActorLocation( FVector(Player->GetActorLocation().X, Player->GetActorLocation().Y, Player->GetActorLocation().Z + 200)) ;
 
-	//	GetWorld()->GetTimerManager().SetTimer(m_AddGravityTimer,
-	//		this, &UPlayerAnim::AddGravity, 1.f, false, 0.1f);
-	//	//Player->GetCharacterMovement()->Velocity.Z = 0.f;
-	//	//Player->GetCharacterMovement()->GravityScale = 200.0f;
-	//	//LOG(TEXT("%f %f %f"), Player->GetCharacterMovement()->Velocity.X, Player->GetCharacterMovement()->Velocity.Y, Player->GetCharacterMovement()->Velocity.Z);
-	//}
+		GetWorld()->GetTimerManager().SetTimer(m_AddGravityTimer,
+			this, &UClientAnimInstance::AddGravity, 1.f, false, 0.1f);
+		//Player->GetCharacterMovement()->Velocity.Z = 0.f;
+		//Player->GetCharacterMovement()->GravityScale = 200.0f;
+		//LOG(TEXT("%f %f %f"), Player->GetCharacterMovement()->Velocity.X, Player->GetCharacterMovement()->Velocity.Y, Player->GetCharacterMovement()->Velocity.Z);
+	}
 }
 
 void UClientAnimInstance::AddGravity()
