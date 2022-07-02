@@ -55,6 +55,9 @@ private:
 	float AttTimeCheck;
 	FTimerHandle TimeDillationHandle;
 
+	bool m_Movable;
+	bool m_IsSprint;
+
 	void MoveForward(float _Rate);
 	void MoveRight(float _Rate);
 
@@ -70,6 +73,8 @@ private:
 	void SetChatTypeOne();
 	void SetChatTypeInSec();
 	void SetChatTypeAll();
+	void Sprint();
+	void StopSprint();
 
 	class UClientAnimInstance* m_AnimInst;
 

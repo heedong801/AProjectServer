@@ -23,7 +23,7 @@ AClientPlayCharacter::AClientPlayCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 	UDPReady = false;
 	ServerPost = false;
-
+	m_Movable = true;
 	static ConstructorHelpers::FObjectFinder<UAnimMontage>	Attack1Asset(TEXT("AnimMontage'/Game/Player/Wukong/Anim/AM_AttackA.AM_AttackA'"));
 
 	if (Attack1Asset.Succeeded())
@@ -31,12 +31,22 @@ AClientPlayCharacter::AClientPlayCharacter()
 		m_AttackMontage = Attack1Asset.Object;
 		m_AttackMontageArray.Add(Attack1Asset.Object);
 	}
+
+	static ConstructorHelpers::FObjectFinder<UAnimMontage>	SkyAttackAsset(TEXT("AnimMontage'/Game/Player/Wukong/Anim/AM_SkyAttack.AM_SkyAttack'"));
+
+	if (SkyAttackAsset.Succeeded())
+	{
+		m_SkyAttackMontage = SkyAttackAsset.Object;
+		m_SkyAttackMontageArray.Add(SkyAttackAsset.Object);
+	}
 }
 
 // Called when the game starts or when spawned
 void AClientPlayCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	JumpMaxCount = 2;
+
 	m_AnimInst = Cast<UClientAnimInstance>(GetMesh()->GetAnimInstance());
 
 	APlayGameMode* GameMode = Cast<APlayGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
@@ -245,18 +255,20 @@ void AClientPlayCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::D));
 	UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::A));
 
-	PlayerInputComponent->BindAction(TEXT("Attack"), EInputEvent::IE_Pressed, this, &AClientPlayCharacter::Attack);
+	PlayerInputComponent->BindAction(TEXT("Attack"), EInputEvent::IE_Pressed, this, &AClientPlayCharacter::Attack); 
+	PlayerInputComponent->BindAction(TEXT("Skill1"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Skill1Key);
+	PlayerInputComponent->BindAction(TEXT("Skill2"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Skill2Key);
+	PlayerInputComponent->BindAction(TEXT("Skill3"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Skill3Key);
+
+	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Sprint);
+	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Released, this, &APlayerCharacter::StopSprint);
+
 	/*PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &APlayerCharacter::LookUp);
 	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &APlayerCharacter::Turn);
 	PlayerInputComponent->BindAxis(TEXT("Zoom"), this, &APlayerCharacter::ZoomInKey);
 
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &APlayerCharacter::JumpKey);
 
-	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Sprint);
-	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Released, this, &APlayerCharacter::StopSprint);
-	PlayerInputComponent->BindAction(TEXT("Skill1"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Skill1Key);
-	PlayerInputComponent->BindAction(TEXT("Skill2"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Skill2Key);
-	PlayerInputComponent->BindAction(TEXT("Skill3"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Skill3Key);
 
 	PlayerInputComponent->BindAction(TEXT("Quest"), EInputEvent::IE_Pressed, this, &APlayerCharacter::QuestKey);
 	PlayerInputComponent->BindAction(TEXT("Quit"), EInputEvent::IE_Pressed, this, &APlayerCharacter::QuitKey);
@@ -286,6 +298,17 @@ void AClientPlayCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;
 }
 
+void AClientPlayCharacter::Sprint()
+{
+	GetCharacterMovement()->MaxWalkSpeed *= 1.5;
+	m_IsSprint = true;
+}
+void AClientPlayCharacter::StopSprint()
+{
+	GetCharacterMovement()->MaxWalkSpeed /= 1.5;
+	m_IsSprint = false;
+
+}
 void AClientPlayCharacter::JumpKey()
 {
 	//LOG(TEXT("%d"), JumpCurrentCount);
@@ -367,9 +390,12 @@ void AClientPlayCharacter::MoveForward(float _Rate)
 		return;
 	}
 
-	AddControllerYawInput(LookZ(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal() * _Rate, 0.1f));
+	if (m_Movable)
+	{
+		AddControllerYawInput(LookZ(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal() * _Rate, 0.1f));
 
-	AddMovementInput(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal(), _Rate);
+		AddMovementInput(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal(), _Rate);
+	}
 }
 
 void AClientPlayCharacter::MoveRight(float _Rate)
@@ -379,9 +405,12 @@ void AClientPlayCharacter::MoveRight(float _Rate)
 		return;
 	}
 
-	AddControllerYawInput(LookZ(FVector(1.0f, 1.0f, 0.0f).GetSafeNormal() * _Rate, 0.1f));
+	if (m_Movable)
+	{
+		AddControllerYawInput(LookZ(FVector(1.0f, 1.0f, 0.0f).GetSafeNormal() * _Rate, 0.1f));
 
-	AddMovementInput(FVector(1.0f, 1.0f, 0.0f).GetSafeNormal(), _Rate);
+		AddMovementInput(FVector(1.0f, 1.0f, 0.0f).GetSafeNormal(), _Rate);
+	}
 
 }
 //void AClientPlayCharacter::MoveRight(float _Rate) 
@@ -441,7 +470,9 @@ void AClientPlayCharacter::MoveStart()
 	{
 		return;
 	}
-	m_AnimInst->ChangeAnimation(ClientAnimationType::Move);
+
+	if(m_Movable)
+		m_AnimInst->ChangeAnimation(ClientAnimationType::Move);
 }
 
 void AClientPlayCharacter::MoveEnd()
@@ -455,7 +486,8 @@ void AClientPlayCharacter::MoveEnd()
 	{
 		return;
 	}
-	m_AnimInst->ChangeAnimation(ClientAnimationType::Idle);
+	if(m_Movable)
+		m_AnimInst->ChangeAnimation(ClientAnimationType::Idle);
 }
 
 void AClientPlayCharacter::Attack() 
@@ -470,8 +502,6 @@ void AClientPlayCharacter::Attack()
 	// LookZ(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal(), 0.1f);
 	if (m_AnimInst->GetCanAttack())
 	{
-		LOG(TEXT("C"));
-
 		if (!m_AnimInst->GetOnSky())			//하늘에 있으면 땅에서 하는 콤보 공격 불가
 		{
 			if (m_CurrentCombo == 0)

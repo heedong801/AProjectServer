@@ -106,6 +106,8 @@ void UClientAnimInstance::AddGravity()
 	if (Player)
 		Player->GetCharacterMovement()->GravityScale = 200.0f;
 
+	m_Movable = false;
+
 }
 
 
@@ -115,6 +117,7 @@ void UClientAnimInstance::AnimNotify_SlamEnd()
 
 	//AWukong* Wukong = Cast<AWukong>(TryGetPawnOwner());
 	//Wukong->SlamDamage();
+	m_Movable = true;
 }
 
 void UClientAnimInstance::AnimNotify_AttackEnd()
