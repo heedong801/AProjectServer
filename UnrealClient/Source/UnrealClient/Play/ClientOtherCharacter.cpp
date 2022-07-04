@@ -94,9 +94,9 @@ void AClientOtherCharacter::Tick(float DeltaTime)
 
 void AClientOtherCharacter::AnimationEnd(ClientAnimationType _Value)
 {
-	if (_Value == ClientAnimationType::Attack)
-	{
-		UClientGameInstance* Inst = Cast<UClientGameInstance>(GetGameInstance());
-		//GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Idle);
-	}
+	//if (_Value == ClientAnimationType::Attack)
+	//{
+	//	UClientGameInstance* Inst = Cast<UClientGameInstance>(GetGameInstance());
+	//	//GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Idle);
+	//}
 }

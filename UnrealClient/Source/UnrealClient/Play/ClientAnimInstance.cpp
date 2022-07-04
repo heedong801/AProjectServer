@@ -1,6 +1,6 @@
 #include"ClientAnimInstance.h"
 #include "ClientPlayCharacter.h"
-
+#include "../DebugClass.h"
 
 UClientAnimInstance::UClientAnimInstance()
 	: m_Dir(0), m_Speed(0), m_CanAttack(true), m_OnSky(false)
@@ -18,7 +18,7 @@ void UClientAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 	AClientPlayCharacter* Player = Cast<AClientPlayCharacter>(TryGetPawnOwner());
 
-	//LOG(TEXT("%f"), Player->GetActorScale3D().Size());
+	LOG(TEXT("%d"), (int)CurrentAnimationType_);
 	if (Player)
 	{
 		UCharacterMovementComponent* Movement = Player->GetCharacterMovement();
@@ -29,6 +29,11 @@ void UClientAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 			//LOG(TEXT("%f"), m_Speed);
 			m_OnSky = Movement->IsFalling();
 
+			if (m_Speed == FVector::ZeroVector.Size())
+			{
+				LOG(TEXT("ZERO"));
+				CurrentAnimationType_ = ClientAnimationType::Idle;
+			}
 			//LOG(TEXT("%f"), Player->GetCharacterMovement()->GravityScale);
 			//LOG(TEXT("%f"), Player->GetCharacterMovement()->JumpZVelocity);
 
@@ -106,7 +111,6 @@ void UClientAnimInstance::AddGravity()
 	if (Player)
 		Player->GetCharacterMovement()->GravityScale = 200.0f;
 
-	m_Movable = false;
 
 }
 
@@ -117,7 +121,6 @@ void UClientAnimInstance::AnimNotify_SlamEnd()
 
 	//AWukong* Wukong = Cast<AWukong>(TryGetPawnOwner());
 	//Wukong->SlamDamage();
-	m_Movable = true;
 }
 
 void UClientAnimInstance::AnimNotify_AttackEnd()
@@ -130,6 +133,8 @@ void UClientAnimInstance::AnimNotify_AttackEnd()
 	{
 		m_CanAttack = true;
 		Player->SetCurrentCombo(0);
+		LOG(TEXT("ATTACKEND"));
+		ChangeAnimation(ClientAnimationType::Idle);
 		//Player->SetMovable(true);
 		//Player->CameraArmYawReset();
 

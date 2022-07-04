@@ -22,8 +22,14 @@ enum class EPlayerState
 	NONE,
 	PState_Idle,
 	PState_Move,
-	PState_Att,
+	PState_Att1,
+	PState_Att2,
+	PState_Att3,
+	PState_Att4,
 	PState_Death,
+	PState_Jump,
+	PState_JumpAtt,
+	PState_SlamAtt,
 	MAX,
 };
 

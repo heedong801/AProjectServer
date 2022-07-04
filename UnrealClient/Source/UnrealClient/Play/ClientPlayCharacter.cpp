@@ -48,7 +48,7 @@ void AClientPlayCharacter::BeginPlay()
 	JumpMaxCount = 2;
 
 	m_AnimInst = Cast<UClientAnimInstance>(GetMesh()->GetAnimInstance());
-
+	m_AnimInst->ChangeAnimation(ClientAnimationType::Idle);
 	APlayGameMode* GameMode = Cast<APlayGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 
 	if (nullptr == GameMode || false == GameMode->IsValidLowLevel())
@@ -120,19 +120,9 @@ void AClientPlayCharacter::SendPlayerUpdatePacket()
 	GameServerSerializer Sr;
 	UpdateMsg.Serialize(Sr);
 
-	if (m_AnimInst->GetAnimationType() == ClientAnimationType::Attack)
+	if (false == Inst->Send(Sr.GetData()))
 	{
-		if (false == Inst->Send(Sr.GetData()))
-		{
-			int a = 0;
-		}
-	}
-	else
-	{
-		if (false == Inst->SendTo(Sr.GetData()))
-		{
-			int a = 0;
-		}
+		int a = 0;
 	}
 }
 
@@ -250,18 +240,18 @@ void AClientPlayCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &AClientPlayCharacter::MoveForward);
 	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &AClientPlayCharacter::MoveRight);
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &AClientPlayCharacter::JumpKey);
-	UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::W));
-	UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::S));
+	UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_MoveForward", EKeys::W));
+	UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_MoveForward", EKeys::S));
 	UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::D));
 	UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("ClientPlayer_Move", EKeys::A));
 
 	PlayerInputComponent->BindAction(TEXT("Attack"), EInputEvent::IE_Pressed, this, &AClientPlayCharacter::Attack); 
-	PlayerInputComponent->BindAction(TEXT("Skill1"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Skill1Key);
-	PlayerInputComponent->BindAction(TEXT("Skill2"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Skill2Key);
-	PlayerInputComponent->BindAction(TEXT("Skill3"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Skill3Key);
+	PlayerInputComponent->BindAction(TEXT("Skill1"), EInputEvent::IE_Pressed, this, &AClientPlayCharacter::Skill1Key);
+	PlayerInputComponent->BindAction(TEXT("Skill2"), EInputEvent::IE_Pressed, this, &AClientPlayCharacter::Skill2Key);
+	PlayerInputComponent->BindAction(TEXT("Skill3"), EInputEvent::IE_Pressed, this, &AClientPlayCharacter::Skill3Key);
 
-	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Pressed, this, &APlayerCharacter::Sprint);
-	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Released, this, &APlayerCharacter::StopSprint);
+	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Pressed, this, &AClientPlayCharacter::Sprint);
+	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Released, this, &AClientPlayCharacter::StopSprint);
 
 	/*PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &APlayerCharacter::LookUp);
 	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &APlayerCharacter::Turn);
@@ -315,13 +305,74 @@ void AClientPlayCharacter::JumpKey()
 	if (m_AnimInst->GetOnSky() == false || JumpCurrentCount == 1)
 	{
 		Jump();
+		m_AnimInst->ChangeAnimation(ClientAnimationType::Jump);
 
 		if (JumpCurrentCount == 1)
 		{
 			m_AnimInst->SetDoubleJump(true);
+			m_AnimInst->ChangeAnimation(ClientAnimationType::DoubleJump);
 		}
 	}
 
+}
+void AClientPlayCharacter::Skill1Key()
+{
+	m_SkillIdx = 0;
+	//SkillPlayAnim(m_SkillIdx);
+
+}
+
+void AClientPlayCharacter::Skill2Key()
+{
+	m_SkillIdx = 1;
+	//SkillPlayAnim(m_SkillIdx);
+
+}
+void AClientPlayCharacter::Skill3Key()
+{
+	m_SkillIdx = 2;
+	//SkillPlayAnim(m_SkillIdx);
+
+}
+bool AClientPlayCharacter::SkillPlayAnim(int32 idx)
+{
+	//if (m_IsInTown == false)
+	//{
+	//	if (m_PlayerInfo.MP > m_PlayerInfo.SkillTree[idx].RequiredMP && m_PlayerInfo.Level >= m_PlayerInfo.SkillTree[idx].RequiredLevel)
+	//	{
+	//		if (m_AnimInst->GetOnSky() == false && m_AnimInst->GetCanAttack() == true)
+	//		{
+	//			APlayGameMode* GameMode = Cast<APlayGameMode>(GetWorld()->GetAuthGameMode());
+
+	//			if (IsValid(GameMode))
+	//			{
+	//				/*UPlayUIUserWidget* MainHUD = GameMode->GetMainHUD();
+
+	//				if (IsValid(MainHUD))
+	//				{
+	//					UCharacterHUD* CharacterHUD = MainHUD->GetCharacterHUD();
+
+	//					if (IsValid(CharacterHUD))
+	//					{
+	//						TArray<USkillImageWidget*> SkillArray = CharacterHUD->GetSkillArray();
+
+	//						if (SkillArray[idx]->GetCoolTimeOn() == true)
+	//						{
+	//							if (!m_AnimInst->Montage_IsPlaying(m_SkillMontageArray[idx]))
+	//							{
+	//								m_AnimInst->Montage_SetPosition(m_SkillMontageArray[idx], 0.f);
+	//								m_AnimInst->Montage_Play((m_SkillMontageArray[idx]));
+	//								SkillArray[idx]->SetCoolTimePercent(1.f, m_PlayerInfo.SkillTree[idx].CoolTime);
+	//								return true;
+	//							}
+	//						}
+	//					}
+	//				}*/
+	//			}
+	//		}
+	//	}
+	//}
+	return false;
 }
 //XX
 void AClientPlayCharacter::SetChatTypeOne()
@@ -390,12 +441,12 @@ void AClientPlayCharacter::MoveForward(float _Rate)
 		return;
 	}
 
-	if (m_Movable)
-	{
+
 		AddControllerYawInput(LookZ(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal() * _Rate, 0.1f));
 
 		AddMovementInput(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal(), _Rate);
-	}
+		GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Move);
+
 }
 
 void AClientPlayCharacter::MoveRight(float _Rate)
@@ -405,12 +456,12 @@ void AClientPlayCharacter::MoveRight(float _Rate)
 		return;
 	}
 
-	if (m_Movable)
-	{
+
 		AddControllerYawInput(LookZ(FVector(1.0f, 1.0f, 0.0f).GetSafeNormal() * _Rate, 0.1f));
 
 		AddMovementInput(FVector(1.0f, 1.0f, 0.0f).GetSafeNormal(), _Rate);
-	}
+	
+		GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Move);
 
 }
 //void AClientPlayCharacter::MoveRight(float _Rate) 
@@ -466,13 +517,12 @@ void AClientPlayCharacter::MoveStart()
 		return;
 	}
 
-	if (m_AnimInst->GetAnimationType() == ClientAnimationType::Attack)
+	if (m_Movable)
 	{
-		return;
-	}
-
-	if(m_Movable)
+		LOG(TEXT("START"));
+		m_MoveStack++;
 		m_AnimInst->ChangeAnimation(ClientAnimationType::Move);
+	}
 }
 
 void AClientPlayCharacter::MoveEnd()
@@ -482,12 +532,14 @@ void AClientPlayCharacter::MoveEnd()
 		return;
 	}
 
-	if (m_AnimInst->GetAnimationType() == ClientAnimationType::Attack)
+	if (m_Movable)
 	{
-		return;
+		LOG(TEXT("END"));
+
+		m_MoveStack--;
+		if(m_MoveStack == 0)
+			m_AnimInst->ChangeAnimation(ClientAnimationType::Idle);
 	}
-	if(m_Movable)
-		m_AnimInst->ChangeAnimation(ClientAnimationType::Idle);
 }
 
 void AClientPlayCharacter::Attack() 
@@ -505,9 +557,20 @@ void AClientPlayCharacter::Attack()
 		if (!m_AnimInst->GetOnSky())			//하늘에 있으면 땅에서 하는 콤보 공격 불가
 		{
 			if (m_CurrentCombo == 0)
+			{
 				m_AnimInst->Montage_Play(m_AttackMontage);
+				m_AnimInst->ChangeAnimation(ClientAnimationType::Attack1);
+			}
 			else
+			{
 				m_AnimInst->Montage_JumpToSection(m_AnimInst->GetAttackMontageSectionName(m_CurrentCombo + 1 % 5));
+				if(m_CurrentCombo == 1)
+					m_AnimInst->ChangeAnimation(ClientAnimationType::Attack2);
+				else if (m_CurrentCombo == 2)
+					m_AnimInst->ChangeAnimation(ClientAnimationType::Attack3);
+				else if (m_CurrentCombo == 3)
+					m_AnimInst->ChangeAnimation(ClientAnimationType::Attack4);
+			} 
 
 
 			m_CurrentCombo++;
@@ -521,14 +584,15 @@ void AClientPlayCharacter::Attack()
 			if (!m_AnimInst->GetDoubleJump())
 			{
 				m_AnimInst->Montage_Play(m_SkyAttackMontage);
+				m_AnimInst->ChangeAnimation(ClientAnimationType::JumpAttack);
 			}
-
+			else
+				m_AnimInst->ChangeAnimation(ClientAnimationType::SlamAttack);
 			m_AnimInst->SetCanAttack(false);
 		}
 	}
 
 	//AddControllerYawInput(LookZ(MouseVectorToWorldVector() - GetActorLocation(), 1.0F));
-	m_AnimInst->ChangeAnimation(ClientAnimationType::Attack);
 	SendPlayerUpdatePacket();
 }
 

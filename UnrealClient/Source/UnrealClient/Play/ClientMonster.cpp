@@ -33,7 +33,7 @@
 void AClientMonster::Att(float _DelataTime)
 {
 	// 공격이 끝났을때를 알아야 하네요?
-	GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Attack);
+	//GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Attack);
 
 	// 이순간 순간 체크할수 있어야 하고
 	// 완전히 다 끝내야 합니다.
@@ -190,9 +190,9 @@ void AClientMonster::AnimationEnd(ClientAnimationType _Value)
 		Destroyed();
 		Destroy();
 	}
-	if (_Value == ClientAnimationType::Attack)
+	if (_Value == ClientAnimationType::Attack1)
 	{
-		GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Idle);
+		//GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Idle);
 
 //#include "../Message/ServerToClient.h"
 //		std::shared_ptr<MonsterUpdateMessage> Message = std::make_shared<MonsterUpdateMessage>();
@@ -280,7 +280,7 @@ void AClientMonster::Tick(float DeltaTime)
 					GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Move);
 					break;
 				case EMonsterState::MState_Att:
-					GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Attack);
+					GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Attack1);
 					break;
 				case EMonsterState::MState_Death:
 					GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Death);

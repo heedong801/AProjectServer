@@ -87,7 +87,7 @@ void Player::PlayerUpdateMessageProcess(std::shared_ptr<class PlayerUpdateMessag
 	
 	// (_Message->Data.Pos - _Message->Data.Pos).Length2D();
 
-	if (Message_.Data.GetState<EPlayerState>() == EPlayerState::PState_Att && IsAttack == false)
+	if (Message_.Data.GetState<EPlayerState>() == EPlayerState::PState_Att1 && IsAttack == false)
 	{
 		AttTime = GetAccTime();
 		IsAttack = true;

@@ -47,7 +47,8 @@ private:
 
 	int32 m_MaxCombo;
 	int32 m_CurrentCombo;
-
+	int m_SkillIdx;
+	int m_MoveStack;
 	// 서버가 허락을 내렸냐?
 	bool ServerPost;
 	bool UDPReady;
@@ -57,6 +58,7 @@ private:
 
 	bool m_Movable;
 	bool m_IsSprint;
+	bool m_IsInTown;
 
 	void MoveForward(float _Rate);
 	void MoveRight(float _Rate);
@@ -75,6 +77,11 @@ private:
 	void SetChatTypeAll();
 	void Sprint();
 	void StopSprint();
+	void Skill1Key();
+	void Skill2Key();
+	void Skill3Key();
+	bool SkillPlayAnim(int32 idx);
+
 
 	class UClientAnimInstance* m_AnimInst;
 
@@ -86,5 +93,11 @@ private:
 		TArray<UAnimMontage*> m_AttackMontageArray;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 		TArray<UAnimMontage*> m_SkyAttackMontageArray;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+		TArray<UAnimMontage*> m_SkillMontageArray;
+
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	//	FPlayerInfo	m_PlayerInfo;
 	// void TestPacketUpdate0();
 };
