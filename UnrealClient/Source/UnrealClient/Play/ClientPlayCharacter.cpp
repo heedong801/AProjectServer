@@ -291,6 +291,7 @@ void AClientPlayCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 void AClientPlayCharacter::Sprint()
 {
 	GetCharacterMovement()->MaxWalkSpeed *= 1.5;
+	
 	m_IsSprint = true;
 }
 void AClientPlayCharacter::StopSprint()
@@ -442,10 +443,14 @@ void AClientPlayCharacter::MoveForward(float _Rate)
 	}
 
 
-		AddControllerYawInput(LookZ(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal() * _Rate, 0.1f));
+	AddControllerYawInput(LookZ(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal() * _Rate, 0.1f));
 
-		AddMovementInput(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal(), _Rate);
-		GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Move);
+	AddMovementInput(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal(), _Rate);
+	if (m_AnimInst->GetIsAttack() == false)
+	{
+		m_AnimInst->ChangeAnimation(ClientAnimationType::Move);
+		LOG(TEXT("MOVEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"));
+	}
 
 }
 
@@ -457,11 +462,16 @@ void AClientPlayCharacter::MoveRight(float _Rate)
 	}
 
 
-		AddControllerYawInput(LookZ(FVector(1.0f, 1.0f, 0.0f).GetSafeNormal() * _Rate, 0.1f));
+	AddControllerYawInput(LookZ(FVector(1.0f, 1.0f, 0.0f).GetSafeNormal() * _Rate, 0.1f));
 
-		AddMovementInput(FVector(1.0f, 1.0f, 0.0f).GetSafeNormal(), _Rate);
-	
-		GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Move);
+	AddMovementInput(FVector(1.0f, 1.0f, 0.0f).GetSafeNormal(), _Rate);
+
+	if (m_AnimInst->GetIsAttack() == false)
+	{
+		m_AnimInst->ChangeAnimation(ClientAnimationType::Move);
+		LOG(TEXT("MOVEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"));
+
+	}
 
 }
 //void AClientPlayCharacter::MoveRight(float _Rate) 
@@ -517,10 +527,8 @@ void AClientPlayCharacter::MoveStart()
 		return;
 	}
 
-	if (m_Movable)
+	if (m_Movable && m_AnimInst->GetIsAttack() == false)
 	{
-		LOG(TEXT("START"));
-		m_MoveStack++;
 		m_AnimInst->ChangeAnimation(ClientAnimationType::Move);
 	}
 }
@@ -532,13 +540,9 @@ void AClientPlayCharacter::MoveEnd()
 		return;
 	}
 
-	if (m_Movable)
+	if (m_Movable && m_AnimInst->GetIsAttack() == false)
 	{
-		LOG(TEXT("END"));
-
-		m_MoveStack--;
-		if(m_MoveStack == 0)
-			m_AnimInst->ChangeAnimation(ClientAnimationType::Idle);
+		m_AnimInst->ChangeAnimation(ClientAnimationType::Idle);
 	}
 }
 
@@ -554,15 +558,19 @@ void AClientPlayCharacter::Attack()
 	// LookZ(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal(), 0.1f);
 	if (m_AnimInst->GetCanAttack())
 	{
+		m_AnimInst->SetIsAttack(true);
 		if (!m_AnimInst->GetOnSky())			//하늘에 있으면 땅에서 하는 콤보 공격 불가
 		{
 			if (m_CurrentCombo == 0)
 			{
 				m_AnimInst->Montage_Play(m_AttackMontage);
 				m_AnimInst->ChangeAnimation(ClientAnimationType::Attack1);
+
 			}
 			else
 			{
+
+
 				m_AnimInst->Montage_JumpToSection(m_AnimInst->GetAttackMontageSectionName(m_CurrentCombo + 1 % 5));
 				if(m_CurrentCombo == 1)
 					m_AnimInst->ChangeAnimation(ClientAnimationType::Attack2);

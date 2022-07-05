@@ -3,7 +3,7 @@
 #include "../DebugClass.h"
 
 UClientAnimInstance::UClientAnimInstance()
-	: m_Dir(0), m_Speed(0), m_CanAttack(true), m_OnSky(false)
+	: m_Dir(0), m_Speed(0), m_CanAttack(true), m_OnSky(false), m_IsAttack(false)
 {
 }
 
@@ -29,7 +29,7 @@ void UClientAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 			//LOG(TEXT("%f"), m_Speed);
 			m_OnSky = Movement->IsFalling();
 
-			if (m_Speed == FVector::ZeroVector.Size())
+			if (m_Speed == FVector::ZeroVector.Size() && m_IsAttack == false)
 			{
 				LOG(TEXT("ZERO"));
 				CurrentAnimationType_ = ClientAnimationType::Idle;
@@ -131,6 +131,7 @@ void UClientAnimInstance::AnimNotify_AttackEnd()
 
 	if (Player)
 	{
+		m_IsAttack = false;
 		m_CanAttack = true;
 		Player->SetCurrentCombo(0);
 		LOG(TEXT("ATTACKEND"));

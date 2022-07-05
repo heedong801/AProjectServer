@@ -43,6 +43,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 		bool m_DoubleJump;
 
+	bool m_IsAttack;
+	bool m_IsSkill;
+
 	FTimerHandle m_AddGravityTimer;
 
 	ClientAnimationType CurrentAnimationType_;
@@ -75,6 +78,8 @@ public:
 
 	bool GetOnSky() { return m_OnSky; }
 
+	void SetIsAttack(bool bAttack) { m_IsAttack = bAttack; }
+	bool GetIsAttack() { return m_IsAttack; }
 	FORCEINLINE ClientAnimationType GetAnimationType()
 	{
 		return CurrentAnimationType_;

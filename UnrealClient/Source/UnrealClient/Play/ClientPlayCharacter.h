@@ -27,8 +27,6 @@ public:
 	void SetTimeDillation();
 	void SetTimeDefaultTimeDilation();
 
-	void JumpKey();
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -52,7 +50,6 @@ private:
 	// 서버가 허락을 내렸냐?
 	bool ServerPost;
 	bool UDPReady;
-	bool IsAttack;
 	float AttTimeCheck;
 	FTimerHandle TimeDillationHandle;
 
@@ -80,6 +77,7 @@ private:
 	void Skill1Key();
 	void Skill2Key();
 	void Skill3Key();
+	void JumpKey();
 	bool SkillPlayAnim(int32 idx);
 
 
