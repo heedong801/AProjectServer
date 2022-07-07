@@ -68,10 +68,13 @@ private:
 	void Idle(float _DelataTime);
 	void Trace(float _DelataTime);
 
-	void AnimationStart(ClientAnimationType _Value);
-	void AnimationEnd(ClientAnimationType _Value);
+	void AnimationStart(NonePlayerAnimationType _Value);
+	void AnimationEnd(NonePlayerAnimationType _Value);
 
 	class UMonsterAnimInstance* AnimationInst;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ClientData", meta = (AllowPrivateAccess = "true"))
+		TMap <NonePlayerAnimationType, class UAnimMontage* > Animations_;
 /////////////////////////////////////////////////////////////////////////////////////////// 클라이언트 함수
 public:
 	void ClientUpdate(float _DelataTime);

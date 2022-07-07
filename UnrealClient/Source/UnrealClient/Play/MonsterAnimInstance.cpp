@@ -50,7 +50,7 @@ void UMonsterAnimInstance::NativeUpdateAnimation(float _DeltaTime)
 	Montage_Play(FindAnimation);
 }
 
-void UMonsterAnimInstance::ChangeAnimation(ClientAnimationType _Type)
+void UMonsterAnimInstance::ChangeAnimation(NonePlayerAnimationType _Type)
 {
 	if (CurrentAnimationType_ == _Type)
 	{
@@ -72,15 +72,15 @@ void UMonsterAnimInstance::AnimNotify_End()
 		Function(CurrentAnimationType_);
 	}
 
-	// CurrentAnimationType_ = ClientAnimationType::Idle;
+	// CurrentAnimationType_ = NonePlayerAnimationType::Idle;
 }
 
-void UMonsterAnimInstance::AddEndFunctionBind(std::function<void(ClientAnimationType)> _BindFunction)
+void UMonsterAnimInstance::AddEndFunctionBind(std::function<void(NonePlayerAnimationType)> _BindFunction)
 {
 	EndFunctions_.push_back(_BindFunction);
 }
 
-void UMonsterAnimInstance::AddStartFunctionBind(std::function<void(ClientAnimationType)> _BindFunction)
+void UMonsterAnimInstance::AddStartFunctionBind(std::function<void(NonePlayerAnimationType)> _BindFunction)
 {
 	StartFunctions_.push_back(_BindFunction);
 }

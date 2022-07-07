@@ -78,9 +78,6 @@ public:
 	void DebugCircle(const FVector& _Dir, const FColor& _Color, float _Radius);
 
 private:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ClientData", meta = (AllowPrivateAccess = "true"))
-	TMap <ClientAnimationType, class UAnimMontage* > Animations_;
-
 
 
 	class UObjectMessageComponent* Messages;

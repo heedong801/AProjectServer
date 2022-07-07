@@ -20,22 +20,22 @@ class UNREALCLIENT_API UMonsterAnimInstance : public UAnimInstance
 	GENERATED_BODY()
 
 public:
-	FORCEINLINE void SetAnimationMap(TMap <ClientAnimationType, UAnimMontage* >* _Map)
+	FORCEINLINE void SetAnimationMap(TMap <NonePlayerAnimationType, UAnimMontage* >* _Map)
 	{
 		Animations_ = _Map;
 	}
 
-	FORCEINLINE ClientAnimationType GetAnimationType()
+	FORCEINLINE NonePlayerAnimationType GetAnimationType()
 	{
 		return CurrentAnimationType_;
 	}
 
-	void ChangeAnimation(ClientAnimationType _Type);
+	void ChangeAnimation(NonePlayerAnimationType _Type);
 
 	UMonsterAnimInstance();
 
-	void AddEndFunctionBind(std::function<void(ClientAnimationType)> _BindFunction);
-	void AddStartFunctionBind(std::function<void(ClientAnimationType)> _BindFunction);
+	void AddEndFunctionBind(std::function<void(NonePlayerAnimationType)> _BindFunction);
+	void AddStartFunctionBind(std::function<void(NonePlayerAnimationType)> _BindFunction);
 
 protected:
 	void NativeUpdateAnimation(float _DeltaTime);
@@ -44,11 +44,11 @@ protected:
 		void AnimNotify_End();
 
 private:
-	ClientAnimationType CurrentAnimationType_;
+	NonePlayerAnimationType CurrentAnimationType_;
 
-	TMap <ClientAnimationType, UAnimMontage* >* Animations_;
+	TMap <NonePlayerAnimationType, UAnimMontage* >* Animations_;
 
-	std::vector<std::function<void(ClientAnimationType)>> EndFunctions_;
-	std::vector<std::function<void(ClientAnimationType)>> StartFunctions_;
+	std::vector<std::function<void(NonePlayerAnimationType)>> EndFunctions_;
+	std::vector<std::function<void(NonePlayerAnimationType)>> StartFunctions_;
 
 };

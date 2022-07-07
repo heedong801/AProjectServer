@@ -95,6 +95,8 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 		TArray<UAnimMontage*> m_SkillMontageArray;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ClientData", meta = (AllowPrivateAccess = "true"))
+		TMap <ClientAnimationType, class UAnimMontage* > Animations_;
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	//	FPlayerInfo	m_PlayerInfo;
 	// void TestPacketUpdate0();

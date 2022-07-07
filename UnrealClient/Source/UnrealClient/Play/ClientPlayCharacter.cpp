@@ -120,9 +120,19 @@ void AClientPlayCharacter::SendPlayerUpdatePacket()
 	GameServerSerializer Sr;
 	UpdateMsg.Serialize(Sr);
 
-	if (false == Inst->Send(Sr.GetData()))
+	if (m_AnimInst->GetIsAttack() == true)
 	{
-		int a = 0;
+		if (false == Inst->Send(Sr.GetData()))
+		{
+			int a = 0;
+		}
+	}
+	else
+	{
+		if (false == Inst->SendTo(Sr.GetData()))
+		{
+			int a = 0;
+		}
 	}
 }
 
