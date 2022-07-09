@@ -459,7 +459,7 @@ void AClientPlayCharacter::MoveForward(float _Rate)
 	if (m_AnimInst->GetIsAttack() == false)
 	{
 		m_AnimInst->ChangeAnimation(ClientAnimationType::Move);
-		LOG(TEXT("MOVEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"));
+		//LOG(TEXT("MOVEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"));
 	}
 
 }
@@ -479,7 +479,7 @@ void AClientPlayCharacter::MoveRight(float _Rate)
 	if (m_AnimInst->GetIsAttack() == false)
 	{
 		m_AnimInst->ChangeAnimation(ClientAnimationType::Move);
-		LOG(TEXT("MOVEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"));
+		//LOG(TEXT("MOVEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"));
 
 	}
 

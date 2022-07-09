@@ -9,3 +9,12 @@ ANonePlayableCharacter::ANonePlayableCharacter()
 {
 	AIControllerClass = AClientAIController::StaticClass();
 }
+
+void ANonePlayableCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	m_AnimInst = Cast<UMonsterAnimInstance>(GetMesh()->GetAnimInstance());
+	m_AnimInst->SetAnimationMap(&Animations_);
+	m_AnimInst->ChangeAnimation(NonePlayerAnimationType::Idle);
+}

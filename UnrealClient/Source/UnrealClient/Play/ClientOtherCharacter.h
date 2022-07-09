@@ -30,8 +30,6 @@ protected:
 	void AnimationEnd(ClientAnimationType _Value);
 
 private:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ClientData", meta = (AllowPrivateAccess = "true"))
-		TMap <NonePlayerAnimationType, class UAnimMontage* > Animations_;
 
-	class UClientAnimInstance* AnimationInst;
+	class UMonsterAnimInstance* AnimationInst;
 };

@@ -73,8 +73,6 @@ private:
 
 	class UMonsterAnimInstance* AnimationInst;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ClientData", meta = (AllowPrivateAccess = "true"))
-		TMap <NonePlayerAnimationType, class UAnimMontage* > Animations_;
 /////////////////////////////////////////////////////////////////////////////////////////// 클라이언트 함수
 public:
 	void ClientUpdate(float _DelataTime);

@@ -18,7 +18,7 @@ void UClientAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 	AClientPlayCharacter* Player = Cast<AClientPlayCharacter>(TryGetPawnOwner());
 
-	LOG(TEXT("%d"), (int)CurrentAnimationType_);
+	//LOG(TEXT("%d"), (int)CurrentAnimationType_);
 	if (Player)
 	{
 		UCharacterMovementComponent* Movement = Player->GetCharacterMovement();
@@ -31,7 +31,7 @@ void UClientAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 			if (m_Speed == FVector::ZeroVector.Size() && m_IsAttack == false)
 			{
-				LOG(TEXT("ZERO"));
+				//LOG(TEXT("ZERO"));
 				CurrentAnimationType_ = ClientAnimationType::Idle;
 			}
 			//LOG(TEXT("%f"), Player->GetCharacterMovement()->GravityScale);

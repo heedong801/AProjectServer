@@ -3,7 +3,7 @@
 
 #include "ClientAnimInstance.h"
 #include "../UnrealClient.h"
-
+#include "../DebugClass.h"
 UMonsterAnimInstance::UMonsterAnimInstance()
 	: Animations_(nullptr)
 {
@@ -12,18 +12,17 @@ UMonsterAnimInstance::UMonsterAnimInstance()
 
 void UMonsterAnimInstance::NativeUpdateAnimation(float _DeltaTime)
 {
+
 	if (nullptr == Animations_)
 	{
 		return;
 	}
-
 	Super::NativeUpdateAnimation(_DeltaTime);
 
 	if (false == (*Animations_).Contains(CurrentAnimationType_))
 	{
 		return;
 	}
-
 	UAnimMontage* FindAnimation = (*Animations_)[CurrentAnimationType_];
 
 	if (nullptr == FindAnimation)
@@ -31,12 +30,10 @@ void UMonsterAnimInstance::NativeUpdateAnimation(float _DeltaTime)
 		UE_LOG(ClientLog, Error, TEXT("%S(%u) > Animation Is Null"), __FUNCTION__, __LINE__);
 	}
 
-
 	if (true == Montage_IsPlaying(FindAnimation))
 	{
 		return;
 	}
-
 	if (0 != StartFunctions_.size())
 	{
 
@@ -45,7 +42,6 @@ void UMonsterAnimInstance::NativeUpdateAnimation(float _DeltaTime)
 			Function(CurrentAnimationType_);
 		}
 	}
-
 
 	Montage_Play(FindAnimation);
 }
@@ -56,6 +52,8 @@ void UMonsterAnimInstance::ChangeAnimation(NonePlayerAnimationType _Type)
 	{
 		return;
 	}
+
+
 
 	CurrentAnimationType_ = _Type;
 }
