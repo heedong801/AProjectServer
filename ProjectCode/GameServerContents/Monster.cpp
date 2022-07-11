@@ -250,6 +250,11 @@ void Monster::TraceUpdate(float _DeltaTime)
 	{
 		SetDir((Target->GetPos() - GetPos()).Normalize3DReturn());
 		//    1, 0               0.0
+
+		FVector4 TargetPos = Target->GetPos();
+		FVector4 MyPos = GetPos();
+
+		TargetPos.Z = MyPos.Z = 0.f;
 		Move((Target->GetPos() - GetPos()).Normalize3DReturn() * 400.0f * _DeltaTime);
 	}
 

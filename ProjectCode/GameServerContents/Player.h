@@ -52,6 +52,7 @@ private:
 	GameServerCollision* AttackCollision;
 
 	float AttTime;
+	float DelayAttackTime;
 	bool IsAttack;
 	PlayerUpdateMessage Message_;
 	GameServerSerializer Serializer_;
@@ -74,6 +75,7 @@ private:
 	// 이건 지금 섹션에서도 삭제되기 직전이고
 	// 완전히 메모리가 정리되기 직전에 호출되는것
 	void DisConnect();
+	void DelayAttack(EPlayerState state);
 
 };
 

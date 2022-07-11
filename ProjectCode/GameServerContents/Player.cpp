@@ -86,14 +86,9 @@ void Player::PlayerUpdateMessageProcess(std::shared_ptr<class PlayerUpdateMessag
 	SetDir(_Message->Data.Dir);
 	
 	// (_Message->Data.Pos - _Message->Data.Pos).Length2D();
+	
+	DelayAttack(Message_.Data.GetState<EPlayerState>());
 
-	if (Message_.Data.GetState<EPlayerState>() == EPlayerState::PState_Att1 && IsAttack == false)
-	{
-		AttTime = GetAccTime();
-		IsAttack = true;
-		/*GetSection()->TCPBroadcasting(GetSerializePlayerUpdateMessage().GetData(), GetIndex());
-		return;*/
-	}
 	BroadcastingPlayerUpdateMessage();
 }
 
@@ -173,7 +168,7 @@ void Player::Update(float _DeltaTime)
 	AttackCollision->SetPivot(GetDir() * 105.f);
 
 	//Attack Check
-	if (IsAttack && GetAccTime() - AttTime >= 0.5f)
+	if (IsAttack && GetAccTime() - AttTime >= DelayAttackTime)
 	{
 		AttackCollisionCheck();
 		AttTime = 0;
@@ -390,4 +385,30 @@ void Player::DisConnect()
 {
 	//// 주위 플레이어 패킷 보냄
 
+}
+
+void Player::DelayAttack(EPlayerState state)
+{
+	AttTime = GetAccTime();
+	IsAttack = true;
+
+	switch (state)
+	{
+	case EPlayerState::PState_Att1:
+	case EPlayerState::PState_Att2:
+	case EPlayerState::PState_Att3:
+	case EPlayerState::PState_Att4:
+	{
+		DelayAttackTime = 0.3f;
+		break;
+	}
+	case EPlayerState::PState_JumpAtt:
+		break;
+	case EPlayerState::PState_SlamAtt:
+	{
+		DelayAttackTime = 0.5f;
+		break;
+	}
+		break;
+	}
 }
