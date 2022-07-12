@@ -29,6 +29,7 @@ enum class EPlayerState
 	PState_Death,
 	PState_Jump,
 	PState_JumpAtt,
+	PState_DoubleJump,
 	PState_SlamAtt,
 	MAX,
 };

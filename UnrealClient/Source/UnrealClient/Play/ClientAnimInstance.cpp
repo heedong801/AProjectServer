@@ -5,6 +5,7 @@
 UClientAnimInstance::UClientAnimInstance()
 	: m_Dir(0), m_Speed(0), m_CanAttack(true), m_OnSky(false), m_IsAttack(false)
 {
+
 }
 
 void UClientAnimInstance::NativeInitializeAnimation()

@@ -49,6 +49,7 @@ private:
 
 	// std::shared_ptr<GameServerCollision> HitCollision;
 	GameServerCollision* HitCollision;
+	GameServerCollision* SlamCollision;
 	GameServerCollision* AttackCollision;
 
 	float AttTime;

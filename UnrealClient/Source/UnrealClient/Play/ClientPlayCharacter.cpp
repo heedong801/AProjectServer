@@ -558,6 +558,7 @@ void AClientPlayCharacter::MoveEnd()
 
 void AClientPlayCharacter::Attack() 
 {
+	LOG(TEXT("ATTACK"));
 	if (false == UDPReady)
 	{
 		return;

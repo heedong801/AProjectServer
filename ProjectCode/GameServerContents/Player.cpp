@@ -389,26 +389,28 @@ void Player::DisConnect()
 
 void Player::DelayAttack(EPlayerState state)
 {
-	AttTime = GetAccTime();
-	IsAttack = true;
+	if (IsAttack == false)
+	{
+		AttTime = GetAccTime();
+		IsAttack = true;
 
-	switch (state)
-	{
-	case EPlayerState::PState_Att1:
-	case EPlayerState::PState_Att2:
-	case EPlayerState::PState_Att3:
-	case EPlayerState::PState_Att4:
-	{
-		DelayAttackTime = 0.3f;
-		break;
-	}
-	case EPlayerState::PState_JumpAtt:
-		break;
-	case EPlayerState::PState_SlamAtt:
-	{
-		DelayAttackTime = 0.5f;
-		break;
-	}
-		break;
+		switch (state)
+		{
+		case EPlayerState::PState_Att1:
+			DelayAttackTime = 0.5f;
+			break;
+		case EPlayerState::PState_Att2:
+			DelayAttackTime = 0.1f;
+			break;
+		case EPlayerState::PState_Att3:
+		case EPlayerState::PState_Att4:
+			DelayAttackTime = 0.3f;
+			break;
+		case EPlayerState::PState_JumpAtt:
+			break;
+		case EPlayerState::PState_SlamAtt:
+			DelayAttackTime = 0.5f;
+			break;
+		}
 	}
 }
