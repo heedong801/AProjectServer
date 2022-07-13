@@ -20,6 +20,7 @@ Player::Player()
 	: UDPReady_(false)
 	, PortalPtr(nullptr)
 	, HitCollision(nullptr)
+	, SlamCollision(nullptr)
 	, AttackCollision(nullptr)
 	, IsAttack(false)
 {
@@ -37,6 +38,11 @@ Player::~Player()
 	{
 		AttackCollision->Death();
 		AttackCollision = nullptr;
+	}
+	if (nullptr != SlamCollision)
+	{
+		SlamCollision->Death();
+		SlamCollision = nullptr;
 	}
 }
 
