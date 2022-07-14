@@ -30,7 +30,7 @@ private:
 
 public:
 	void MessageCheck();
-	void AttackCollisionCheck();
+	void AttackCollisionCheck(GameServerCollision* _Collision);
 	void ClientToReadyMessageProcess(std::shared_ptr<class ClientToReadyMessage> _Message);
 	void PlayerUpdateMessageProcess(std::shared_ptr<class PlayerUpdateMessage> _Message);
 	void LevelMoveReplyMessageProcess(std::shared_ptr<class LevelMoveReplyMessage> _Message);
@@ -52,6 +52,7 @@ private:
 	GameServerCollision* SlamCollision;
 	GameServerCollision* AttackCollision;
 
+	GameServerCollision* CurrentCollision;
 	float AttTime;
 	float DelayAttackTime;
 	bool IsAttack;

@@ -37,7 +37,7 @@ class GameServerCollision : public GameServerObjectBase
 	friend class GameServerSection;
 
 public:
-	static bool CollisionCheck(GameServerCollision* _Left, CollisionCheckType _LeftType, GameServerCollision* _Right, CollisionCheckType _RightType);
+
 
 	static std::function<bool(GameServerCollision*, GameServerCollision*)> CollisionCheckFunction[static_cast<int>(CollisionCheckType::MAX)][static_cast<int>(CollisionCheckType::MAX)];
 

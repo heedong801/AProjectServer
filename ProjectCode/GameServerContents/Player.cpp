@@ -22,6 +22,7 @@ Player::Player()
 	, HitCollision(nullptr)
 	, SlamCollision(nullptr)
 	, AttackCollision(nullptr)
+	, CurrentCollision(nullptr)
 	, IsAttack(false)
 {
 }
@@ -46,11 +47,11 @@ Player::~Player()
 	}
 }
 
-void Player::AttackCollisionCheck()
+void Player::AttackCollisionCheck(GameServerCollision* _Collision)
 {
 	std::vector<GameServerCollision*> Result;
 
-	if (true == AttackCollision->CollisionCheckResult(CollisionCheckType::SPHERE, ECollisionGroup::MONSTER, CollisionCheckType::SPHERE, Result))
+	if (true == _Collision->CollisionCheckResult(CollisionCheckType::SPHERE, ECollisionGroup::MONSTER, CollisionCheckType::SPHERE, Result))
 	{
 		Monster* MonsterPtr = Result[0]->GetOwnerActorConvert<Monster>();
 
@@ -93,6 +94,7 @@ void Player::PlayerUpdateMessageProcess(std::shared_ptr<class PlayerUpdateMessag
 	
 	// (_Message->Data.Pos - _Message->Data.Pos).Length2D();
 	
+
 	DelayAttack(Message_.Data.GetState<EPlayerState>());
 
 	BroadcastingPlayerUpdateMessage();
@@ -176,10 +178,11 @@ void Player::Update(float _DeltaTime)
 	//Attack Check
 	if (IsAttack && GetAccTime() - AttTime >= DelayAttackTime)
 	{
-		AttackCollisionCheck();
+		AttackCollisionCheck(CurrentCollision);
 		AttTime = 0;
 		IsAttack = false;
 	}
+
 
 	if (0 == (static_cast<int>(GetAccTime()) % 10) )
 	{
@@ -238,7 +241,8 @@ void Player::Update(float _DeltaTime)
 			HitCollision = nullptr;
 			AttackCollision->Death();
 			AttackCollision = nullptr;
-
+			SlamCollision->Death();
+			SlamCollision = nullptr;
 
 		}
 
@@ -315,6 +319,7 @@ bool Player::InsertSection()
 
 	SetPos(FVector4::ZeroVector);
 
+	CurrentCollision = AttackCollision;
 	// 클라이언트가 나는 준비가 됐다.
 
 
@@ -336,6 +341,11 @@ void Player::SectionInitialize()
 	{
 		AttackCollision = GetSection()->CreateCollision(ECollisionGroup::PLAYER, this);
 		AttackCollision->SetScale({ 125.0f, 125.0f, 100.0f });
+	}
+	if (nullptr == SlamCollision)
+	{
+		SlamCollision = GetSection()->CreateCollision(ECollisionGroup::PLAYER, this);
+		SlamCollision->SetScale({ 500.0f, 500.0f, 500.0f });
 	}
 	UDPReady_ = false;
 }
@@ -397,25 +407,39 @@ void Player::DelayAttack(EPlayerState state)
 {
 	if (IsAttack == false)
 	{
-		AttTime = GetAccTime();
-		IsAttack = true;
-
 		switch (state)
 		{
 		case EPlayerState::PState_Att1:
-			DelayAttackTime = 0.5f;
+			AttTime = GetAccTime();
+			IsAttack = true;
+			CurrentCollision = AttackCollision;
+			DelayAttackTime = 0.2f;
 			break;
 		case EPlayerState::PState_Att2:
+			AttTime = GetAccTime();
+			IsAttack = true;
+			CurrentCollision = AttackCollision;
 			DelayAttackTime = 0.1f;
 			break;
 		case EPlayerState::PState_Att3:
 		case EPlayerState::PState_Att4:
+			AttTime = GetAccTime();
+			IsAttack = true;
+			CurrentCollision = AttackCollision;
 			DelayAttackTime = 0.3f;
 			break;
 		case EPlayerState::PState_JumpAtt:
+			AttTime = GetAccTime();
+			IsAttack = true;
+			CurrentCollision = AttackCollision;
+			DelayAttackTime = 0.2f;
 			break;
 		case EPlayerState::PState_SlamAtt:
-			DelayAttackTime = 0.5f;
+			AttTime = GetAccTime();
+			IsAttack = true;
+			CurrentCollision = AttackCollision;
+			DelayAttackTime = 0.7f;
+			CurrentCollision = SlamCollision;
 			break;
 		}
 	}
