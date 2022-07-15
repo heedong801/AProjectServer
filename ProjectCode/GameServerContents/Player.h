@@ -61,6 +61,7 @@ private:
 
 	std::shared_ptr<ContentsUserData> UserData;
 
+	EPlayerState PrevPlayerState;
 	bool UDPReady_;
 
 	void Update(float _Time) override;

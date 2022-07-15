@@ -46,7 +46,28 @@ void UClientAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 			}
 			else
 			{
-				
+				FHitResult HitResult;
+
+				FCollisionQueryParams Params;
+				Params.AddIgnoredActor(Player);
+				bool bResult = GetWorld()->SweepSingleByChannel(
+					HitResult,
+					Player->GetActorLocation(),
+					Player->GetActorLocation() + Player->GetActorUpVector() * -150.f,
+					FQuat::Identity,
+					ECollisionChannel::ECC_GameTraceChannel2,
+					FCollisionShape::MakeSphere(50.0f),
+					Params);
+
+
+				if (bResult)
+				{
+					m_DoubleJump = false;
+
+					Player->GetCharacterMovement()->GravityScale = 1.f;
+				}
+
+				m_OnSky |= bResult;
 
 
 				//Player->GetCharacterMovement()->GravityScale = 3.f;

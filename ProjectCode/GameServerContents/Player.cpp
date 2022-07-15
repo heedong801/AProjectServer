@@ -24,6 +24,7 @@ Player::Player()
 	, AttackCollision(nullptr)
 	, CurrentCollision(nullptr)
 	, IsAttack(false)
+	, PrevPlayerState(EPlayerState::NONE)
 {
 }
 
@@ -53,16 +54,19 @@ void Player::AttackCollisionCheck(GameServerCollision* _Collision)
 
 	if (true == _Collision->CollisionCheckResult(CollisionCheckType::SPHERE, ECollisionGroup::MONSTER, CollisionCheckType::SPHERE, Result))
 	{
-		Monster* MonsterPtr = Result[0]->GetOwnerActorConvert<Monster>();
-
-		if (nullptr == MonsterPtr)
+		for (auto el : Result)
 		{
-			GameServerDebug::AssertDebugMsg("몬스터에 잘못된 객체가 들어가 있었습니다.");
-			return;
-		}
+			Monster* MonsterPtr = el->GetOwnerActorConvert<Monster>();
 
-		// 주위에 있는 다른 액터들에게 보내야하는 메세지가 됩니다.
-		MonsterPtr->ChangeState(EMonsterState::MState_Death);
+			if (nullptr == MonsterPtr)
+			{
+				GameServerDebug::AssertDebugMsg("몬스터에 잘못된 객체가 들어가 있었습니다.");
+				return;
+			}
+
+			// 주위에 있는 다른 액터들에게 보내야하는 메세지가 됩니다.
+			MonsterPtr->ChangeState(EMonsterState::MState_Death);
+		}
 		
 	}
 }
@@ -410,36 +414,72 @@ void Player::DelayAttack(EPlayerState state)
 		switch (state)
 		{
 		case EPlayerState::PState_Att1:
+			if (PrevPlayerState == EPlayerState::PState_Att1)
+				return;
 			AttTime = GetAccTime();
+			GameServerDebug::Log(LOGTYPE::LOGTYPE_ERROR, "Attack1");
 			IsAttack = true;
 			CurrentCollision = AttackCollision;
 			DelayAttackTime = 0.2f;
+			PrevPlayerState = EPlayerState::PState_Att1;
 			break;
 		case EPlayerState::PState_Att2:
+			if (PrevPlayerState == EPlayerState::PState_Att2)
+				return;
+			GameServerDebug::Log(LOGTYPE::LOGTYPE_ERROR, "Attack2");
+
 			AttTime = GetAccTime();
 			IsAttack = true;
 			CurrentCollision = AttackCollision;
 			DelayAttackTime = 0.1f;
+			PrevPlayerState = EPlayerState::PState_Att2;
 			break;
 		case EPlayerState::PState_Att3:
 		case EPlayerState::PState_Att4:
+			if (PrevPlayerState == EPlayerState::PState_Att3)
+				return;
+			GameServerDebug::Log(LOGTYPE::LOGTYPE_ERROR, "Attack34");
+
 			AttTime = GetAccTime();
 			IsAttack = true;
 			CurrentCollision = AttackCollision;
 			DelayAttackTime = 0.3f;
+			PrevPlayerState = EPlayerState::PState_Att3;
 			break;
 		case EPlayerState::PState_JumpAtt:
+			if (PrevPlayerState == EPlayerState::PState_Att3)
+				return;
+			GameServerDebug::Log(LOGTYPE::LOGTYPE_ERROR, "Jump");
+
 			AttTime = GetAccTime();
 			IsAttack = true;
 			CurrentCollision = AttackCollision;
 			DelayAttackTime = 0.2f;
+			PrevPlayerState = EPlayerState::PState_JumpAtt;
 			break;
 		case EPlayerState::PState_SlamAtt:
+			if (PrevPlayerState == EPlayerState::PState_SlamAtt)
+				return;
+			GameServerDebug::Log(LOGTYPE::LOGTYPE_ERROR, "SLAM");
 			AttTime = GetAccTime();
 			IsAttack = true;
 			CurrentCollision = AttackCollision;
 			DelayAttackTime = 0.7f;
 			CurrentCollision = SlamCollision;
+			PrevPlayerState = EPlayerState::PState_SlamAtt;
+
+			break;
+		case EPlayerState::PState_Idle:
+			PrevPlayerState = EPlayerState::PState_Idle;
+			break;
+		case EPlayerState::PState_DoubleJump:
+			PrevPlayerState = EPlayerState::PState_DoubleJump;
+			break;
+		case EPlayerState::PState_Jump:
+			PrevPlayerState = EPlayerState::PState_Jump;
+			break;
+		case EPlayerState::PState_Move:
+			PrevPlayerState = EPlayerState::PState_Move;
 			break;
 		}
 	}

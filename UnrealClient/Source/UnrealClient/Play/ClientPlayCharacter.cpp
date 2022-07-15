@@ -609,10 +609,11 @@ void AClientPlayCharacter::Attack()
 				m_AnimInst->ChangeAnimation(ClientAnimationType::SlamAttack);
 			m_AnimInst->SetCanAttack(false);
 		}
+		SendPlayerUpdatePacket();
 	}
 
 	//AddControllerYawInput(LookZ(MouseVectorToWorldVector() - GetActorLocation(), 1.0F));
-	SendPlayerUpdatePacket();
+
 }
 
 
