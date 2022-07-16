@@ -66,9 +66,9 @@ void UClientAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 					Player->GetCharacterMovement()->GravityScale = 1.f;
 				}
-
-				m_OnSky |= bResult;
-
+				//LOG(TEXT("%d"), bResult);
+				m_OnSky &= !bResult;
+				LOG(TEXT("%d"), m_OnSky);
 
 				//Player->GetCharacterMovement()->GravityScale = 3.f;
 			}
