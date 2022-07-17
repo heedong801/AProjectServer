@@ -349,7 +349,7 @@ void Player::SectionInitialize()
 	if (nullptr == SlamCollision)
 	{
 		SlamCollision = GetSection()->CreateCollision(ECollisionGroup::PLAYER, this);
-		SlamCollision->SetScale({ 500.0f, 500.0f, 500.0f });
+		SlamCollision->SetScale({ 500.0f, 500.0f, 1500.0f });
 	}
 	UDPReady_ = false;
 }
@@ -447,14 +447,14 @@ void Player::DelayAttack(EPlayerState state)
 			PrevPlayerState = EPlayerState::PState_Att3;
 			break;
 		case EPlayerState::PState_JumpAtt:
-			if (PrevPlayerState == EPlayerState::PState_Att3)
+			if (PrevPlayerState == EPlayerState::PState_JumpAtt)
 				return;
 			GameServerDebug::Log(LOGTYPE::LOGTYPE_ERROR, "Jump");
 
 			AttTime = GetAccTime();
 			IsAttack = true;
 			CurrentCollision = AttackCollision;
-			DelayAttackTime = 0.2f;
+			DelayAttackTime = 0.3f;
 			PrevPlayerState = EPlayerState::PState_JumpAtt;
 			break;
 		case EPlayerState::PState_SlamAtt:

@@ -68,11 +68,10 @@ void UClientAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 				}
 				//LOG(TEXT("%d"), bResult);
 				m_OnSky &= !bResult;
-				LOG(TEXT("%d"), m_OnSky);
 
 				//Player->GetCharacterMovement()->GravityScale = 3.f;
 			}
-
+			//LOG(TEXT("%d"), m_OnSky);
 		}
 	}
 }
@@ -139,10 +138,19 @@ void UClientAnimInstance::AddGravity()
 
 void UClientAnimInstance::AnimNotify_SlamEnd()
 {
-	////LOG(TEXT("AnimNotify_SlamEnd"));
+	//LOG(TEXT("AnimNotify_SlamEnd"));
+	AClientPlayCharacter* Player = Cast<AClientPlayCharacter>(TryGetPawnOwner());
 
-	//AWukong* Wukong = Cast<AWukong>(TryGetPawnOwner());
-	//Wukong->SlamDamage();
+	if (Player)
+	{
+		m_IsAttack = false;
+		m_CanAttack = true;
+		Player->SetCurrentCombo(0);
+		ChangeAnimation(ClientAnimationType::Idle);
+		Player->SetMoveable(true);
+		//Player->CameraArmYawReset();
+	}
+
 }
 
 void UClientAnimInstance::AnimNotify_AttackEnd()

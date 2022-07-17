@@ -21,9 +21,10 @@ public:
 		return m_AnimInst;
 	}
 
-	FORCEINLINE int32 GetCurrentCombo() { return m_CurrentCombo; }
+	FORCEINLINE int32 GetCurrentCombo() const { return m_CurrentCombo; }
 	FORCEINLINE void SetCurrentCombo(int32 curCombo) { m_CurrentCombo = curCombo; }
-
+	FORCEINLINE void SetMoveable(bool bMoveable) { m_Movable = bMoveable; }
+	FORCEINLINE bool GetMoveable() const { return m_Movable; }
 	void SetTimeDillation();
 	void SetTimeDefaultTimeDilation();
 
@@ -79,7 +80,6 @@ private:
 	void Skill3Key();
 	void JumpKey();
 	bool SkillPlayAnim(int32 idx);
-
 
 	class UClientAnimInstance* m_AnimInst;
 

@@ -313,6 +313,10 @@ void AClientPlayCharacter::StopSprint()
 void AClientPlayCharacter::JumpKey()
 {
 	//LOG(TEXT("%d"), JumpCurrentCount);
+	if (m_Movable == false)
+	{
+		return;
+	}
 	if (m_AnimInst->GetOnSky() == false || JumpCurrentCount == 1)
 	{
 		Jump();
@@ -452,7 +456,10 @@ void AClientPlayCharacter::MoveForward(float _Rate)
 		return;
 	}
 
-
+	if (m_Movable == false)
+	{	
+		return;
+	}
 	AddControllerYawInput(LookZ(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal() * _Rate, 0.1f));
 
 	AddMovementInput(FVector(1.0f, -1.0f, 0.0f).GetSafeNormal(), _Rate);
@@ -471,7 +478,10 @@ void AClientPlayCharacter::MoveRight(float _Rate)
 		return;
 	}
 
-
+	if (m_Movable == false)
+	{
+		return;
+	}
 	AddControllerYawInput(LookZ(FVector(1.0f, 1.0f, 0.0f).GetSafeNormal() * _Rate, 0.1f));
 
 	AddMovementInput(FVector(1.0f, 1.0f, 0.0f).GetSafeNormal(), _Rate);
@@ -537,6 +547,10 @@ void AClientPlayCharacter::MoveStart()
 		return;
 	}
 
+	if (m_Movable == false)
+	{
+		return;
+	}
 	if (m_Movable && m_AnimInst->GetIsAttack() == false)
 	{
 		m_AnimInst->ChangeAnimation(ClientAnimationType::Move);
@@ -550,6 +564,10 @@ void AClientPlayCharacter::MoveEnd()
 		return;
 	}
 
+	if (m_Movable == false)
+	{
+		return;
+	}
 	if (m_Movable && m_AnimInst->GetIsAttack() == false)
 	{
 		m_AnimInst->ChangeAnimation(ClientAnimationType::Idle);
@@ -600,7 +618,7 @@ void AClientPlayCharacter::Attack()
 		{
 
 			//LOG(TEXT("SKY ATTACK"));
-			if (!m_AnimInst->GetDoubleJump())
+			if (m_AnimInst->GetAnimationType() != ClientAnimationType::SlamAttack && !m_AnimInst->GetDoubleJump())
 			{
 				m_AnimInst->Montage_Play(m_SkyAttackMontage);
 				m_AnimInst->ChangeAnimation(ClientAnimationType::JumpAttack);
