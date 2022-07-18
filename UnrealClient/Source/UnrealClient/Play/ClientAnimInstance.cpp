@@ -42,10 +42,12 @@ void UClientAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 			{
 				m_DoubleJump = false;
 				Player->GetCharacterMovement()->GravityScale = 1.f;
+				Player->SetMoveable(true);
 
 			}
 			else
 			{
+				Player->SetMoveable(false);
 				FHitResult HitResult;
 
 				FCollisionQueryParams Params;
@@ -138,7 +140,7 @@ void UClientAnimInstance::AddGravity()
 
 void UClientAnimInstance::AnimNotify_SlamEnd()
 {
-	//LOG(TEXT("AnimNotify_SlamEnd"));
+	LOG(TEXT("AnimNotify_SlamEnd"));
 	AClientPlayCharacter* Player = Cast<AClientPlayCharacter>(TryGetPawnOwner());
 
 	if (Player)

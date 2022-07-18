@@ -313,10 +313,7 @@ void AClientPlayCharacter::StopSprint()
 void AClientPlayCharacter::JumpKey()
 {
 	//LOG(TEXT("%d"), JumpCurrentCount);
-	if (m_Movable == false)
-	{
-		return;
-	}
+
 	if (m_AnimInst->GetOnSky() == false || JumpCurrentCount == 1)
 	{
 		Jump();

@@ -134,6 +134,7 @@ bool Monster::InsertSection()
 
 	HitCollision = GetSection()->CreateCollision(ECollisionGroup::MONSTER, this);
 
+	HitCollision->SetScale({ 50.0f, 50.0f, 50.0f });
 	ChangeState(EMonsterState::MState_Idle);
 
 	return true;

@@ -226,7 +226,7 @@ void GameServerSection::InsertActor(uint64_t _ID, std::shared_ptr<GameServerActo
 		// GameServerDebug::AssertDebugMsg("조해근 대리님한테 오세요!!!!!!");
 		return;
 	}
-
+	
 	std::lock_guard<std::mutex> lock(WaitLock);
 	_Actor->SetSectionIndex(GetIndex());
 	_Actor->SetThreadIndex(GetThreadIndex());
