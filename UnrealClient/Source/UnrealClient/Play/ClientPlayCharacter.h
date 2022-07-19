@@ -79,6 +79,9 @@ private:
 	void Skill2Key();
 	void Skill3Key();
 	void JumpKey();
+	void InventoryKey();
+	void EquipmentKey();
+
 	bool SkillPlayAnim(int32 idx);
 
 	class UClientAnimInstance* m_AnimInst;

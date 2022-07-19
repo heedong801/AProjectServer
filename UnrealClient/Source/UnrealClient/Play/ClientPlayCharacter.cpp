@@ -672,25 +672,65 @@ void AClientPlayCharacter::SetTimeDillation()
 	GetWorld()->GetTimerManager().SetTimer(TimeDillationHandle,
 		this, &AClientPlayCharacter::SetTimeDefaultTimeDilation, 1.f, false, 0.25f);
 }
-//void AClientPlayCharacter::TestPacketUpdate0()
-//{
-//	UClientGameInstance* Inst = Cast<UClientGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-//
-//	if (nullptr == Inst || false == Inst->IsValidLowLevel())
-//	{
-//		return;
-//	}
-//
-//	if (false == Inst->GetClientMode())
-//	{
-//		return;
-//	}
-//
-//#include "../Message/ServerToClient.h"
-//	std::shared_ptr<MonsterUpdateMessage> Message = std::make_shared<MonsterUpdateMessage>();
-//	Message->ObjectID = 100;
-//	Message->Pos = FVector(500.0f, 500.0f, 200.0f);
-//	Message->MonsterType = 0;
-//	Inst->PushClientMessage(Message);
-//
-//}
+
+void AClientPlayCharacter::InventoryKey()
+{
+	/*AAProjectGameModeBase* GameMode = Cast<AAProjectGameModeBase>(GetWorld()->GetAuthGameMode());
+
+	if (IsValid(GameMode))
+	{
+		UMainHUD* MainHUD = GameMode->GetMainHUD();
+
+		if (IsValid(MainHUD))
+		{
+			UInventoryTile* InventoryWidget = MainHUD->GetInventory();
+
+			if (IsValid(InventoryWidget))
+			{
+				if (InventoryWidget->GetVisibility() == ESlateVisibility::Collapsed)
+				{
+					InventoryWidget->SetVisibility(ESlateVisibility::Visible);
+					CursorUISet(true);
+				}
+				else
+				{
+					InventoryWidget->SetVisibility(ESlateVisibility::Collapsed);
+					CursorUISet(false);
+				}
+			}
+
+		}
+	}*/
+}
+
+void AClientPlayCharacter::EquipmentKey()
+{
+	/*AAProjectGameModeBase* GameMode = Cast<AAProjectGameModeBase>(GetWorld()->GetAuthGameMode());
+
+	if (IsValid(GameMode))
+	{
+		UMainHUD* MainHUD = GameMode->GetMainHUD();
+
+		if (IsValid(MainHUD))
+		{
+			UEquipmentWidget* EquipmentWidget = MainHUD->GetEquipment();
+			{
+				if (IsValid(EquipmentWidget))
+				{
+					if (EquipmentWidget->GetVisibility() == ESlateVisibility::Collapsed)
+					{
+						EquipmentWidget->SetVisibility(ESlateVisibility::Visible);
+						CursorUISet(true);
+
+					}
+					else
+					{
+						EquipmentWidget->SetVisibility(ESlateVisibility::Collapsed);
+						CursorUISet(false);
+
+					}
+				}
+			}
+		}
+	}*/
+}

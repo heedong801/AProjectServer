@@ -14,7 +14,6 @@ class UNREALCLIENT_API APlayHUD : public AHUD
 {
 	GENERATED_BODY()
 
-
 public:
 	void BeginPlay() override;
 
