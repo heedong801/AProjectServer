@@ -75,6 +75,8 @@ void UPlayUIUserWidget::NativeConstruct()
 
 	Inst->PlayUI = this;
 	Inst->RankWindow = GetWidgetFromName(TEXT("RankWindow"));
+	Inst->EquipmentUI = GetWidgetFromName(TEXT("UI_Equipment"));
+	Inst->InventoryUI = GetWidgetFromName(TEXT("UI_Inventory"));
 
 	if (nullptr == Inst->RankWindow ||
 		false == Inst->RankWindow->IsValidLowLevel())
