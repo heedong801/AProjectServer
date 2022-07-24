@@ -505,3 +505,38 @@ public:
     }                                                           
 };                                                              
 
+class GetItemMessage : public GameServerMessage                    
+{                                                               
+public:                                                         
+	FPlayerItemData ItemData;
+                                                                
+public:                                                         
+    GetItemMessage()                                               
+        : GameServerMessage(static_cast<uint32_t>(MessageId::GetItem))                    
+        , ItemData()
+    {                                                           
+                                                                
+    }                                                           
+                                                                
+    virtual ~GetItemMessage() {}                                   
+                                                                
+    virtual int SizeCheck()                                     
+    {                                                           
+		return DataSizeCheck(ItemData);
+    }                                                           
+                                                                
+    void Serialize(GameServerSerializer& _Serializer)           
+    {                                                           
+        GameServerMessage::Serialize(_Serializer);              
+        ItemData.Serialize(_Serializer);
+
+    }                                                           
+                                                                
+    void DeSerialize(GameServerSerializer& _Serializer)         
+    {                                                           
+        GameServerMessage::DeSerialize(_Serializer);            
+        ItemData.DeSerialize(_Serializer);
+
+    }                                                           
+};                                                              
+

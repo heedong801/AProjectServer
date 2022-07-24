@@ -263,6 +263,9 @@ void AClientPlayCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Pressed, this, &AClientPlayCharacter::Sprint);
 	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Released, this, &AClientPlayCharacter::StopSprint);
 
+	PlayerInputComponent->BindAction(TEXT("Equipment"), EInputEvent::IE_Pressed, this, &AClientPlayCharacter::EquipmentKey);
+	PlayerInputComponent->BindAction(TEXT("Inventory"), EInputEvent::IE_Pressed, this, &AClientPlayCharacter::InventoryKey);
+
 	/*PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &APlayerCharacter::LookUp);
 	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &APlayerCharacter::Turn);
 	PlayerInputComponent->BindAxis(TEXT("Zoom"), this, &APlayerCharacter::ZoomInKey);
@@ -273,8 +276,7 @@ void AClientPlayCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	PlayerInputComponent->BindAction(TEXT("Quest"), EInputEvent::IE_Pressed, this, &APlayerCharacter::QuestKey);
 	PlayerInputComponent->BindAction(TEXT("Quit"), EInputEvent::IE_Pressed, this, &APlayerCharacter::QuitKey);
 	PlayerInputComponent->BindAction(TEXT("Interaction"), EInputEvent::IE_Pressed, this, &APlayerCharacter::InteractionKey);
-	PlayerInputComponent->BindAction(TEXT("Equipment"), EInputEvent::IE_Pressed, this, &APlayerCharacter::EquipmentKey);
-	PlayerInputComponent->BindAction(TEXT("Inventory"), EInputEvent::IE_Pressed, this, &APlayerCharacter::InventoryKey);*/
+	*/
 
 	// 얼마나 지속적으로 오래눌렀고 세게 눌렀다 약하게 눌렀다는 체크해야할때가 많습니다.
 	// 정의 내린 키가 입력되었을대 
@@ -701,6 +703,18 @@ void AClientPlayCharacter::InventoryKey()
 
 		}
 	}*/
+
+	UClientGameInstance* Inst = Cast<UClientGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if (nullptr == Inst || false == Inst->IsValidLowLevel())
+	{
+		return;
+	}
+	LOG(TEXT("HI"));
+	if (Inst->InventoryUI->GetVisibility() == ESlateVisibility::Hidden)
+		Inst->InventoryUI->SetVisibility(ESlateVisibility::Visible);
+	else if (Inst->InventoryUI->GetVisibility() == ESlateVisibility::Visible)
+		Inst->InventoryUI->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void AClientPlayCharacter::EquipmentKey()
@@ -733,4 +747,16 @@ void AClientPlayCharacter::EquipmentKey()
 			}
 		}
 	}*/
+
+	UClientGameInstance* Inst = Cast<UClientGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if (nullptr == Inst || false == Inst->IsValidLowLevel())
+	{
+		return;
+	}
+
+	if (Inst->EquipmentUI->GetVisibility() == ESlateVisibility::Hidden)
+		Inst->EquipmentUI->SetVisibility(ESlateVisibility::Visible);
+	else if (Inst->EquipmentUI->GetVisibility() == ESlateVisibility::Visible)
+		Inst->EquipmentUI->SetVisibility(ESlateVisibility::Hidden);
 }

@@ -168,3 +168,41 @@ struct FMonsterUpdateData
 	~FMonsterUpdateData() {
 	}
 };
+
+struct FPlayerItemData
+{
+	uint64_t ItemIndex;
+	std::string ItemName;
+	int ItemType;
+	int ItemTier;
+	int ItemPart;
+
+	int GetDataSize()
+	{
+		return (4 * 4) + 4 + static_cast<int>(ItemName.size());
+	}
+
+	void Serialize(GameServerSerializer& _Ser)
+	{
+		_Ser << ItemIndex;
+		_Ser << ItemName;
+		_Ser << ItemType;
+		_Ser << ItemTier;
+		_Ser << ItemPart;
+	}
+
+	void DeSerialize(GameServerSerializer& _Ser)
+	{
+		_Ser >> ItemIndex;
+		_Ser >> ItemName;
+		_Ser >> ItemType;
+		_Ser >> ItemTier;
+		_Ser >> ItemPart;
+	}
+
+
+	FPlayerItemData() {
+	}
+	~FPlayerItemData() {
+	}
+};

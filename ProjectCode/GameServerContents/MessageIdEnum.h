@@ -22,6 +22,7 @@ enum class MessageId
 	PlayersUpdate,
 	MonsterUpdate,
 	UserRankWindowData,
+	GetItem,
 	Chat,
 	PlayerUpdate,
 	MAX

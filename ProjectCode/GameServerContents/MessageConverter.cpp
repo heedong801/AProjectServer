@@ -75,6 +75,9 @@ MessageConverter::MessageConverter(const std::vector<unsigned char>&_buffer)
 	case MessageId::UserRankWindowData:
 		Message_ = std::make_shared<UserRankWindowDataMessage>();
 		break;
+	case MessageId::GetItem:
+		Message_ = std::make_shared<GetItemMessage>();
+		break;
 	case MessageId::Chat:
 		Message_ = std::make_shared<ChatMessage>();
 		break;

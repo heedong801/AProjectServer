@@ -50,3 +50,6 @@ std::vector<std::string> TopUserName;
 std::vector<int> TopUserScore;
 std::vector<std::string> MyUserName;
 std::vector<int> MyUserScore;
+
+|GetItem-
+FPlayerItemData ItemData;

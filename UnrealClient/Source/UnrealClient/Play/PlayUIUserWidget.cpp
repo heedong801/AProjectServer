@@ -85,8 +85,22 @@ void UPlayUIUserWidget::NativeConstruct()
 		return;
 	}
 
+	if (nullptr == Inst->EquipmentUI ||
+		false == Inst->EquipmentUI->IsValidLowLevel())
+	{
+		UE_LOG(ClientLog, Error, TEXT("EquipmentUI Is Nullptr"));
+		return;
+	}
+
+	if (nullptr == Inst->InventoryUI ||
+		false == Inst->InventoryUI->IsValidLowLevel())
+	{
+		UE_LOG(ClientLog, Error, TEXT("InventoryUI List View Is Nullptr"));
+		return;
+	}
 	Super::NativeConstruct();
 
 
 	Inst->RankWindow->SetVisibility(Inst->RankWindowMode);
 }
+

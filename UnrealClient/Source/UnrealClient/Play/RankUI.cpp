@@ -13,7 +13,7 @@
 #include "../Message/ServerToClient.h"
 #include "../Message/ServerAndClient.h"
 #include "../Message/ClientToServer.h"
-
+#include "../DebugClass.h"
 
 
 void URankUI::NewRankAdd(UObject* _Object, UUserWidget* _Widget)
@@ -70,6 +70,7 @@ void URankUI::NativeConstruct()
 		return;
 	}
 
+	LOG(TEXT("RANK"));
 	Inst->TopRankListView_->ClearListItems();
 	Inst->MyRankListView_->ClearListItems();
 
