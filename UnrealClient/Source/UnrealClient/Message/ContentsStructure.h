@@ -171,6 +171,7 @@ struct FMonsterUpdateData
 
 struct FPlayerItemData
 {
+	uint64_t ObjectIndex;
 	uint64_t ItemIndex;
 	std::string ItemName;
 	int ItemType;
@@ -179,11 +180,12 @@ struct FPlayerItemData
 
 	int GetDataSize()
 	{
-		return (4 * 4) + 4 + static_cast<int>(ItemName.size());
+		return (4 * 5) + 4 + static_cast<int>(ItemName.size());
 	}
 
 	void Serialize(GameServerSerializer& _Ser)
 	{
+		_Ser << ObjectIndex;
 		_Ser << ItemIndex;
 		_Ser << ItemName;
 		_Ser << ItemType;
@@ -193,6 +195,7 @@ struct FPlayerItemData
 
 	void DeSerialize(GameServerSerializer& _Ser)
 	{
+		_Ser >> ObjectIndex;
 		_Ser >> ItemIndex;
 		_Ser >> ItemName;
 		_Ser >> ItemType;
