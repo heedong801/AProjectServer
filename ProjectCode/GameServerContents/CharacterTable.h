@@ -1,7 +1,6 @@
 #pragma once
 #include <GameServerNet\DBQuery.h>
 #include "ContentsStructure.h"
-
 class CharacterRow : public std::enable_shared_from_this<CharacterRow>
 {
 public:

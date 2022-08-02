@@ -330,7 +330,7 @@ void TCPListener::CloseSession(PtrSTCPSession _Session)
 	// 이런 패턴을 많이 볼수 있습니다.
 	{
 		std::lock_guard<std::mutex> lock(connectsLock_);
-		connections_.erase(_Session->GetConnectId());
+		connections_ .erase(_Session->GetConnectId());
 	}
 
 	// 쓰레드랑 똑같은 원리

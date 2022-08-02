@@ -89,6 +89,8 @@ void Player::AttackCollisionCheck(GameServerCollision* _Collision)
 
 			// 주위에 있는 다른 액터들에게 보내야하는 메세지가 됩니다.
 			MonsterPtr->ChangeState(EMonsterState::MState_Death);
+
+			
 		}
 		
 	}

@@ -96,7 +96,6 @@ GameServerQueue::QUEUE_RETURN GameServerQueue::WorkDefault(std::shared_ptr<GameS
 
 	BOOL ReturnType = _Work->Wait();
 
-	int ByteSize = _Work->GetNumberOfBytes();
 
 	IocpWaitReturnType CheckType = IocpWaitReturnType::RETURN_OK;
 

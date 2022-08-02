@@ -24,6 +24,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ContentsItemData.cpp" />
     <ClCompile Include="ContentsUserData.cpp">
       <SubType>
       </SubType>
@@ -32,6 +33,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ItemTable.cpp" />
     <ClCompile Include="MessageConverter.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="NoneFightZone.cpp">
@@ -77,6 +79,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ContentsItemData.h" />
     <ClInclude Include="ContentsPlayerData.h" />
     <ClInclude Include="ContentsUserData.h">
       <SubType>
@@ -86,6 +89,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ItemTable.h" />
     <ClInclude Include="MessageIdEnum.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="NoneFightZone.h">

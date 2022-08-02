@@ -2,6 +2,8 @@
 #include <GameServerCore\GameServerActor.h>
 #include "ServerAndClient.h"
 #include <GameServerNet\RedisConnecter.h>
+#include <GameServerNet\DBConnecter.h>
+
 // Ό³Έν :
 class ContentsUserData;
 class Player : public GameServerActor
@@ -22,7 +24,10 @@ private:
 	{
 		return RedisConnecter::GetConnector(0);
 	}
-
+	std::shared_ptr<DBConnecter> GetDBConnector()
+	{
+		return DBConnecter::GetConnector(0);
+	}
 	//std::shared_ptr<RedisConnecter> GetRegulerRankConntor()
 	//{
 	//	return RedisConnecter::GetConnector(1);
