@@ -285,6 +285,8 @@ std::unique_ptr<DBStmt> DBConnecter::CreateStmt(std::string_view _Query)
 
 	if (0 != mysql_stmt_prepare(stmt, _Query.data(), static_cast<unsigned long>(_Query.length())))
 	{
+		int a = mysql_errno(mysql_);
+		GameServerDebug::AssertDebugMsg(mysql_error(mysql_));
 		mysql_stmt_close(stmt);
 		GameServerDebug::AssertDebugMsg("mysql Statememnt mysql_stmt_prepare Error");
 		return nullptr;

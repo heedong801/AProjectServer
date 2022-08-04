@@ -1,6 +1,5 @@
 #pragma once
 #include <GameServerNet\DBQuery.h>
-
 class ItemRow : public std::enable_shared_from_this<ItemRow>
 {
 public:
@@ -37,13 +36,12 @@ public:
 	}
 };
 
-class UserTable_SelectItemToItemInfo : public DBQuery
+class ItemTable_AllItemToItemInfo: public DBQuery
 {
 public:
-	int Index;
-	std::shared_ptr<ItemRow> RowData;
+	std::vector<std::shared_ptr<ItemRow>> RowDatas;
 
 public:
-	UserTable_SelectItemToItemInfo(int _Index);
+	ItemTable_AllItemToItemInfo();
 	bool DoQuery() override;
 };

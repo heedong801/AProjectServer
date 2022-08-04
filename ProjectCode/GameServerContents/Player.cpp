@@ -9,6 +9,8 @@
 #include <GameServerNet\TCPSession.h>
 #include "ContentsSystemEnum.h"
 #include "ContentsUserData.h"
+#include "ContentsItemData.h"
+
 #include "CharacterTable.h"
 #include "ContentsEnum.h"
 #include "GameServerBase\GameServerDebug.h"
@@ -65,26 +67,22 @@ void Player::AttackCollisionCheck(GameServerCollision* _Collision)
 			}
 
 			{
-				const std::list<std::shared_ptr<GameServerActor>>& AllOtherPlayer = GetSection()->GetPlayableActor();
-
 				GetItemMessage Message;
 				GameServerRandom Random;
 				Message.ItemData.ObjectIndex = GetIndex();
 				Message.ItemData.ItemIndex = Random.RandomInt(0, 7);
 
+				ContentsItemData itemData;
+				FPlayerItemData item = itemData.GetItemAtIndex(Message.ItemData.ItemIndex);
+
+				Message.ItemData = item;
+
 				GameServerSerializer Sr;
 				Message.Serialize(Sr);
 
-				for (auto& OtherActor : AllOtherPlayer)
-				{
-					// 나는 제외
-					if (GetIndex() == OtherActor->GetIndex())
-					{
-						continue;
-					}
-					std::shared_ptr<Player> OtherPlayer = std::dynamic_pointer_cast<Player>(OtherActor);
-					OtherPlayer->GetTCPSession()->Send(Sr.GetData());
-				}
+				
+				GetTCPSession()->Send(Sr.GetData());
+				
 			}
 
 			// 주위에 있는 다른 액터들에게 보내야하는 메세지가 됩니다.

@@ -6,11 +6,13 @@
 #include <GameServerNet\DBConnecter.h>
 #include "UserTable.h"
 #include "CharacterTable.h"
+#include "ItemTable.h"
 #include <GameServerCore\DBQueue.h>
 #include <functional>
+#include "ContentsItemData.h"
 #include <GameServerCore\NetQueue.h>
 #include <GameServerCore\GameServerSectionManager.h>
-#include "ContentsUserData.h"
+
 
 // DB에 접속하는일
 // 검증하는일
@@ -113,9 +115,23 @@ void ThreadHandlerLoginMessage::DBCharacterListCheck()
 
 	UserData->Characters = Characters.Characters;
 
+	ItemTable_AllItemToItemInfo SelectItemQuery;
+	SelectItemQuery.DoQuery();
+
+	for (int i = 0; i < SelectItemQuery.RowDatas.size(); i++)
+	{
+		FPlayerItemData data;
+		ItemRow row = *(SelectItemQuery.RowDatas[i]);
+
+		data.ItemIndex = row.Index;
+		data.ItemName = row.Name;
+		data.ItemPart = row.ItemPart;
+		data.ItemTier = row.ItemTier;
+		data.ItemType = row.ItemType;
+		
+		ContentsItemData::AddItemData(data);
+	}
 	NetWork(&ThreadHandlerLoginMessage::CharctersSend);
-
-
 }
 
 void ThreadHandlerLoginMessage::CharctersSend()
@@ -130,7 +146,6 @@ void ThreadHandlerLoginMessage::CharctersSend()
 		Ptr->Data = *RowData;
 	}
 
-
+	
 	GameServerDebug::LogInfo("Charcter List Send");
-
 }

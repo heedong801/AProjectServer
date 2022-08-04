@@ -203,7 +203,6 @@ struct FPlayerItemData
 		_Ser >> ItemPart;
 	}
 
-
 	FPlayerItemData() {
 	}
 	~FPlayerItemData() {
