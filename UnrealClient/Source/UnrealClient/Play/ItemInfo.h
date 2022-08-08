@@ -95,3 +95,16 @@ struct FUIItemTableInfo :
 		TArray<FItemOption>	OptionArray;
 
 };
+
+USTRUCT(BlueprintType)
+struct FUIItemTextureTableInfo :
+	public FTableRowBase
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	FString	Name;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+		UTexture2D* IconTexture;
+};

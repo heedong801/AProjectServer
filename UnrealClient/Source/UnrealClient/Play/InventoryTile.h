@@ -70,7 +70,8 @@ public:
 		void CurrentEquipItemClick(UObject* Data);
 
 public:
-	void AddItem(const FUIItemTableInfo* ItemInfo);
+	void AddItem(FPlayerItemData ItemInfo);
+
 protected:
 	virtual void NativeConstruct();
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTine);

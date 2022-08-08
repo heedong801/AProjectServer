@@ -70,9 +70,9 @@ public:
 		return m_Part;
 	}
 
-	void SetPart(EItemPart Part)
+	void SetPart(int Part)
 	{
-		m_Part = Part;
+		m_Part = static_cast<EItemPart>(Part);
 	}
 
 	EItemTier GetTier()
@@ -80,9 +80,9 @@ public:
 		return m_Tier;
 	}
 
-	void SetTier(EItemTier Tier)
+	void SetTier(int Tier)
 	{
-		m_Tier = Tier;
+		m_Tier = static_cast<EItemTier>(Tier);
 	}
 
 	EItemType GetType()
@@ -90,8 +90,8 @@ public:
 		return m_Type;
 	}
 
-	void SetType(EItemType Type)
+	void SetType(int Type)
 	{
-		m_Type = Type;
+		m_Type = static_cast<EItemType>(Type);;
 	}
 };

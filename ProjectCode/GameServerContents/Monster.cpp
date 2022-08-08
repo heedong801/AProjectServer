@@ -213,6 +213,8 @@ void Monster::DeathStart()
 	IsDeath = true;
 	DeleteTime = GetAccTime();
 	BroadcastingMonsterUpdateMessage(false);
+	HitCollision->Death();
+	PlayerSensorCollision->Death();
 	// GetSection()->DeleteActor(DynamicCast<GameServerActor>());
 }
 

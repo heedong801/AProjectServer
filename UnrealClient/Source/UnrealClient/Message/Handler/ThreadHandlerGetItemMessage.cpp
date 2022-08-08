@@ -9,7 +9,7 @@
 #include "../../UnrealClient.h"
 #include "../../Play/PlayGameMode.h"
 #include "../../Play/ClientCharacter.h"
-
+#include "../../DebugClass.h"
 void ThreadHandlerGetItemMessage::Start()
 {
 	APlayGameMode* PGameMode = Cast<APlayGameMode>(UGameplayStatics::GetGameMode(World_));
@@ -33,10 +33,9 @@ void ThreadHandlerGetItemMessage::Start()
 		UE_LOG(ClientLog, Error, TEXT("%S(%u) > Character SubClass Is nullptr"), __FUNCTION__, __LINE__);
 		return;
 	}
+	
 
-	if (false == PGameMode->IsRegist(Message_->ItemData.ObjectIndex))
-	{
-		PGameMode->ObjectPushMessage(Message_->ItemData.ObjectIndex, Message_);
-	}
+	PGameMode->ObjectPushMessage(Message_->ItemData.ObjectIndex, Message_);
+	
 }
 

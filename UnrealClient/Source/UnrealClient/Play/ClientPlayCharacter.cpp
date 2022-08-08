@@ -15,7 +15,7 @@
 #include "GameFramework/PlayerInput.h"
 #include "DrawDebugHelpers.h"
 #include"../DebugClass.h"
-
+#include"InventoryTile.h"
 // Sets default values
 AClientPlayCharacter::AClientPlayCharacter()
 {
@@ -191,6 +191,17 @@ void AClientPlayCharacter::Tick(float DeltaTime)
 		else if (MessageId::PlayerUpdate == Message->GetId<MessageId>())
 		{
 			ServerPost = true;
+		}
+		else if (MessageId::GetItem == Message->GetId<MessageId>())
+		{
+			GetItemMessage* ItemMessage = static_cast<GetItemMessage*>(Message.get());
+
+ 			UInventoryTile* Inventory = Cast<UInventoryTile>(Inst->InventoryUI);
+			if (IsValid(Inventory) && Inventory != nullptr)
+			{
+				LOG(TEXT("FINI"));
+				Inventory->AddItem(ItemMessage->ItemData);
+			}
 		}
 		else 
 		{

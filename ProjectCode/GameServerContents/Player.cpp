@@ -69,13 +69,14 @@ void Player::AttackCollisionCheck(GameServerCollision* _Collision)
 			{
 				GetItemMessage Message;
 				GameServerRandom Random;
-				Message.ItemData.ObjectIndex = GetIndex();
-				Message.ItemData.ItemIndex = Random.RandomInt(0, 7);
+				int randomIndex = Random.RandomInt(0, 7);
 
 				ContentsItemData itemData;
-				FPlayerItemData item = itemData.GetItemAtIndex(Message.ItemData.ItemIndex);
+				FPlayerItemData item = itemData.GetItemAtIndex(randomIndex);
 
 				Message.ItemData = item;
+
+				Message.ItemData.ObjectIndex = GetIndex();
 
 				GameServerSerializer Sr;
 				Message.Serialize(Sr);

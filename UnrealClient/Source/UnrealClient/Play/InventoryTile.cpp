@@ -3,10 +3,11 @@
 
 #include "InventoryTile.h"
 #include "InventoryTileData.h"
-
+#include "../Message/ContentsStructure.h"
 //#include "InventoryTileData.h"
 #include "../DebugClass.h"
 #include "EquipmentWidget.h"
+#include "../Global/ClientBlueprintFunctionLibrary.h"
 
 void UInventoryTile::NativeConstruct()
 {
@@ -114,23 +115,24 @@ void UInventoryTile::ItemHovered(UObject* Data, bool Hovered)
 }
 
 
-void UInventoryTile::AddItem(const FUIItemTableInfo* ItemInfo)
+void UInventoryTile::AddItem(FPlayerItemData ItemInfo)
 {
 	UInventoryTileData* Data = NewObject<UInventoryTileData>(this,
 		UInventoryTileData::StaticClass());
+	FString itemName;
+	UClientBlueprintFunctionLibrary::UTF8ToFString(ItemInfo.ItemName, itemName);
 
-	Data->SetName(ItemInfo->Name);
-	Data->SetIconTexture(ItemInfo->IconTexture);
+	Data->SetName(itemName);
+	//Data->SetIconTexture(ItemInfo->IconTexture);
 	//Data->SetIndex(m_InventoryTile->GetNumItems());
-	Data->SetTier(ItemInfo->ItemTier);
-	Data->SetType(ItemInfo->ItemType);
-	Data->SetPart(ItemInfo->ItemPart);
-	Data->SetOption(ItemInfo->OptionArray);
+	Data->SetTier(ItemInfo.ItemTier);
+	Data->SetType(ItemInfo.ItemType);
+	Data->SetPart(ItemInfo.ItemPart);
+	//Data->SetOption(ItemInfo->OptionArray);
 
-
-	if(ItemInfo->ItemType == EItemType::Equipment )
+	if(ItemInfo.ItemType == static_cast<int>(EItemType::Equipment) )
 		m_EquipTile->AddItem(Data);
-	else if(ItemInfo->ItemType == EItemType::Consumable)
+	else if(ItemInfo.ItemType == static_cast<int>(EItemType::Consumable) )
 		m_ConsumTile->AddItem(Data);
 
 
