@@ -25,7 +25,6 @@ void UInventoryItemTile::SetData(UObject* Data)
 {
 	UInventoryTileData* InvenData = Cast<UInventoryTileData>(Data);
 
-	LOG(TEXT("%s"), *InvenData->GetName());
 	UTexture2D* IconTexture = InvenData->GetIconTexture();
 
 	if (IconTexture)

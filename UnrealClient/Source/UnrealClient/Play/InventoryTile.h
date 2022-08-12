@@ -70,7 +70,7 @@ public:
 		void CurrentEquipItemClick(UObject* Data);
 
 public:
-	void AddItem(FPlayerItemData ItemInfo);
+	void AddItem(FPlayerItemData ItemInfo, UTexture2D* IconTex);
 
 protected:
 	virtual void NativeConstruct();

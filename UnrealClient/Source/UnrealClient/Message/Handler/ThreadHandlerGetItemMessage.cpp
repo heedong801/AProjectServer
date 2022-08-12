@@ -1,14 +1,6 @@
 
 #include "ThreadHandlerGetItemMessage.h"
-#include "../../Global/ClientGameInstance.h"
-#include "Kismet/GameplayStatics.h"
-#include "../../CharacterSelect/CharacterListItemObject.h"
-#include "../../CharacterSelect/CharacterListItem.h"
-#include "../../Global/ClientBlueprintFunctionLibrary.h"
-#include "Components/ListView.h"
-#include "../../UnrealClient.h"
 #include "../../Play/PlayGameMode.h"
-#include "../../Play/ClientCharacter.h"
 #include "../../DebugClass.h"
 void ThreadHandlerGetItemMessage::Start()
 {

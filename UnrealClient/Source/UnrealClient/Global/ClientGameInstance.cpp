@@ -162,6 +162,10 @@ UClientGameInstance::UClientGameInstance()
 	RankWindowMode = ESlateVisibility::Hidden;
 	ChatMessageType = static_cast<int>(EChatMessageType::ALL);
 
+	static ConstructorHelpers::FObjectFinder<UDataTable> ItemTexutureInfoTableAsset(TEXT("DataTable'/Game/UI/DT_ItemTextureInfo.DT_ItemTextureInfo'"));
+	if (ItemTexutureInfoTableAsset.Succeeded())
+		m_ItemTextureTable = ItemTexutureInfoTableAsset.Object;
+
 }
 
 UClientGameInstance::~UClientGameInstance() 
@@ -385,4 +389,9 @@ void UClientGameInstance::SetMsgType(EChatMessageType MsgType)
 int UClientGameInstance::GetMsgType()
 {
 	return static_cast<int>(ChatMessageType);
+}
+
+const FUIItemTextureTableInfo* UClientGameInstance::FindItemTextureInfo(const FString& Name)
+{
+	return m_ItemTextureTable->FindRow<FUIItemTextureTableInfo>(*Name, "");
 }

@@ -8,6 +8,7 @@
 #include "../DebugClass.h"
 #include "EquipmentWidget.h"
 #include "../Global/ClientBlueprintFunctionLibrary.h"
+#include "../Global/ClientGameInstance.h"
 
 void UInventoryTile::NativeConstruct()
 {
@@ -115,7 +116,7 @@ void UInventoryTile::ItemHovered(UObject* Data, bool Hovered)
 }
 
 
-void UInventoryTile::AddItem(FPlayerItemData ItemInfo)
+void UInventoryTile::AddItem(FPlayerItemData ItemInfo, UTexture2D* IconTex)
 {
 	UInventoryTileData* Data = NewObject<UInventoryTileData>(this,
 		UInventoryTileData::StaticClass());
@@ -123,7 +124,7 @@ void UInventoryTile::AddItem(FPlayerItemData ItemInfo)
 	UClientBlueprintFunctionLibrary::UTF8ToFString(ItemInfo.ItemName, itemName);
 
 	Data->SetName(itemName);
-	//Data->SetIconTexture(ItemInfo->IconTexture);
+	Data->SetIconTexture(IconTex);
 	//Data->SetIndex(m_InventoryTile->GetNumItems());
 	Data->SetTier(ItemInfo.ItemTier);
 	Data->SetType(ItemInfo.ItemType);
@@ -132,6 +133,7 @@ void UInventoryTile::AddItem(FPlayerItemData ItemInfo)
 
 	if(ItemInfo.ItemType == static_cast<int>(EItemType::Equipment) )
 		m_EquipTile->AddItem(Data);
+	
 	else if(ItemInfo.ItemType == static_cast<int>(EItemType::Consumable) )
 		m_ConsumTile->AddItem(Data);
 
@@ -141,6 +143,7 @@ void UInventoryTile::AddItem(FPlayerItemData ItemInfo)
 
 void UInventoryTile::EquipClick()
 {
+	LOG(TEXT("CL : %d"), m_EquipTile->GetNumItems());
 	m_EquipTile->SetVisibility(ESlateVisibility::Visible);
 	m_ConsumTile->SetVisibility(ESlateVisibility::Collapsed);
 	m_CurrentEquipTile->SetVisibility(ESlateVisibility::Collapsed);
@@ -193,33 +196,37 @@ void UInventoryTile::ConsumItemClick(UObject* Data)
 void UInventoryTile::EquipItemClick(UObject* Data)
 {
 	UInventoryTileData* Item = Cast<UInventoryTileData>(Data);
-	
+	LOG(TEXT("%s"), *Item->GetName());
+	LOG(TEXT("%d"), m_EquipTile->GetNumItems());
+
 	m_EquipTile->RemoveItem(Data);
+	LOG(TEXT("RE : %d"), m_EquipTile->GetNumItems());
+
 	m_CurrentEquipTile->AddItem(Data);
 
-	/*AAProjectGameModeBase* GameMode = Cast<AAProjectGameModeBase>(GetWorld()->GetAuthGameMode());
+	UClientGameInstance* Inst = Cast<UClientGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-	if (IsValid(GameMode))
+	if (nullptr == Inst || false == Inst->IsValidLowLevel())
 	{
-		UMainHUD* MainHUD = GameMode->GetMainHUD();
+		return;
+	}
 
-		if (IsValid(MainHUD))
-		{
-			UEquipmentWidget* Equipment = MainHUD->GetEquipment();
-			if (IsValid(Equipment))
-			{
-				int Idx = Equipment->PartToIdx(Item->GetPart());
-				UInventoryTileData* ChangeItem = Equipment->AlreadyPartSet(Idx);
-				if (ChangeItem != nullptr)
-				{
-					m_EquipTile->AddItem(ChangeItem);
-					m_CurrentEquipTile->RemoveItem(ChangeItem);
-				}
-				Equipment->SetPart(Item, Item->GetPart(), Item->GetIconTexture());
+	UEquipmentWidget* Equipment = Cast<UEquipmentWidget>(Inst->EquipmentUI);
 
-			}
-		}
-	}*/
+	if (nullptr == Equipment || false == Equipment->IsValidLowLevel())
+	{
+		return;
+	}
+
+	int Idx = Equipment->PartToIdx(Item->GetPart());
+	UInventoryTileData* ChangeItem = Equipment->AlreadyPartSet(Idx);
+	if (ChangeItem != nullptr)
+	{
+		m_EquipTile->AddItem(ChangeItem);
+		m_CurrentEquipTile->RemoveItem(ChangeItem);
+	}
+	Equipment->SetPart(Item, Item->GetPart(), Item->GetIconTexture());
+
 
 }
 
@@ -227,23 +234,25 @@ void UInventoryTile::CurrentEquipItemClick(UObject* Data)
 {
 	UInventoryTileData* Item = Cast<UInventoryTileData>(Data);
 	LOG(TEXT("%s"), *Item->GetName());
+	LOG(TEXT("CurrentEquipItemClick : %d"), m_EquipTile->GetNumItems());
 
 	m_CurrentEquipTile->RemoveItem(Data);
 	m_EquipTile->AddItem(Data);
 
-	/*AAProjectGameModeBase* GameMode = Cast<AAProjectGameModeBase>(GetWorld()->GetAuthGameMode());
+	UClientGameInstance* Inst = Cast<UClientGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-	if (IsValid(GameMode))
+	if (nullptr == Inst || false == Inst->IsValidLowLevel())
 	{
-		UMainHUD* MainHUD = GameMode->GetMainHUD();
+		return;
+	}
 
-		if (IsValid(MainHUD))
-		{
-			UEquipmentWidget* Equipment = MainHUD->GetEquipment();
-			if (IsValid(Equipment))
-			{
-				Equipment->UnsetPart(Item);
-			}
-		}
-	}*/
+	UEquipmentWidget* Equipment = Cast<UEquipmentWidget>(Inst->EquipmentUI);
+
+	if (nullptr == Equipment || false == Equipment->IsValidLowLevel())
+	{
+		return;
+	}
+
+	Equipment->UnsetPart(Item);
+
 }

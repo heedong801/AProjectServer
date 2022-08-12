@@ -4,7 +4,7 @@
 #include "EquipmentWidget.h"
 #include "InventoryTileData.h"
 #include "ClientPlayCharacter.h"
-//#include "../DebugClass.h"
+#include "../DebugClass.h"
 void UEquipmentWidget::NativeConstruct()
 {
 	m_EquipmentImgArray.Add(Cast<UImage>(GetWidgetFromName(TEXT("headband"))));
@@ -40,7 +40,7 @@ void UEquipmentWidget::NativeConstruct()
 	m_EquipmentItemArray.Init(nullptr, 20);
 
 	AClientPlayCharacter* Player = Cast<AClientPlayCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
-
+	
 	if (Player)
 	{
 		/*m_AttackText->SetText(FText::FromString(FString::FromInt(Player->GetPlayerInfo().Attack)));

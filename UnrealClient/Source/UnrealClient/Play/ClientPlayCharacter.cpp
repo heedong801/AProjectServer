@@ -199,8 +199,13 @@ void AClientPlayCharacter::Tick(float DeltaTime)
  			UInventoryTile* Inventory = Cast<UInventoryTile>(Inst->InventoryUI);
 			if (IsValid(Inventory) && Inventory != nullptr)
 			{
-				LOG(TEXT("FINI"));
-				Inventory->AddItem(ItemMessage->ItemData);
+				const FUIItemTextureTableInfo* Info = Inst->FindItemTextureInfo(FString::FromInt(ItemMessage->ItemData.ItemIndex));
+				LOG(TEXT("%d"), ItemMessage->ItemData.ItemIndex);
+				LOG(TEXT("%s"), &ItemMessage->ItemData.ItemName);
+
+
+				if( Info != nullptr)
+					Inventory->AddItem(ItemMessage->ItemData, Info->IconTexture);
 			}
 		}
 		else 

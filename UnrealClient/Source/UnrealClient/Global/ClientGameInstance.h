@@ -14,7 +14,10 @@
 #include "../Play/ChatWindow.h"
 #include "Interfaces/IPv4/IPv4Address.h"
 #include "Interfaces/IPv4/IPv4Endpoint.h"
+#include "Engine/DataTable.h"
+#include "../Play/ItemInfo.h"
 #include "ClientGameInstance.generated.h"
+
 
 // std::thread
 // 어떻게 코드를 변경시켜서 처리할지 예상할수 없죠?
@@ -92,6 +95,8 @@ private:
 	FIPv4Endpoint ClientRecvUDPEndPoint_;
 	FIPv4Endpoint ServerSendUDPEndPoint_;
 
+	UPROPERTY()
+	UDataTable* m_ItemTextureTable;
 	// TQueue<TArray<char>>
 
 	// 그냥 뭐든지 다 여기에다가 박아놔도 됩니다.
@@ -183,4 +188,7 @@ public:
 	void SetMsgType(EChatMessageType MsgType);
 
 	int GetMsgType();
+
+	const FUIItemTextureTableInfo* FindItemTextureInfo(const FString& Name);
+
 };

@@ -64,6 +64,7 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ClientData", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AClientCharacter> OtherPlayerClass_;
 
+	TArray<UTexture2D*> ItemTextureArray;
 	// TMap<FString, TSubclassOf<AClientMonster>> ArrMonsterClass_;
 	// int Seed;
 	// 실제적으로는 이 시드를 서버가 줘야 합니다.
