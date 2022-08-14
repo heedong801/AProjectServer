@@ -7,26 +7,41 @@ public:
 	int			Index;
 	std::string NickName;
 	int			UserIndex;
-	float		Att;
-	float		Hp;
+	int			Att;
+	int			Armor;
+	int			HpMax;
+	int			MpMax;
+	int			Hp;
+	int			Mp;
+	int			HpRecovery;
+	int			MpRecovery;
+	int			CriticalPercent;
+	int			CriticalDamage;
 	int			LastSectionID;
 	float		SectionX;
 	float		SectionY;
 	float		SectionZ;
-
 public:
 	int GetDataSize() 
 	{
-		return (4 * 8) + 4 + static_cast<int>(NickName.size());
+		return (4 * 16) + 4 + static_cast<int>(NickName.size());
 	}
 
 	void Serialize(GameServerSerializer& _Ser) 
 	{
-		_Ser <<Index;
+		_Ser << Index;
 		_Ser << NickName;
 		_Ser << UserIndex;
 		_Ser << Att;
+		_Ser << Armor;
+		_Ser << HpMax;
+		_Ser << MpMax;
 		_Ser << Hp;
+		_Ser << Mp;
+		_Ser << HpRecovery;
+		_Ser << MpRecovery;
+		_Ser << CriticalPercent;
+		_Ser << CriticalDamage;
 		_Ser << LastSectionID;
 		_Ser << SectionX;
 		_Ser << SectionY;
@@ -39,7 +54,15 @@ public:
 		_Ser >> NickName;
 		_Ser >> UserIndex;
 		_Ser >> Att;
+		_Ser >> Armor;
+		_Ser >> HpMax;
+		_Ser >> MpMax;
 		_Ser >> Hp;
+		_Ser >> Mp;
+		_Ser >> HpRecovery;
+		_Ser >> MpRecovery;
+		_Ser >> CriticalPercent;
+		_Ser >> CriticalDamage;
 		_Ser >> LastSectionID;
 		_Ser >> SectionX;
 		_Ser >> SectionY;

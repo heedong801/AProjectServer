@@ -190,5 +190,4 @@ public:
 	int GetMsgType();
 
 	const FUIItemTextureTableInfo* FindItemTextureInfo(const FString& Name);
-
 };

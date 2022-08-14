@@ -7,6 +7,8 @@
 #include "ClientEnums.h"
 #include "ClientPlayCharacter.generated.h"
 
+
+
 UCLASS()
 class UNREALCLIENT_API AClientPlayCharacter : public AClientCharacter
 {
@@ -98,7 +100,5 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 		TArray<UAnimMontage*> m_SkillMontageArray;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	//	FPlayerInfo	m_PlayerInfo;
 	// void TestPacketUpdate0();
 };

@@ -4,7 +4,7 @@
 //////////////////////////////////////////////////////////////////// 
 
 CharacterTable_SelectNickName::CharacterTable_SelectNickName(std::string _NickName)
-	: DBQuery("SELECT Idx, NickName, UserIndex, ATT, HP, LastSectionid, LastSectionPosx, LastSectionPosy, LastSectionPosz FROM userver2.characterinfo WHERE NickName = ? LIMIT 1")
+	: DBQuery("SELECT Idx, NickName, UserIndex, ATT, Armor, HpMax, MpMax, Hp, Mp, HpRecovery, MpRecovery, CriticalPercent, CriticalDamage, LastSectionid, LastSectionPosx, LastSectionPosy, LastSectionPosz FROM userver2.characterinfo WHERE NickName = ? LIMIT 1")
 	, NickName(_NickName)
 {
 }
@@ -31,12 +31,20 @@ bool CharacterTable_SelectNickName::DoQuery()
 			Result->GetInt(0),
 			Result->GetString(1),
 			Result->GetInt(2),
-			Result->GetFloat(3),
-			Result->GetFloat(4),
+			Result->GetInt(3),
+			Result->GetInt(4),
 			Result->GetInt(5),
-			Result->GetFloat(6),
-			Result->GetFloat(7),
-			Result->GetFloat(8)
+			Result->GetInt(6),
+			Result->GetInt(7),
+			Result->GetInt(8),
+			Result->GetInt(9),
+			Result->GetInt(10),
+			Result->GetInt(11),
+			Result->GetInt(12),
+			Result->GetInt(13),
+			Result->GetFloat(14),
+			Result->GetFloat(15),
+			Result->GetFloat(16)
 		));
 
 
@@ -46,7 +54,7 @@ bool CharacterTable_SelectNickName::DoQuery()
 /// ///////////////////////// CharacterTable_SelectUserCharacters
 
 CharacterTable_SelectUserCharacters::CharacterTable_SelectUserCharacters(int _Index)
-	: DBQuery("SELECT Idx, NickName, UserIndex, ATT, HP, LastSectionid, LastSectionPosx, LastSectionPosy, LastSectionPosz FROM userver2.characterinfo WHERE UserIndex = ?")
+	: DBQuery("SELECT Idx, NickName, UserIndex, ATT, Armor, HpMax, MpMax, Hp, Mp, HpRecovery, MpRecovery, CriticalPercent, CriticalDamage, LastSectionid, LastSectionPosx, LastSectionPosy, LastSectionPosz FROM userver2.characterinfo WHERE UserIndex = ?")
 	, UserIndex_(_Index)
 {
 }
@@ -67,15 +75,23 @@ bool CharacterTable_SelectUserCharacters::DoQuery()
 	{
 		RowDatas.push_back(
 			std::make_shared<CharacterRow>(CharacterRow(
-			Result->GetInt(0),  
-			Result->GetString(1), 
-			Result->GetInt(2),
-			Result->GetFloat(3),
-			Result->GetFloat(4),
-			Result->GetInt(5),
-			Result->GetFloat(6),
-			Result->GetFloat(7),
-			Result->GetFloat(8)
+				Result->GetInt(0),
+				Result->GetString(1),
+				Result->GetInt(2),
+				Result->GetInt(3),
+				Result->GetInt(4),
+				Result->GetInt(5),
+				Result->GetInt(6),
+				Result->GetInt(7),
+				Result->GetInt(8),
+				Result->GetInt(9),
+				Result->GetInt(10),
+				Result->GetInt(11),
+				Result->GetInt(12),
+				Result->GetInt(13),
+				Result->GetFloat(14),
+				Result->GetFloat(15),
+				Result->GetFloat(16)
 			)
 			)
 		);

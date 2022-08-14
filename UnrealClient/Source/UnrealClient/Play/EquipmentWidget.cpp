@@ -4,6 +4,8 @@
 #include "EquipmentWidget.h"
 #include "InventoryTileData.h"
 #include "ClientPlayCharacter.h"
+#include "../Message/ContentsStructure.h"
+
 #include "../DebugClass.h"
 void UEquipmentWidget::NativeConstruct()
 {
@@ -39,19 +41,7 @@ void UEquipmentWidget::NativeConstruct()
 
 	m_EquipmentItemArray.Init(nullptr, 20);
 
-	AClientPlayCharacter* Player = Cast<AClientPlayCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
-	
-	if (Player)
-	{
-		/*m_AttackText->SetText(FText::FromString(FString::FromInt(Player->GetPlayerInfo().Attack)));
-		m_ArmorText->SetText(FText::FromString(FString::FromInt(Player->GetPlayerInfo().Armor)));
-		m_MaxHPText->SetText(FText::FromString(FString::FromInt(Player->GetPlayerInfo().HPMax)));
-		m_MaxMPText->SetText(FText::FromString(FString::FromInt(Player->GetPlayerInfo().MPMax)));
-		m_HPRecoveryText->SetText(FText::FromString(FString::FromInt(Player->GetPlayerInfo().HPRecovery)));
-		m_MPRecoveryText->SetText(FText::FromString(FString::FromInt(Player->GetPlayerInfo().MPRecovery)));
-		m_CriPerText->SetText(FText::FromString(FString::FromInt(Player->GetPlayerInfo().CriticalPercent)));
-		m_CriDmgText->SetText(FText::FromString(FString::FromInt(Player->GetPlayerInfo().CriticalDamage)));*/
-	}
+	SetStatText();
 }
 
 void UEquipmentWidget::SetPart(UInventoryTileData* Item, EItemPart Part, UTexture2D* Icon)
@@ -154,19 +144,22 @@ UInventoryTileData* UEquipmentWidget::AlreadyPartSet(int PartIdx)
 
 void UEquipmentWidget::SetStatText()
 {
-	AClientPlayCharacter* Player = Cast<AClientPlayCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	UClientGameInstance* Inst = Cast<UClientGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-	if (Player)
+	if (nullptr == Inst || false == Inst->IsValidLowLevel())
 	{
-		/*m_AttackText->SetText(FText::FromString(FString::FromInt(Player->GetPlayerInfo().Attack)));
-		m_ArmorText->SetText(FText::FromString(FString::FromInt(Player->GetPlayerInfo().Armor)));
-		m_MaxHPText->SetText(FText::FromString(FString::FromInt(Player->GetPlayerInfo().HPMax)));
-		m_MaxMPText->SetText(FText::FromString(FString::FromInt(Player->GetPlayerInfo().MPMax)));
-		m_HPRecoveryText->SetText(FText::FromString(FString::FromInt(Player->GetPlayerInfo().HPRecovery)));
-		m_MPRecoveryText->SetText(FText::FromString(FString::FromInt(Player->GetPlayerInfo().MPRecovery)));
-		m_CriPerText->SetText(FText::FromString(FString::FromInt(Player->GetPlayerInfo().CriticalPercent)));
-		m_CriDmgText->SetText(FText::FromString(FString::FromInt(Player->GetPlayerInfo().CriticalDamage)));*/
+		return;
 	}
+	FCharacterInfo Data = Inst->SelectCharacter;
+	m_AttackText->SetText(FText::FromString(FString::FromInt(Data.Att)));
+	m_ArmorText->SetText(FText::FromString(FString::FromInt(Data.Armor)));
+	m_MaxHPText->SetText(FText::FromString(FString::FromInt(Data.HpMax)));
+	m_MaxMPText->SetText(FText::FromString(FString::FromInt(Data.MpMax)));
+	m_HPRecoveryText->SetText(FText::FromString(FString::FromInt(Data.HpRecovery)));
+	m_MPRecoveryText->SetText(FText::FromString(FString::FromInt(Data.MpRecovery)));
+	m_CriPerText->SetText(FText::FromString(FString::FromInt(Data.CriticalPercent)));
+	m_CriDmgText->SetText(FText::FromString(FString::FromInt(Data.CriticalDamage)));
+
 }
 
 void UEquipmentWidget::SetStat(UInventoryTileData* Item, bool bOnPlus)
