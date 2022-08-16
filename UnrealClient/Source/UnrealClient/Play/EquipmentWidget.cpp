@@ -44,6 +44,10 @@ void UEquipmentWidget::NativeConstruct()
 	SetStatText();
 }
 
+UEquipmentWidget::~UEquipmentWidget()
+{
+	LOG(TEXT("DEL"));
+}
 void UEquipmentWidget::SetPart(UInventoryTileData* Item, EItemPart Part, UTexture2D* Icon)
 {
 	int Idx = PartToIdx(Part);

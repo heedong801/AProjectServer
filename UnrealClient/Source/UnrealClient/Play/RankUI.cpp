@@ -70,7 +70,6 @@ void URankUI::NativeConstruct()
 		return;
 	}
 
-	LOG(TEXT("RANK"));
 	Inst->TopRankListView_->ClearListItems();
 	Inst->MyRankListView_->ClearListItems();
 

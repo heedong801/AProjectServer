@@ -61,10 +61,11 @@ void UPlayUIUserWidget::RankWindowOnOff()
 		break;
 	}
 
-	Inst->RankWindow->SetVisibility(Inst->RankWindowMode);
+	if( Inst->RankWindow != nullptr )
+		Inst->RankWindow->SetVisibility(Inst->RankWindowMode);
 }
 
-void UPlayUIUserWidget::NativeConstruct() 
+void UPlayUIUserWidget::NativeConstruct()
 {
 	UClientGameInstance* Inst = Cast<UClientGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
@@ -73,10 +74,11 @@ void UPlayUIUserWidget::NativeConstruct()
 		return;
 	}
 
+
 	Inst->PlayUI = this;
-	Inst->RankWindow = GetWidgetFromName(TEXT("RankWindow"));
 	Inst->EquipmentUI = GetWidgetFromName(TEXT("UI_Equipment"));
 	Inst->InventoryUI = GetWidgetFromName(TEXT("UI_Inventory"));
+	Inst->RankWindow = GetWidgetFromName(TEXT("RankWindow"));
 
 	if (nullptr == Inst->RankWindow ||
 		false == Inst->RankWindow->IsValidLowLevel())
@@ -101,6 +103,6 @@ void UPlayUIUserWidget::NativeConstruct()
 	Super::NativeConstruct();
 
 
-	Inst->RankWindow->SetVisibility(Inst->RankWindowMode);
+	//Inst->RankWindow->SetVisibility(Inst->RankWindowMode);
 }
 

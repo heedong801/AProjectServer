@@ -15,7 +15,6 @@
 #include "GameFramework/PlayerInput.h"
 #include "DrawDebugHelpers.h"
 #include"../DebugClass.h"
-
 #include"InventoryTile.h"
 // Sets default values
 AClientPlayCharacter::AClientPlayCharacter()
@@ -63,6 +62,8 @@ void AClientPlayCharacter::BeginPlay()
 	{
 		return;
 	}
+
+	Inst->LoadData();
 	GetCharacterMovement()->JumpZVelocity = 800.f;
 	SetObjectType(EGameObjectType::Player);
 	SetObjectId(Inst->ObjectIndex);
@@ -167,6 +168,8 @@ void AClientPlayCharacter::Tick(float DeltaTime)
 
 		if (MessageId::LevelMove == Message->GetId<MessageId>())
 		{
+			Inst->SaveData();
+
 			ServerPost = false;
 			LevelMoveReplyMessage MoveReplyMsg;
 			MoveReplyMsg.ObjectIndex = Inst->ObjectIndex;

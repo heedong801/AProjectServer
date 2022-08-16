@@ -10,6 +10,9 @@
 #include "../Message/MessageConverter.h"
 #include "../Message/Handler/ThreadHandlerServerDestroyMessage.h"
 #include "../UnrealClient.h"
+#include "../DebugClass.h"
+#include "../Play/InventoryTile.h"
+#include "../Play/EquipmentWidget.h"
 
 /// TcpRecvThread
 
@@ -394,4 +397,36 @@ int UClientGameInstance::GetMsgType()
 const FUIItemTextureTableInfo* UClientGameInstance::FindItemTextureInfo(const FString& Name)
 {
 	return m_ItemTextureTable->FindRow<FUIItemTextureTableInfo>(*Name, "");
+}
+
+void UClientGameInstance::LoadData()
+{
+	UInventoryTile* InventoryTile = Cast<UInventoryTile>(InventoryUI);
+
+	if (IsValid(InventoryTile))
+		InventoryTile->LoadData(m_EquipItemList, m_ConsumItemList, m_CurrentEquipList);
+
+	UEquipmentWidget* EquipmentWidget = Cast<UEquipmentWidget>(EquipmentUI);
+	if (IsValid(EquipmentWidget))
+		EquipmentWidget->LoadData(m_EquipmentItemArray);
+}
+void UClientGameInstance::SaveData()
+{
+	UInventoryTile* InventoryTile = Cast<UInventoryTile>(InventoryUI);
+
+	if (IsValid(InventoryTile))
+	{
+		m_EquipItemList = InventoryTile->GetEquipItemList();
+		m_CurrentEquipList = InventoryTile->GetCurrentEquipItemList();
+		m_ConsumItemList = InventoryTile->GetConsumItemList();
+	}
+
+	UEquipmentWidget* EquipmentWidget = Cast<UEquipmentWidget>(EquipmentUI);
+
+	if (IsValid(EquipmentWidget))
+	{
+		m_EquipmentItemArray = EquipmentWidget->GetItemArray();
+	}
+
+
 }

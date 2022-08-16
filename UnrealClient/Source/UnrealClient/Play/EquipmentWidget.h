@@ -52,7 +52,7 @@ private:
 	FTimerHandle m_ItemDurationTimerHandle;
 protected:
 	virtual void NativeConstruct();
-
+	~UEquipmentWidget();
 public:
 	void SetPart(UInventoryTileData* Item, EItemPart Part, UTexture2D* Icon);
 	void UnsetPart(class UInventoryTileData* Item);

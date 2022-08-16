@@ -15,6 +15,7 @@
 #include "Interfaces/IPv4/IPv4Address.h"
 #include "Interfaces/IPv4/IPv4Endpoint.h"
 #include "Engine/DataTable.h"
+#include "Components/Image.h"
 #include "../Play/ItemInfo.h"
 #include "ClientGameInstance.generated.h"
 
@@ -160,6 +161,18 @@ public:
 	class UWidget* InventoryUI;
 	class UPlayUIUserWidget* PlayUI;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+		TArray<UObject*> m_EquipItemList;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+		TArray<UObject*> m_CurrentEquipList;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+		TArray<UObject*> m_ConsumItemList;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+		TArray<UImage*> m_EquipmentImgArray;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+		TArray<class UInventoryTileData*> m_EquipmentItemArray;
+
 	int ChatMessageType;
 public:
 	UClientGameInstance();
@@ -190,4 +203,7 @@ public:
 	int GetMsgType();
 
 	const FUIItemTextureTableInfo* FindItemTextureInfo(const FString& Name);
+	void SaveData();
+	void LoadData();
+
 };
