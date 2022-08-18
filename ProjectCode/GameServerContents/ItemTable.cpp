@@ -31,3 +31,4 @@ bool ItemTable_AllItemToItemInfo::DoQuery()
 	}
 	return true;
 }
+

@@ -61,8 +61,8 @@ void UPlayUIUserWidget::RankWindowOnOff()
 		break;
 	}
 
-	//if( Inst->RankWindow != nullptr )
-	//	Inst->RankWindow->SetVisibility(Inst->RankWindowMode);
+	if( Inst->RankWindow != nullptr )
+		Inst->RankWindow->SetVisibility(Inst->RankWindowMode);
 }
 
 void UPlayUIUserWidget::NativeConstruct()
@@ -103,6 +103,6 @@ void UPlayUIUserWidget::NativeConstruct()
 	Super::NativeConstruct();
 
 
-	//Inst->RankWindow->SetVisibility(Inst->RankWindowMode);
+	Inst->RankWindow->SetVisibility(Inst->RankWindowMode);
 }
 

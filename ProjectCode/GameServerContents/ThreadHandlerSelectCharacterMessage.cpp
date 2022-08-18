@@ -62,6 +62,7 @@ void ThreadHandlerSelectCharacterMessage::DBCheck()
 	//}
 
 	ResultMessage.Code = EGameServerCode::OK;
+	
 	NetWork(&ThreadHandlerSelectCharacterMessage::SelectResult);
 }
 
@@ -82,6 +83,7 @@ void ThreadHandlerSelectCharacterMessage::SelectResult()
 				Session_->Send(Sr.GetData());
 				GameServerDebug::LogInfo("Select Result OK Send");
 				UserData->SelectData = UserData->Characters[i];
+
 				NetWork(&ThreadHandlerSelectCharacterMessage::SectionInsert);
 
 				return;

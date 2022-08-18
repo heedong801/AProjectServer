@@ -204,10 +204,7 @@ void AClientPlayCharacter::Tick(float DeltaTime)
 			if (IsValid(Inventory) && Inventory != nullptr)
 			{
 				const FUIItemTextureTableInfo* Info = Inst->FindItemTextureInfo(FString::FromInt(ItemMessage->ItemData.ItemIndex));
-				LOG(TEXT("%d"), ItemMessage->ItemData.ItemIndex);
-				LOG(TEXT("%s"), &ItemMessage->ItemData.ItemName);
-
-
+				//Inst->m_EquipItemList.Add(ItemMessage->ItemData);
 				if( Info != nullptr)
 					Inventory->AddItem(ItemMessage->ItemData, Info->IconTexture);
 			}

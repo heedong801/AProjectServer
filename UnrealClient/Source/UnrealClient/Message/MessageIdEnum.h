@@ -9,6 +9,7 @@ enum class MessageId
 	UDPConnectResult,
 	LevelMoveReply,
 	RankRequest,
+	GetInventory,
 	LoginResult,
 	CharacterCreateResult,
 	CharacterSelectResult,
@@ -23,6 +24,7 @@ enum class MessageId
 	MonsterUpdate,
 	UserRankWindowData,
 	GetItem,
+	GetInventoryResult,
 	Chat,
 	PlayerUpdate,
 	MAX

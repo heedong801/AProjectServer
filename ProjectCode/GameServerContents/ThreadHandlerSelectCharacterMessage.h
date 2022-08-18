@@ -12,7 +12,7 @@ class ThreadHandlerSelectCharacterMessage final
 
 	// 처리한 결과
 	CharacterSelectResultMessage ResultMessage;
-
+	GetInventoryMessage GetInventoryMessage;
 public:
 	ThreadHandlerSelectCharacterMessage();
 	~ThreadHandlerSelectCharacterMessage();

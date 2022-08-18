@@ -33,6 +33,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="InventoryTable.cpp" />
     <ClCompile Include="ItemTable.cpp" />
     <ClCompile Include="MessageConverter.cpp" />
     <ClCompile Include="Monster.cpp" />
@@ -62,6 +63,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ThreadHandlerGetInventoryMessage.cpp" />
     <ClCompile Include="ThreadHandlerLevelMoveReplyMessage.cpp" />
     <ClCompile Include="ThreadHandlerLoginMessage.cpp" />
     <ClCompile Include="ThreadHandlerPlayerUpdateMessage.cpp" />
@@ -89,6 +91,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="InventoryTable.h" />
     <ClInclude Include="ItemTable.h" />
     <ClInclude Include="MessageIdEnum.h" />
     <ClInclude Include="Monster.h" />
@@ -116,6 +119,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ThreadHandlerGetInventoryMessage.h" />
     <ClInclude Include="ThreadHandlerLevelMoveReplyMessage.h" />
     <ClInclude Include="ThreadHandlerLoginMessage.h" />
     <ClInclude Include="ThreadHandlerPlayerUpdateMessage.h" />

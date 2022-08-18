@@ -16,6 +16,7 @@
 #include "ThreadHandlerMonsterUpdateMessage.h"
 #include "ThreadHandlerUserRankWindowDataMessage.h"
 #include "ThreadHandlerGetItemMessage.h"
+#include "ThreadHandlerGetInventoryResultMessage.h"
 #include "ThreadHandlerChatMessage.h"
 #include "ThreadHandlerPlayerUpdateMessage.h"
 																												  
@@ -49,6 +50,7 @@ void CheckHandler(UDispatcher& Dis, class UClientGameInstance* Inst, UWorld* Wor
 	Dis.AddHandler(MessageId::MonsterUpdate, std::bind(&OnMessageProcess<ThreadHandlerMonsterUpdateMessage, MonsterUpdateMessage>, std::placeholders::_1, Inst, World));	
 	Dis.AddHandler(MessageId::UserRankWindowData, std::bind(&OnMessageProcess<ThreadHandlerUserRankWindowDataMessage, UserRankWindowDataMessage>, std::placeholders::_1, Inst, World));	
 	Dis.AddHandler(MessageId::GetItem, std::bind(&OnMessageProcess<ThreadHandlerGetItemMessage, GetItemMessage>, std::placeholders::_1, Inst, World));	
+	Dis.AddHandler(MessageId::GetInventoryResult, std::bind(&OnMessageProcess<ThreadHandlerGetInventoryResultMessage, GetInventoryResultMessage>, std::placeholders::_1, Inst, World));	
 	Dis.AddHandler(MessageId::Chat, std::bind(&OnMessageProcess<ThreadHandlerChatMessage, ChatMessage>, std::placeholders::_1, Inst, World));	
 	Dis.AddHandler(MessageId::PlayerUpdate, std::bind(&OnMessageProcess<ThreadHandlerPlayerUpdateMessage, PlayerUpdateMessage>, std::placeholders::_1, Inst, World));	
 }																																													

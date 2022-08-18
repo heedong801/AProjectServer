@@ -36,7 +36,7 @@ void ThreadHandlerSectionInsertResultMessage::Start()
 	{
 		int a = 0;
 	}
-		
+
 	FString NextLevelName;
 	UClientBlueprintFunctionLibrary::UTF8ToFString(Message_->MoveLevel, NextLevelName);
 

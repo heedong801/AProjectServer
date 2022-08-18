@@ -73,6 +73,12 @@
     <ClCompile Include="ContentsGlobalValue.cpp">
       <Filter>Contents</Filter>
     </ClCompile>
+    <ClCompile Include="InventoryTable.cpp">
+      <Filter>DB</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadHandlerGetInventoryMessage.cpp">
+      <Filter>ThreadHandler</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h" />
@@ -164,6 +170,12 @@
     </ClInclude>
     <ClInclude Include="ContentsGlobalValue.h">
       <Filter>Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="InventoryTable.h">
+      <Filter>DB</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadHandlerGetInventoryMessage.h">
+      <Filter>ThreadHandler</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

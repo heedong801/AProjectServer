@@ -45,3 +45,4 @@ public:
 	ItemTable_AllItemToItemInfo();
 	bool DoQuery() override;
 };
+

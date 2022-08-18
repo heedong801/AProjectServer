@@ -540,3 +540,42 @@ public:
     }                                                           
 };                                                              
 
+class GetInventoryResultMessage : public GameServerMessage                    
+{                                                               
+public:                                                         
+	std::vector<FPlayerItemData> ItemData;
+	EGameServerCode Code;
+                                                                
+public:                                                         
+    GetInventoryResultMessage()                                               
+        : GameServerMessage(static_cast<uint32_t>(MessageId::GetInventoryResult))                    
+        , ItemData()
+        , Code()
+    {                                                           
+                                                                
+    }                                                           
+                                                                
+    virtual ~GetInventoryResultMessage() {}                                   
+                                                                
+    virtual int SizeCheck()                                     
+    {                                                           
+		return DataSizeCheck(ItemData) + DataSizeCheck(Code);
+    }                                                           
+                                                                
+    void Serialize(GameServerSerializer& _Serializer)           
+    {                                                           
+        GameServerMessage::Serialize(_Serializer);              
+        _Serializer.WriteVector( ItemData);
+        _Serializer.WriteEnum(Code);
+
+    }                                                           
+                                                                
+    void DeSerialize(GameServerSerializer& _Serializer)         
+    {                                                           
+        GameServerMessage::DeSerialize(_Serializer);            
+        _Serializer.ReadVector( ItemData);
+        _Serializer.ReadEnum(Code);
+
+    }                                                           
+};                                                              
+

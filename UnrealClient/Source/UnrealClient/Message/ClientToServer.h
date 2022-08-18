@@ -277,3 +277,38 @@ public:
     }                                                           
 };                                                              
 
+class GetInventoryMessage : public GameServerMessage                    
+{                                                               
+public:                                                         
+	int CharacterIndex;
+                                                                
+public:                                                         
+    GetInventoryMessage()                                               
+        : GameServerMessage(static_cast<uint32_t>(MessageId::GetInventory))                    
+        , CharacterIndex()
+    {                                                           
+                                                                
+    }                                                           
+                                                                
+    virtual ~GetInventoryMessage() {}                                   
+                                                                
+    virtual int SizeCheck()                                     
+    {                                                           
+		return DataSizeCheck(CharacterIndex);
+    }                                                           
+                                                                
+    void Serialize(GameServerSerializer& _Serializer)           
+    {                                                           
+        GameServerMessage::Serialize(_Serializer);              
+        _Serializer << CharacterIndex;
+
+    }                                                           
+                                                                
+    void DeSerialize(GameServerSerializer& _Serializer)         
+    {                                                           
+        GameServerMessage::DeSerialize(_Serializer);            
+        _Serializer >> CharacterIndex;
+
+    }                                                           
+};                                                              
+

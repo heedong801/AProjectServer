@@ -36,6 +36,9 @@ MessageConverter::MessageConverter(const std::vector<unsigned char>&_buffer)
 	case MessageId::RankRequest:
 		Message_ = std::make_shared<RankRequestMessage>();
 		break;
+	case MessageId::GetInventory:
+		Message_ = std::make_shared<GetInventoryMessage>();
+		break;
 	case MessageId::LoginResult:
 		Message_ = std::make_shared<LoginResultMessage>();
 		break;
@@ -77,6 +80,9 @@ MessageConverter::MessageConverter(const std::vector<unsigned char>&_buffer)
 		break;
 	case MessageId::GetItem:
 		Message_ = std::make_shared<GetItemMessage>();
+		break;
+	case MessageId::GetInventoryResult:
+		Message_ = std::make_shared<GetInventoryResultMessage>();
 		break;
 	case MessageId::Chat:
 		Message_ = std::make_shared<ChatMessage>();

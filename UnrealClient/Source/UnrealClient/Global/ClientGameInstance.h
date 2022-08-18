@@ -146,6 +146,8 @@ public:
 	UChatWindow* ChatWindow_;
 	TAtomic<bool> LoginProcess_;
 	std::vector<FCharacterInfo> Characters_;
+	std::vector<FPlayerItemData> InventoryItem_;
+
 	class UListView* CharacterListView_;
 	class UListView* TopRankListView_;
 	class UListView* MyRankListView_;

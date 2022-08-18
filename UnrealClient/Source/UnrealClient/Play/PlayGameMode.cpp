@@ -15,6 +15,22 @@ APlayGameMode::APlayGameMode()
 	}
 }
 
+void APlayGameMode::BeginPlay()
+{
+	Super::BeginPlay();
+
+	UClientGameInstance* Inst = Cast<UClientGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if (nullptr == Inst || false == Inst->IsValidLowLevel())
+	{
+		return;
+	}
+
+	GetInventoryMessage Message;
+
+	
+}
+
 TSubclassOf<AClientMonster> APlayGameMode::GetMonsterClass(int _MonsterType)
 {
 	if (0 > _MonsterType)

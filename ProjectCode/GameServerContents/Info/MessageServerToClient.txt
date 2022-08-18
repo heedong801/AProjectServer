@@ -53,3 +53,7 @@ std::vector<int> MyUserScore;
 
 |GetItem-
 FPlayerItemData ItemData;
+
+|GetInventoryResult-
+std::vector<FPlayerItemData> ItemData;
+EGameServerCode Code;

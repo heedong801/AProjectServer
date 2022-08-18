@@ -10,7 +10,7 @@
 #include "ContentsSystemEnum.h"
 #include "ContentsUserData.h"
 #include "ContentsItemData.h"
-
+#include "InventoryTable.h"
 #include "CharacterTable.h"
 #include "ContentsEnum.h"
 #include "GameServerBase\GameServerDebug.h"
@@ -84,7 +84,15 @@ void Player::AttackCollisionCheck(GameServerCollision* _Collision)
 				
 				GetTCPSession()->Send(Sr.GetData());
 				
+				DBQueue::Queue([=]
+					{
+						InventoryTable_InsertItem SelectQuery = InventoryTable_InsertItem(UserData->SelectData.Index, randomIndex);
+						if (false == SelectQuery.DoQuery())
+							GameServerDebug::Log(LOGTYPE::LOGTYPE_WARNING, "인벤토리에 아이템이 등록되지 않았습니다.");
+							
+					});
 			}
+
 
 			// 주위에 있는 다른 액터들에게 보내야하는 메세지가 됩니다.
 			MonsterPtr->ChangeState(EMonsterState::MState_Death);
