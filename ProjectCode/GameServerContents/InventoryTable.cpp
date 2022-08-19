@@ -1,10 +1,10 @@
 #include "PreCompile.h"
 #include "InventoryTable.h"
 
-InventoryTable_InsertItem::InventoryTable_InsertItem(int _Id, int _ItemId)
-	: DBQuery("INSERT INTO userver2.Inventoryinfo (CharacterIdx, ItemIdx) VALUES (?, ?);")
-	, CharacterId_(_Id)
+InventoryTable_InsertItem::InventoryTable_InsertItem(int _ItemId, int _Id)
+	: DBQuery("INSERT INTO userver2.inventoryinfo (ItemIdx, CharacterIdx) VALUES (?, ?);")
 	, ItemId_(_ItemId)
+	, CharacterId_(_Id)
 {
 }
 
@@ -30,7 +30,7 @@ bool InventoryTable_InsertItem::DoQuery()
 ////////////////////////////////////////////////////////////////////////////////////////
 
 InventoryTable_SelectAllItem::InventoryTable_SelectAllItem(int _Index)
-	: DBQuery("SELECT ItemIdx INTO userver2.Inventoryinfo WHERE CharacterIdx = ?")
+	: DBQuery("SELECT ItemIdx, CharacterIdx FROM userver2.inventoryinfo WHERE CharacterIdx = ?")
 	, CharacterId_(_Index)
 {
 }

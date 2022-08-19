@@ -8,7 +8,8 @@ class ThreadHandlerGetInventoryMessage final
 	: public ThreadHandlerBase<GetInventoryMessage>
 {
 	// 처리한 결과
-	CharacterCreateResultMessage Result_;
+	GetInventoryResultMessage Result_;
+
 
 public:
 	// constrcuter destructer
@@ -25,7 +26,7 @@ public:
 	// 이 메세지를 처리하는 단계
 	void DBCheck();
 
-	void SelectResult();
+	void ResultSend();
 
 protected:
 

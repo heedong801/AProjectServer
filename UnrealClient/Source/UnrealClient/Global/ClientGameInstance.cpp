@@ -401,18 +401,18 @@ const FUIItemTextureTableInfo* UClientGameInstance::FindItemTextureInfo(const FS
 
 void UClientGameInstance::LoadData()
 {
-	UInventoryTile* InventoryTile = Cast<UInventoryTile>(InventoryUI);
+	//UInventoryTile* InventoryTile = Cast<UInventoryTile>(InventoryUI);
 
-	if (IsValid(InventoryTile))
-		InventoryTile->LoadData(m_EquipItemList, m_ConsumItemList, m_CurrentEquipList);
+	//if (IsValid(InventoryTile))
+	//	InventoryTile->LoadData(m_EquipItemList, m_ConsumItemList, m_CurrentEquipList);
 
-	UEquipmentWidget* EquipmentWidget = Cast<UEquipmentWidget>(EquipmentUI);
-	if (IsValid(EquipmentWidget))
-		EquipmentWidget->LoadData(m_EquipmentItemArray);
+	//UEquipmentWidget* EquipmentWidget = Cast<UEquipmentWidget>(EquipmentUI);
+	//if (IsValid(EquipmentWidget))
+	//	EquipmentWidget->LoadData(m_EquipmentItemArray);
 }
 void UClientGameInstance::SaveData()
 {
-	UInventoryTile* InventoryTile = Cast<UInventoryTile>(InventoryUI);
+	/*UInventoryTile* InventoryTile = Cast<UInventoryTile>(InventoryUI);
 
 	if (IsValid(InventoryTile))
 	{
@@ -426,7 +426,7 @@ void UClientGameInstance::SaveData()
 	if (IsValid(EquipmentWidget))
 	{
 		m_EquipmentItemArray = EquipmentWidget->GetItemArray();
-	}
+	}*/
 
 
 }

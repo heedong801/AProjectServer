@@ -4,8 +4,8 @@
 class InventoryRow : public std::enable_shared_from_this<InventoryRow>
 {
 public:
-	int			CharacterIdx_;
 	int			ItemIdx_;
+	int			CharacterIdx_;
 
 public:
 	InventoryRow()
@@ -13,11 +13,11 @@ public:
 	}
 
 	InventoryRow(
-		int _Index,
-		int _ItemIdx
+		int _ItemIdx,
+		int _Index
 	)
-		:CharacterIdx_(_Index),
-		ItemIdx_(_ItemIdx)
+		:ItemIdx_(_ItemIdx)
+		,CharacterIdx_(_Index)
 	{
 	}
 };
@@ -25,10 +25,10 @@ public:
 class InventoryTable_InsertItem : public DBQuery
 {
 public:
-	int CharacterId_;
 	int ItemId_;
+	int CharacterId_;
 public:
-	InventoryTable_InsertItem(int _Id, int _ItemId);
+	InventoryTable_InsertItem(int _ItemId, int _Id);
 	bool DoQuery() override;
 };
 

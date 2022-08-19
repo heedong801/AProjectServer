@@ -727,7 +727,6 @@ void AClientPlayCharacter::InventoryKey()
 	{
 		return;
 	}
-	LOG(TEXT("HI"));
 	if (Inst->InventoryUI->GetVisibility() == ESlateVisibility::Hidden)
 		Inst->InventoryUI->SetVisibility(ESlateVisibility::Visible);
 	else if (Inst->InventoryUI->GetVisibility() == ESlateVisibility::Visible)

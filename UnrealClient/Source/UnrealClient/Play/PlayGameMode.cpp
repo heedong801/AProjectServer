@@ -5,7 +5,7 @@
 #include "../UnrealClient.h"
 #include "../Play/ObjectMessageComponent.h"
 #include "../Play/ClientMonster.h"
-
+#include "../DebugClass.h"
 APlayGameMode::APlayGameMode() 
 	: ClientUniqueId_(0)
 {
@@ -27,8 +27,14 @@ void APlayGameMode::BeginPlay()
 	}
 
 	GetInventoryMessage Message;
+	Message.CharacterIndex = Inst->SelectCharacter.Index;
 
-	
+	GameServerSerializer Sr;
+	Message.Serialize(Sr);
+	if (false != Inst->Send(Sr.GetData()))
+	{
+	}
+
 }
 
 TSubclassOf<AClientMonster> APlayGameMode::GetMonsterClass(int _MonsterType)

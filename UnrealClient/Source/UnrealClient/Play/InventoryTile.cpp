@@ -143,7 +143,6 @@ void UInventoryTile::AddItem(FPlayerItemData ItemInfo, UTexture2D* IconTex)
 
 void UInventoryTile::EquipClick()
 {
-	LOG(TEXT("CL : %d"), m_EquipTile->GetNumItems());
 	m_EquipTile->SetVisibility(ESlateVisibility::Visible);
 	m_ConsumTile->SetVisibility(ESlateVisibility::Collapsed);
 	m_CurrentEquipTile->SetVisibility(ESlateVisibility::Collapsed);
