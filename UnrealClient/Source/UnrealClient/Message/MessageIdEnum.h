@@ -10,6 +10,7 @@ enum class MessageId
 	LevelMoveReply,
 	RankRequest,
 	GetInventory,
+	EquipItem,
 	LoginResult,
 	CharacterCreateResult,
 	CharacterSelectResult,

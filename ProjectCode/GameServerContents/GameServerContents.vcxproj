@@ -29,6 +29,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="EquipmentTable.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FightZone.cpp">
       <SubType>
       </SubType>
@@ -63,6 +67,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ThreadHandlerEquipItemMessage.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ThreadHandlerGetInventoryMessage.cpp" />
     <ClCompile Include="ThreadHandlerLevelMoveReplyMessage.cpp" />
     <ClCompile Include="ThreadHandlerLoginMessage.cpp" />
@@ -84,6 +92,10 @@
     <ClInclude Include="ContentsItemData.h" />
     <ClInclude Include="ContentsPlayerData.h" />
     <ClInclude Include="ContentsUserData.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EquipmentTable.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -116,6 +128,10 @@
     <ClInclude Include="ThreadHandlerChatMessage.h" />
     <ClInclude Include="ThreadHandlerClientToReadyMessage.h" />
     <ClInclude Include="ThreadHandlerCreateCharacterMessage.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ThreadHandlerEquipItemMessage.h">
       <SubType>
       </SubType>
     </ClInclude>

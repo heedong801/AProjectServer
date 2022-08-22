@@ -12,7 +12,7 @@
 #include "ContentsSystemEnum.h"
 #include "ContentsUserData.h"
 #include "CharacterTable.h"
-
+#include "EquipmentTable.h"
 ThreadHandlerCreateCharacterMessage::ThreadHandlerCreateCharacterMessage() 
 {
 }
@@ -55,10 +55,17 @@ void ThreadHandlerCreateCharacterMessage::DBCheck()
 			{
 				Result_.Code = EGameServerCode::FAIL;
 			}
-			else 
+			else
 			{
 				Result_.Code = EGameServerCode::OK;
 				Result_.ResultCharacter = ResultSelectQuery.RowData->Info;
+
+				EquipmentTable_InsertCharacter InsertEquipQuery = EquipmentTable_InsertCharacter(Result_.ResultCharacter.Index);
+
+				if (false == InsertEquipQuery.DoQuery())
+					Result_.Code = EGameServerCode::FAIL;
+				else
+					Result_.Code = EGameServerCode::OK;
 			}
 		}
 
@@ -83,5 +90,6 @@ void ThreadHandlerCreateCharacterMessage::Result()
 	Session_->Send(Sr.GetData());
 
 	GameServerDebug::LogInfo("Character Create Send");
+
 
 }

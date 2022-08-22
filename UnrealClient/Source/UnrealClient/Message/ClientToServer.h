@@ -312,3 +312,50 @@ public:
     }                                                           
 };                                                              
 
+class EquipItemMessage : public GameServerMessage                    
+{                                                               
+public:                                                         
+	int CharacterIndex;
+	int CurrentItemIndex;
+	int ChangeItemIndex;
+	int ItemPart;
+                                                                
+public:                                                         
+    EquipItemMessage()                                               
+        : GameServerMessage(static_cast<uint32_t>(MessageId::EquipItem))                    
+        , CharacterIndex()
+        , CurrentItemIndex()
+        , ChangeItemIndex()
+        , ItemPart()
+    {                                                           
+                                                                
+    }                                                           
+                                                                
+    virtual ~EquipItemMessage() {}                                   
+                                                                
+    virtual int SizeCheck()                                     
+    {                                                           
+		return DataSizeCheck(CharacterIndex) + DataSizeCheck(CurrentItemIndex) + DataSizeCheck(ChangeItemIndex) + DataSizeCheck(ItemPart);
+    }                                                           
+                                                                
+    void Serialize(GameServerSerializer& _Serializer)           
+    {                                                           
+        GameServerMessage::Serialize(_Serializer);              
+        _Serializer << CharacterIndex;
+        _Serializer << CurrentItemIndex;
+        _Serializer << ChangeItemIndex;
+        _Serializer << ItemPart;
+
+    }                                                           
+                                                                
+    void DeSerialize(GameServerSerializer& _Serializer)         
+    {                                                           
+        GameServerMessage::DeSerialize(_Serializer);            
+        _Serializer >> CharacterIndex;
+        _Serializer >> CurrentItemIndex;
+        _Serializer >> ChangeItemIndex;
+        _Serializer >> ItemPart;
+
+    }                                                           
+};                                                              
+

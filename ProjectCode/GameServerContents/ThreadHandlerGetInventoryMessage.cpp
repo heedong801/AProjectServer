@@ -2,6 +2,7 @@
 #include "ThreadHandlerGetInventoryMessage.h"
 #include "InventoryTable.h"
 #include "ContentsItemData.h"
+#include "EquipmentTable.h"
 
 ThreadHandlerGetInventoryMessage::ThreadHandlerGetInventoryMessage()
 {
@@ -55,9 +56,29 @@ void ThreadHandlerGetInventoryMessage::DBCheck()
 
 void ThreadHandlerGetInventoryMessage::ResultSend()
 {
-	GameServerSerializer Sr;
-	Result_.Serialize(Sr);
-	Session_->Send(Sr.GetData());
+	if (Result_.Code == EGameServerCode::OK)
+	{
+		GameServerSerializer Sr;
+		Result_.Serialize(Sr);
+		Session_->Send(Sr.GetData());
+
+		DBWork(&ThreadHandlerGetInventoryMessage::CurrentEquipDBCheck);
+
+	}
 
 }
 
+void ThreadHandlerGetInventoryMessage::CurrentEquipDBCheck()
+{
+	//EquipmentTable_UpdateNeckPart SelectQuery = EquipmentTable_UpdateNeckPart(Message_->CharacterIndex);
+
+	//if (false == SelectQuery.DoQuery())
+	//{
+	//	// ContentsGlobalValue::UnRegistPlayable(SelectQuery.RowData->Index);
+
+	//	Result_.Code = EGameServerCode::FAIL;
+
+	//	NetWork(&ThreadHandlerGetInventoryMessage::ResultSend);
+	//	return;
+	//}
+}

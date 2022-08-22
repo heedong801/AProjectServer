@@ -43,3 +43,13 @@ public:
 	bool DoQuery() override;
 };
 
+
+class InventoryTable_DeleteItem : public DBQuery
+{
+public:
+	int ItemIdx_;
+public:
+	InventoryTable_DeleteItem(int _ItemIdx);
+	bool DoQuery() override;
+};
+

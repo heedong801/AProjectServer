@@ -79,6 +79,12 @@
     <ClCompile Include="ThreadHandlerGetInventoryMessage.cpp">
       <Filter>ThreadHandler</Filter>
     </ClCompile>
+    <ClCompile Include="EquipmentTable.cpp">
+      <Filter>DB</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadHandlerEquipItemMessage.cpp">
+      <Filter>ThreadHandler</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h" />
@@ -175,6 +181,12 @@
       <Filter>DB</Filter>
     </ClInclude>
     <ClInclude Include="ThreadHandlerGetInventoryMessage.h">
+      <Filter>ThreadHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="EquipmentTable.h">
+      <Filter>DB</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadHandlerEquipItemMessage.h">
       <Filter>ThreadHandler</Filter>
     </ClInclude>
   </ItemGroup>

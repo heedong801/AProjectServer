@@ -10,6 +10,7 @@
 #include "ThreadHandlerLevelMoveReplyMessage.h"
 #include "ThreadHandlerRankRequestMessage.h"
 #include "ThreadHandlerGetInventoryMessage.h"
+#include "ThreadHandlerEquipItemMessage.h"
 #include "ThreadHandlerChatMessage.h"
 #include "ThreadHandlerPlayerUpdateMessage.h"
 																																													
@@ -41,6 +42,7 @@ void DispatcherRegistration()
 	Dis.AddHandler(static_cast<uint32_t>(MessageId::LevelMoveReply), std::bind(&OnMessageProcess<ThreadHandlerLevelMoveReplyMessage, LevelMoveReplyMessage>, std::placeholders::_1, std::placeholders::_2));	
 	Dis.AddHandler(static_cast<uint32_t>(MessageId::RankRequest), std::bind(&OnMessageProcess<ThreadHandlerRankRequestMessage, RankRequestMessage>, std::placeholders::_1, std::placeholders::_2));	
 	Dis.AddHandler(static_cast<uint32_t>(MessageId::GetInventory), std::bind(&OnMessageProcess<ThreadHandlerGetInventoryMessage, GetInventoryMessage>, std::placeholders::_1, std::placeholders::_2));	
+	Dis.AddHandler(static_cast<uint32_t>(MessageId::EquipItem), std::bind(&OnMessageProcess<ThreadHandlerEquipItemMessage, EquipItemMessage>, std::placeholders::_1, std::placeholders::_2));	
 	Dis.AddHandler(static_cast<uint32_t>(MessageId::Chat), std::bind(&OnMessageProcess<ThreadHandlerChatMessage, ChatMessage>, std::placeholders::_1, std::placeholders::_2));	
 	Dis.AddHandler(static_cast<uint32_t>(MessageId::PlayerUpdate), std::bind(&OnMessageProcess<ThreadHandlerPlayerUpdateMessage, PlayerUpdateMessage>, std::placeholders::_1, std::placeholders::_2));	
 }																																													

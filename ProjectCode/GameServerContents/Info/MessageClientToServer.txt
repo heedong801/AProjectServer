@@ -28,3 +28,9 @@ std::string NickName;
 
 |GetInventory-
 int CharacterIndex;
+
+|EquipItem-
+int CharacterIndex;
+int CurrentItemIndex;
+int ChangeItemIndex;
+int ItemPart;
