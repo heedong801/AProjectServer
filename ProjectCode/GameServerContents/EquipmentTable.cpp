@@ -2,6 +2,7 @@
 #include "EquipmentTable.h"
 
 
+
 EquipmentTable_InsertCharacter::EquipmentTable_InsertCharacter(int _CharacterId)
 	: DBQuery("INSERT INTO userver2.equipinfo (CharacterIdx) VALUES (?);")
 	, CharacterIdx(_CharacterId)
@@ -54,10 +55,11 @@ bool EquipmentTable_UpdateNeckPart::DoQuery()
 }
 
 /////////////////////////////////////////////////////////
-EquipmentTable_UpdateMainHandPart::EquipmentTable_UpdateMainHandPart(int _CharacterIdx, int _ItemIdx)
-	: DBQuery("UPDATE userver2.equipinfo SET neck = ? Where CharacterIdx = ?")
+EquipmentTable_UpdateMainHandPart::EquipmentTable_UpdateMainHandPart(int _CharacterIdx, int _CurrentItemIdx, int _ChangeItemIdx)
+	: DBQuery("UPDATE userver2.equipinfo SET mainhand = ? Where CharacterIdx = ?")
 	, CharacterIdx(_CharacterIdx)
-	, ItemIdx(_ItemIdx)
+	, CurrentItemIdx(_CurrentItemIdx)
+	, ChangeItemIdx(_ChangeItemIdx)
 {
 }
 
@@ -65,7 +67,7 @@ bool EquipmentTable_UpdateMainHandPart::DoQuery()
 {
 	std::unique_ptr<DBStmt> Stmt = DBConnecterPtr->CreateStmt(QueryString);
 
-	Stmt->ParamBindInt(ItemIdx);
+	Stmt->ParamBindInt(ChangeItemIdx);
 	Stmt->ParamBindInt(CharacterIdx);
 
 	Stmt->Execute();
@@ -81,10 +83,11 @@ bool EquipmentTable_UpdateMainHandPart::DoQuery()
 }
 
 /////////////////////////////////////////////////////////
-EquipmentTable_UpdateArmorPart::EquipmentTable_UpdateArmorPart(int _CharacterIdx, int _ItemIdx)
-	: DBQuery("UPDATE userver2.equipinfo SET neck = ? Where CharacterIdx = ?")
+EquipmentTable_UpdateArmorPart::EquipmentTable_UpdateArmorPart(int _CharacterIdx, int _CurrentItemIdx, int _ChangeItemIdx)
+	: DBQuery("UPDATE userver2.equipinfo SET armor = ? Where CharacterIdx = ?")
 	, CharacterIdx(_CharacterIdx)
-	, ItemIdx(_ItemIdx)
+	, CurrentItemIdx(_CurrentItemIdx)
+	, ChangeItemIdx(_ChangeItemIdx)
 {
 }
 
@@ -92,7 +95,7 @@ bool EquipmentTable_UpdateArmorPart::DoQuery()
 {
 	std::unique_ptr<DBStmt> Stmt = DBConnecterPtr->CreateStmt(QueryString);
 
-	Stmt->ParamBindInt(ItemIdx);
+	Stmt->ParamBindInt(ChangeItemIdx);
 	Stmt->ParamBindInt(CharacterIdx);
 
 	Stmt->Execute();
@@ -106,3 +109,68 @@ bool EquipmentTable_UpdateArmorPart::DoQuery()
 
 	return true;
 }
+
+
+
+
+/////////////////////////////////////////////////////////
+EquipmentTable_SelectAllPart::EquipmentTable_SelectAllPart(int _CharacterIdx)
+	: DBQuery("SELECT * FROM userver2.equipinfo WHERE CharacterIdx = ? ")
+	, CharacterIdx(_CharacterIdx)
+{
+
+}
+
+bool EquipmentTable_SelectAllPart::DoQuery()
+{
+	std::unique_ptr<DBStmt> Stmt = DBConnecterPtr->CreateStmt(QueryString);
+
+	Stmt->ParamBindInt(CharacterIdx);
+
+	std::unique_ptr<DBStmtResult> Result(Stmt->Execute());
+
+	uint64_t Row = Stmt->AffectedRows();
+
+	if (0 >= Row)
+	{
+		return false;
+	}
+
+	Result->Next();
+	Data.clear();
+	Data.resize(20);
+
+	/*RowData =	std::make_shared<EquipRow>(EquipRow(
+			Result->GetInt(0),
+			Result->GetInt(1),
+			Result->GetInt(2),
+			Result->GetInt(3),
+			Result->GetInt(4),
+			Result->GetInt(5),
+			Result->GetInt(6),
+			Result->GetInt(7),
+			Result->GetInt(8),
+			Result->GetInt(9),
+			Result->GetInt(10),
+			Result->GetInt(11),
+			Result->GetInt(12),
+			Result->GetInt(13),
+			Result->GetInt(14),
+			Result->GetInt(15),
+			Result->GetInt(16),
+			Result->GetInt(17),
+			Result->GetInt(18),
+			Result->GetInt(19),
+			Result->GetInt(20)
+		));*/
+	for (int i = 0; i < 20; i++)
+	{
+		Data[i] = Result->GetInt(i);
+	}
+
+
+	return true;
+}
+
+
+

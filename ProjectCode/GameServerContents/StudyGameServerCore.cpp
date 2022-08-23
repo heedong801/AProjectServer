@@ -209,7 +209,7 @@ void StudyGameServerCore::UDPRecvEvent(std::shared_ptr<UDPSession> _S, const std
 		return;
 	}
 
-	int Id = Converter.GetMessageIdUint();
+	int Id = static_cast<int>(Converter.GetMessageIdUint());
 
 	if (static_cast<int>(MessageId::PlayerUpdate) != Id)
 	{

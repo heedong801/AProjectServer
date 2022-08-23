@@ -25,9 +25,8 @@ public:
 	void Start() override;
 	// 이 메세지를 처리하는 단계
 	void DBCheck();
-	void CurrentEquipDBCheck();
-	void ResultSend();
 
+	void ResultSend();
 protected:
 
 private:

@@ -18,6 +18,9 @@ class UNREALCLIENT_API UInventoryTileData : public UObject
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+		int	m_Index;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 		FString	m_NameText;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
@@ -93,5 +96,14 @@ public:
 	void SetType(int Type)
 	{
 		m_Type = static_cast<EItemType>(Type);;
+	}
+
+	int GetIndex()
+	{
+		return m_Index;
+	}
+	void SetIndex(int Index)
+	{
+		m_Index = Index;
 	}
 };

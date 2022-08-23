@@ -48,8 +48,9 @@ class InventoryTable_DeleteItem : public DBQuery
 {
 public:
 	int ItemIdx_;
+	int CharacterIdx_;
 public:
-	InventoryTable_DeleteItem(int _ItemIdx);
+	InventoryTable_DeleteItem(int _ItemIdx, int _CharacterIdx);
 	bool DoQuery() override;
 };
 

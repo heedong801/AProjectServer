@@ -56,4 +56,5 @@ FPlayerItemData ItemData;
 
 |GetInventoryResult-
 std::vector<FPlayerItemData> ItemData;
+std::vector<FPlayerItemData> EquipItemData;
 EGameServerCode Code;

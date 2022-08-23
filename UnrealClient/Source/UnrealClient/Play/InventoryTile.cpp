@@ -9,6 +9,7 @@
 #include "EquipmentWidget.h"
 #include "../Global/ClientBlueprintFunctionLibrary.h"
 #include "../Global/ClientGameInstance.h"
+#include "../Message/ClientToServer.h"
 
 void UInventoryTile::NativeConstruct()
 {
@@ -129,6 +130,7 @@ void UInventoryTile::AddItem(FPlayerItemData ItemInfo, UTexture2D* IconTex)
 	Data->SetTier(ItemInfo.ItemTier);
 	Data->SetType(ItemInfo.ItemType);
 	Data->SetPart(ItemInfo.ItemPart);
+	Data->SetIndex(ItemInfo.ItemIndex);
 	//Data->SetOption(ItemInfo->OptionArray);
 
 	if(ItemInfo.ItemType == static_cast<int>(EItemType::Equipment) )
@@ -195,11 +197,11 @@ void UInventoryTile::ConsumItemClick(UObject* Data)
 void UInventoryTile::EquipItemClick(UObject* Data)
 {
 	UInventoryTileData* Item = Cast<UInventoryTileData>(Data);
-	LOG(TEXT("%s"), *Item->GetName());
-	LOG(TEXT("%d"), m_EquipTile->GetNumItems());
+	//LOG(TEXT("%s"), *Item->GetName());
+	//LOG(TEXT("%d"), m_EquipTile->GetNumItems());
 
 	m_EquipTile->RemoveItem(Data);
-	LOG(TEXT("RE : %d"), m_EquipTile->GetNumItems());
+	//LOG(TEXT("RE : %d"), m_EquipTile->GetNumItems());
 
 	m_CurrentEquipTile->AddItem(Data);
 
@@ -219,21 +221,35 @@ void UInventoryTile::EquipItemClick(UObject* Data)
 
 	int Idx = Equipment->PartToIdx(Item->GetPart());
 	UInventoryTileData* ChangeItem = Equipment->AlreadyPartSet(Idx);
+
+	int PrevItemIndex = -1;
 	if (ChangeItem != nullptr)
 	{
 		m_EquipTile->AddItem(ChangeItem);
 		m_CurrentEquipTile->RemoveItem(ChangeItem);
+		PrevItemIndex = ChangeItem->GetIndex();
 	}
 	Equipment->SetPart(Item, Item->GetPart(), Item->GetIconTexture());
 
+	EquipItemMessage Msg;
+
+	Msg.ChangeItemIndex = Item->GetIndex();
+	Msg.CurrentItemIndex = PrevItemIndex; 	
+	Msg.CharacterIndex = Inst->SelectCharacter.Index;
+	Msg.ItemPart = static_cast<int>(Item->GetPart());
+	GameServerSerializer Sr;
+	Msg.Serialize(Sr);
+	if (false != Inst->Send(Sr.GetData()))
+	{
+	}
 
 }
 
 void UInventoryTile::CurrentEquipItemClick(UObject* Data)
 {
 	UInventoryTileData* Item = Cast<UInventoryTileData>(Data);
-	LOG(TEXT("%s"), *Item->GetName());
-	LOG(TEXT("CurrentEquipItemClick : %d"), m_EquipTile->GetNumItems());
+	//LOG(TEXT("%s"), *Item->GetName());
+	//LOG(TEXT("CurrentEquipItemClick : %d"), m_EquipTile->GetNumItems());
 
 	m_CurrentEquipTile->RemoveItem(Data);
 	m_EquipTile->AddItem(Data);

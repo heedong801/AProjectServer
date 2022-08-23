@@ -51,6 +51,32 @@ void ThreadHandlerGetInventoryMessage::DBCheck()
 		FPlayerItemData item = itemData.GetItemAtIndex(SelectQuery.RowDatas[i]->ItemIdx_);
 		Result_.ItemData[i] = item;
 	}
+
+	EquipmentTable_SelectAllPart SelectAllQuery = EquipmentTable_SelectAllPart(Message_->CharacterIndex);
+
+	if (false == SelectAllQuery.DoQuery())
+	{
+		// ContentsGlobalValue::UnRegistPlayable(SelectQuery.RowData->Index);
+		Result_.Code = EGameServerCode::FAIL;
+
+
+	}
+	Result_.Code = EGameServerCode::OK;
+
+	Result_.EquipItemData.resize(20);
+
+	ContentsItemData itemData2;
+	for (size_t i = 0; i < 20; i++)
+	{
+		if (i == 0)
+			continue;
+		if (SelectAllQuery.Data[i] != -1)
+		{
+			FPlayerItemData item = itemData2.GetItemAtIndex(SelectAllQuery.Data[i]);
+			Result_.EquipItemData[i] = item;
+		}
+
+	}
 	NetWork(&ThreadHandlerGetInventoryMessage::ResultSend);
 }
 
@@ -62,23 +88,7 @@ void ThreadHandlerGetInventoryMessage::ResultSend()
 		Result_.Serialize(Sr);
 		Session_->Send(Sr.GetData());
 
-		DBWork(&ThreadHandlerGetInventoryMessage::CurrentEquipDBCheck);
-
+	
 	}
 
-}
-
-void ThreadHandlerGetInventoryMessage::CurrentEquipDBCheck()
-{
-	//EquipmentTable_UpdateNeckPart SelectQuery = EquipmentTable_UpdateNeckPart(Message_->CharacterIndex);
-
-	//if (false == SelectQuery.DoQuery())
-	//{
-	//	// ContentsGlobalValue::UnRegistPlayable(SelectQuery.RowData->Index);
-
-	//	Result_.Code = EGameServerCode::FAIL;
-
-	//	NetWork(&ThreadHandlerGetInventoryMessage::ResultSend);
-	//	return;
-	//}
 }

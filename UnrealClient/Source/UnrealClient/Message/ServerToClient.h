@@ -544,12 +544,14 @@ class GetInventoryResultMessage : public GameServerMessage
 {                                                               
 public:                                                         
 	std::vector<FPlayerItemData> ItemData;
+	std::vector<FPlayerItemData> EquipItemData;
 	EGameServerCode Code;
                                                                 
 public:                                                         
     GetInventoryResultMessage()                                               
         : GameServerMessage(static_cast<uint32_t>(MessageId::GetInventoryResult))                    
         , ItemData()
+        , EquipItemData()
         , Code()
     {                                                           
                                                                 
@@ -559,13 +561,14 @@ public:
                                                                 
     virtual int SizeCheck()                                     
     {                                                           
-		return DataSizeCheck(ItemData) + DataSizeCheck(Code);
+		return DataSizeCheck(ItemData) + DataSizeCheck(EquipItemData) + DataSizeCheck(Code);
     }                                                           
                                                                 
     void Serialize(GameServerSerializer& _Serializer)           
     {                                                           
         GameServerMessage::Serialize(_Serializer);              
         _Serializer.WriteVector( ItemData);
+        _Serializer.WriteVector( EquipItemData);
         _Serializer.WriteEnum(Code);
 
     }                                                           
@@ -574,6 +577,7 @@ public:
     {                                                           
         GameServerMessage::DeSerialize(_Serializer);            
         _Serializer.ReadVector( ItemData);
+        _Serializer.ReadVector( EquipItemData);
         _Serializer.ReadEnum(Code);
 
     }                                                           
