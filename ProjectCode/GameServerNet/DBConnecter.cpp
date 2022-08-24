@@ -15,7 +15,6 @@ DBStmtResult::DBStmtResult(DBConnecter* _ConncterPtr, MYSQL_STMT* _Stmt, std::st
 
 bool DBStmtResult::Next() 
 {
-	// 다음게 없다면 0 != 다음녀석이 없다.
 	return 0 == mysql_stmt_fetch(Stmt_);
 }
 
@@ -55,7 +54,6 @@ void DBStmt::ParamBindString(std::string_view _Value)
 	size_t Size = ParamBindBuffer_.size();
 	ParamBindBuffer_.resize(ParamBindBuffer_.size() + _Value.size());
 
-	// 선확장 후보고
 	MYSQL_BIND& Bind = Parambinds_.emplace_back();
 	Bind.buffer_type = MYSQL_TYPE_VARCHAR;
 	Bind.buffer = &ParamBindBuffer_[Size];
@@ -74,7 +72,6 @@ void DBStmt::ParamBindInt(const int _Value)
 	size_t Size = ParamBindBuffer_.size();
 	ParamBindBuffer_.resize(ParamBindBuffer_.size() + sizeof(int));
 
-	// 선확장 후보고
 	MYSQL_BIND& Bind = Parambinds_.emplace_back();
 	Bind.buffer_type = MYSQL_TYPE_LONG;
 	Bind.buffer = &ParamBindBuffer_[Size];

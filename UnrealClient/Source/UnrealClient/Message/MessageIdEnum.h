@@ -26,6 +26,7 @@ enum class MessageId
 	UserRankWindowData,
 	GetItem,
 	GetInventoryResult,
+	GetEquipmentResult,
 	Chat,
 	PlayerUpdate,
 	MAX

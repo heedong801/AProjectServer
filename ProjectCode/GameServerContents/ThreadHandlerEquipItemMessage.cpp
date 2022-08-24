@@ -36,6 +36,9 @@ void ThreadHandlerEquipItemMessage::DBCheck()
 		EquipmentTable_UpdateNeckPart Query = EquipmentTable_UpdateNeckPart(Message_->CharacterIndex, Message_->CurrentItemIndex, Message_->ChangeItemIndex);
 		if (false == Query.DoQuery())
 		{
+		}
+		else
+		{
 			if (Message_->ChangeItemIndex != -1)
 			{
 				InventoryTable_DeleteItem DeleteQuery = InventoryTable_DeleteItem(Message_->ChangeItemIndex, Message_->CharacterIndex);
@@ -49,27 +52,29 @@ void ThreadHandlerEquipItemMessage::DBCheck()
 
 				}
 			}
-			InventoryTable_InsertItem InsertQuery = InventoryTable_InsertItem(Message_->CurrentItemIndex, Message_->CharacterIndex);
-
-			if (false == InsertQuery.DoQuery())
+			if (Message_->CurrentItemIndex != -1)
 			{
+				InventoryTable_InsertItem InsertQuery = InventoryTable_InsertItem(Message_->CurrentItemIndex, Message_->CharacterIndex);
 
+				if (false == InsertQuery.DoQuery())
+				{
+
+				}
+				else
+				{
+
+				}
 			}
-			else
-			{
-
-			}
-
-		}
-		else
-		{
 		}
 	}
 		break;
 	case 7:
 	{
-		EquipmentTable_UpdateMainHandPart Query = EquipmentTable_UpdateMainHandPart(Message_->CharacterIndex, Message_->CurrentItemIndex, Message_->ChangeItemIndex);
+		EquipmentTable_UpdateArmorPart Query = EquipmentTable_UpdateArmorPart(Message_->CharacterIndex, Message_->CurrentItemIndex, Message_->ChangeItemIndex);
 		if (false == Query.DoQuery())
+		{
+		}
+		else
 		{
 			if (Message_->ChangeItemIndex != -1)
 			{
@@ -84,20 +89,19 @@ void ThreadHandlerEquipItemMessage::DBCheck()
 
 				}
 			}
-			InventoryTable_InsertItem InsertQuery = InventoryTable_InsertItem(Message_->CurrentItemIndex, Message_->CharacterIndex);
-
-			if (false == InsertQuery.DoQuery())
+			if (Message_->CurrentItemIndex != -1)
 			{
+				InventoryTable_InsertItem InsertQuery = InventoryTable_InsertItem(Message_->CurrentItemIndex, Message_->CharacterIndex);
 
+				if (false == InsertQuery.DoQuery())
+				{
+
+				}
+				else
+				{
+
+				}
 			}
-			else
-			{
-
-			}
-
-		}
-		else
-		{
 		}
 	}
 	break;
@@ -110,9 +114,126 @@ void ThreadHandlerEquipItemMessage::DBCheck()
 		}
 		else
 		{
+			if (Message_->ChangeItemIndex != -1)
+			{
+				InventoryTable_DeleteItem InsertQuery = InventoryTable_DeleteItem(Message_->ChangeItemIndex, Message_->CharacterIndex);
+
+				if (false == InsertQuery.DoQuery())
+				{
+
+				}
+				else
+				{
+
+				}
+
+			}
 			if (Message_->CurrentItemIndex != -1)
 			{
-				InventoryTable_InsertItem InsertQuery = InventoryTable_InsertItem(Message_->ChangeItemIndex, Message_->CharacterIndex);
+				InventoryTable_InsertItem DeleteQuery2 = InventoryTable_InsertItem(Message_->CurrentItemIndex, Message_->CharacterIndex);
+
+				if (false == DeleteQuery2.DoQuery())
+				{
+
+				}
+				else
+				{
+
+				}
+			}
+		}
+	}
+		break;
+	case 11:
+	{
+		EquipmentTable_UpdateMainWristPart Query = EquipmentTable_UpdateMainWristPart(Message_->CharacterIndex, Message_->CurrentItemIndex, Message_->ChangeItemIndex);
+		if (false == Query.DoQuery())
+		{
+
+		}
+		else
+		{
+			if (Message_->ChangeItemIndex != -1)
+			{
+				InventoryTable_DeleteItem InsertQuery = InventoryTable_DeleteItem(Message_->ChangeItemIndex, Message_->CharacterIndex);
+
+				if (false == InsertQuery.DoQuery())
+				{
+
+				}
+				else
+				{
+
+				}
+
+			}
+			if (Message_->CurrentItemIndex != -1)
+			{
+				InventoryTable_InsertItem DeleteQuery2 = InventoryTable_InsertItem(Message_->CurrentItemIndex, Message_->CharacterIndex);
+
+				if (false == DeleteQuery2.DoQuery())
+				{
+
+				}
+				else
+				{
+
+				}
+			}
+		}
+	}
+	break;
+	case 14:
+	{
+		EquipmentTable_UpdateOffHandPart Query = EquipmentTable_UpdateOffHandPart(Message_->CharacterIndex, Message_->CurrentItemIndex, Message_->ChangeItemIndex);
+		if (false == Query.DoQuery())
+		{
+
+		}
+		else
+		{
+			if (Message_->ChangeItemIndex != -1)
+			{
+				InventoryTable_DeleteItem InsertQuery = InventoryTable_DeleteItem(Message_->ChangeItemIndex, Message_->CharacterIndex);
+
+				if (false == InsertQuery.DoQuery())
+				{
+
+				}
+				else
+				{
+
+				}
+
+			}
+			if (Message_->CurrentItemIndex != -1)
+			{
+				InventoryTable_InsertItem DeleteQuery2 = InventoryTable_InsertItem(Message_->CurrentItemIndex, Message_->CharacterIndex);
+
+				if (false == DeleteQuery2.DoQuery())
+				{
+
+				}
+				else
+				{
+
+				}
+			}
+		}
+	}
+	break;
+	case 17:
+	{
+		EquipmentTable_UpdateLeftHandPart Query = EquipmentTable_UpdateLeftHandPart(Message_->CharacterIndex, Message_->CurrentItemIndex, Message_->ChangeItemIndex);
+		if (false == Query.DoQuery())
+		{
+
+		}
+		else
+		{
+			if (Message_->ChangeItemIndex != -1)
+			{
+				InventoryTable_DeleteItem InsertQuery = InventoryTable_DeleteItem(Message_->ChangeItemIndex, Message_->CharacterIndex);
 
 				if (false == InsertQuery.DoQuery())
 				{
@@ -125,19 +246,22 @@ void ThreadHandlerEquipItemMessage::DBCheck()
 
 			}
 
-			InventoryTable_DeleteItem DeleteQuery2 = InventoryTable_DeleteItem(Message_->ChangeItemIndex, Message_->CharacterIndex);
-
-			if (false == DeleteQuery2.DoQuery())
+			if (Message_->CurrentItemIndex != -1)
 			{
+				InventoryTable_InsertItem DeleteQuery2 = InventoryTable_InsertItem(Message_->CurrentItemIndex, Message_->CharacterIndex);
 
-			}
-			else
-			{
+				if (false == DeleteQuery2.DoQuery())
+				{
 
+				}
+				else
+				{
+
+				}
 			}
 		}
 	}
-		break;
+	break;
 	default:
 		break;
 	}

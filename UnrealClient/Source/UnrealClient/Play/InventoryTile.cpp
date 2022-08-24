@@ -142,6 +142,10 @@ void UInventoryTile::AddItem(FPlayerItemData ItemInfo, UTexture2D* IconTex)
 
 }
 
+void UInventoryTile::AddCurrentEquipItem(UObject* Data, UTexture2D* IconTex)
+{
+	m_CurrentEquipTile->AddItem(Data);
+}
 
 void UInventoryTile::EquipClick()
 {
@@ -270,4 +274,15 @@ void UInventoryTile::CurrentEquipItemClick(UObject* Data)
 
 	Equipment->UnsetPart(Item);
 
+	EquipItemMessage Msg;
+
+	Msg.ChangeItemIndex = -1;
+	Msg.CurrentItemIndex = Item->GetIndex();
+	Msg.CharacterIndex = Inst->SelectCharacter.Index;
+	Msg.ItemPart = static_cast<int>(Item->GetPart());
+	GameServerSerializer Sr;
+	Msg.Serialize(Sr);
+	if (false != Inst->Send(Sr.GetData()))
+	{
+	}
 }

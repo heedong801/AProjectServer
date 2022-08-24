@@ -7,7 +7,6 @@
 
 UserTable_SelectIDToUserInfo::UserTable_SelectIDToUserInfo(std::string _ID)
 	: DBQuery("SELECT Idx, ID, PW FROM userver2.userinfo WHERE ID = ? LIMIT 1")
-	// : DBQuery("SELECT Idx, ID, PW FROM userver2.user")
 	, ID(_ID)
 	, RowData(nullptr)
 {
@@ -15,9 +14,6 @@ UserTable_SelectIDToUserInfo::UserTable_SelectIDToUserInfo(std::string _ID)
 
 bool UserTable_SelectIDToUserInfo::DoQuery()
 {
-	// 이 방어를 위한 시맨틱을 만들어달라고 해야하는데.
-	// 이 시맨틱은 이미 구조체로 제공됩니다.
-	// 방어를 하겠다.
 	std::unique_ptr<DBStmt> Stmt = DBConnecterPtr->CreateStmt(QueryString);
 
 	Stmt->ParamBindString(ID);
@@ -43,7 +39,6 @@ bool UserTable_SelectIDToUserInfo::DoQuery()
 //////////////////////////////////////////////////////////////////// 
 
 UserTable_AllUserInfo::UserTable_AllUserInfo()
-	// : DBQuery("SELECT Idx, ID, PW FROM userver2.user")
 	: DBQuery("SELECT * FROM userver2.userinfo")
 	
 {

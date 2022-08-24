@@ -6,11 +6,9 @@
 class ContentsItemData : public GameServerObjectBase
 {
 public:
-	// constrcuter destructer
 	ContentsItemData();
 	~ContentsItemData();
 
-	// delete Function
 	ContentsItemData(const ContentsItemData& _Other) = delete;
 	ContentsItemData(ContentsItemData&& _Other) noexcept = delete;
 	ContentsItemData& operator=(const ContentsItemData& _Other) = delete;

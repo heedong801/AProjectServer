@@ -86,7 +86,7 @@ void Player::AttackCollisionCheck(GameServerCollision* _Collision)
 				
 				DBQueue::Queue([=]
 					{
-						InventoryTable_InsertItem SelectQuery = InventoryTable_InsertItem(UserData->SelectData.Index, randomIndex);
+						InventoryTable_InsertItem SelectQuery = InventoryTable_InsertItem(randomIndex, UserData->SelectData.Index);
 						if (false == SelectQuery.DoQuery())
 							GameServerDebug::Log(LOGTYPE::LOGTYPE_WARNING, "인벤토리에 아이템이 등록되지 않았습니다.");
 							

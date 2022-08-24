@@ -71,6 +71,7 @@ public:
 
 public:
 	void AddItem(FPlayerItemData ItemInfo, UTexture2D* IconTex);
+	void AddCurrentEquipItem(UObject* Data, UTexture2D* IconTex);
 
 protected:
 	virtual void NativeConstruct();

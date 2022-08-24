@@ -34,7 +34,6 @@ void ThreadHandlerGetInventoryMessage::DBCheck()
 
 	if (false == SelectQuery.DoQuery())
 	{
-		// ContentsGlobalValue::UnRegistPlayable(SelectQuery.RowData->Index);
 
 		Result_.Code = EGameServerCode::FAIL;
 
@@ -52,28 +51,27 @@ void ThreadHandlerGetInventoryMessage::DBCheck()
 		Result_.ItemData[i] = item;
 	}
 
+	Result_.Code = EGameServerCode::OK;
+
 	EquipmentTable_SelectAllPart SelectAllQuery = EquipmentTable_SelectAllPart(Message_->CharacterIndex);
 
 	if (false == SelectAllQuery.DoQuery())
 	{
-		// ContentsGlobalValue::UnRegistPlayable(SelectQuery.RowData->Index);
 		Result_.Code = EGameServerCode::FAIL;
 
 
 	}
-	Result_.Code = EGameServerCode::OK;
 
-	Result_.EquipItemData.resize(20);
+	EquipResult_.EquipItemData.resize(SelectAllQuery.Data.size() );
 
-	ContentsItemData itemData2;
-	for (size_t i = 0; i < 20; i++)
+	for (size_t i = 0; i < SelectAllQuery.Data.size(); i++)
 	{
 		if (i == 0)
 			continue;
 		if (SelectAllQuery.Data[i] != -1)
 		{
-			FPlayerItemData item = itemData2.GetItemAtIndex(SelectAllQuery.Data[i]);
-			Result_.EquipItemData[i] = item;
+			FPlayerItemData item = itemData.GetItemAtIndex(SelectAllQuery.Data[i]);
+			EquipResult_.EquipItemData[i] = item;
 		}
 
 	}
@@ -88,7 +86,9 @@ void ThreadHandlerGetInventoryMessage::ResultSend()
 		Result_.Serialize(Sr);
 		Session_->Send(Sr.GetData());
 
-	
+		Sr.Reset();
+		EquipResult_.Serialize(Sr);
+		Session_->Send(Sr.GetData());
 	}
 
 }

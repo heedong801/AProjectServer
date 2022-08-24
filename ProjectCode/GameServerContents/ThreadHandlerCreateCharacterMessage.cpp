@@ -35,8 +35,6 @@ void ThreadHandlerCreateCharacterMessage::Start()
 
 void ThreadHandlerCreateCharacterMessage::DBCheck() 
 {
-	// SELECT NickName FROM userver2.characterinfo WHERE NickName = "fasd" LIMIT 1;
-
 	std::shared_ptr<ContentsUserData> Ptr = Session_->GetLink<ContentsUserData>(EDataIndex::USERDATA);
 
 	CharacterTable_SelectNickName SelectQuery = CharacterTable_SelectNickName(Message_->NickName);

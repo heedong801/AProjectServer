@@ -12,8 +12,8 @@ bool InventoryTable_InsertItem::DoQuery()
 {
 	std::unique_ptr<DBStmt> Stmt = DBConnecterPtr->CreateStmt(QueryString);
 
-	Stmt->ParamBindInt(CharacterId_);
 	Stmt->ParamBindInt(ItemId_);
+	Stmt->ParamBindInt(CharacterId_);
 
 	Stmt->Execute();
 
@@ -62,7 +62,7 @@ bool InventoryTable_SelectAllItem::DoQuery()
 ////////////////////////////////////////////////////////////////////////////////////////
 
 InventoryTable_DeleteItem::InventoryTable_DeleteItem(int _ItemIndex, int _CharacterIdx)
-	: DBQuery("DELETE FROM userver2.inventoryinfo WHERE CharacterIdx = ? and ItemIdx = ?")
+	: DBQuery("DELETE FROM userver2.inventoryinfo WHERE CharacterIdx = ? and ItemIdx = ? LIMIT 1")
 	, ItemIdx_(_ItemIndex)
 	, CharacterIdx_(_CharacterIdx)
 {
