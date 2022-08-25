@@ -130,3 +130,50 @@ bool CharacterTable_CreateCharacter::DoQuery()
 	return true;
 }
 
+/// ///////////////////////// CharacterTable_UpdateCharacterAttack
+
+CharacterTable_UpdateCharacter::CharacterTable_UpdateCharacter(int _CharacterId, int _Att, int _Armor, int _HpMax, int _MpMax, int _Hp, int _Mp, int _HpRecovery, int _MpRecovery, int _CriticalPercent, int _CriticalDamage)
+	: DBQuery("UPDATE userver2.characterinfo Set Att = ?, Armor = ?, HpMax = ?, MpMax = ?, Hp = ?, Mp = ?, HpRecovery = ?, MpRecovery = ?, CriticalPercent = ?, CriticalDamage = ? Where Idx =  ?")
+	, CharacterId(_CharacterId)
+	, Att(_Att)
+	, Armor(_Armor)
+	, HpMax(_HpMax)
+	, MpMax(_MpMax)
+	, Hp(_Hp)
+	, Mp(_Mp)
+	, HpRecovery(_HpRecovery)
+	, MpRecovery(_MpRecovery)
+	, CriticalPercent(_CriticalPercent)
+	, CriticalDamage(_CriticalDamage)
+{
+}
+
+bool CharacterTable_UpdateCharacter::DoQuery()
+{
+	std::unique_ptr<DBStmt> Stmt = DBConnecterPtr->CreateStmt(QueryString);
+
+	Stmt->ParamBindInt(Att);
+	Stmt->ParamBindInt(Armor);
+	Stmt->ParamBindInt(HpMax);
+	Stmt->ParamBindInt(MpMax);
+	Stmt->ParamBindInt(Hp);
+	Stmt->ParamBindInt(Mp);
+	Stmt->ParamBindInt(HpRecovery);
+	Stmt->ParamBindInt(MpRecovery);
+	Stmt->ParamBindInt(CriticalPercent);
+	Stmt->ParamBindInt(CriticalDamage);
+	Stmt->ParamBindInt(CharacterId);
+
+
+	Stmt->Execute();
+
+	uint64_t Row = Stmt->AffectedRows();
+
+	if (0 == Row)
+	{
+		return false;
+	}
+
+	return true;
+}
+

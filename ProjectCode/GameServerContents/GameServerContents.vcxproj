@@ -45,6 +45,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="OptionTable.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Player_Message.cpp" />
     <ClCompile Include="Portal.cpp" />
@@ -111,6 +112,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="OptionTable.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="PreCompile.h">

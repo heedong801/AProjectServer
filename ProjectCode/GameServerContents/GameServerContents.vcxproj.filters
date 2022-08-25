@@ -85,6 +85,9 @@
     <ClCompile Include="ThreadHandlerEquipItemMessage.cpp">
       <Filter>ThreadHandler</Filter>
     </ClCompile>
+    <ClCompile Include="OptionTable.cpp">
+      <Filter>DB</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h" />
@@ -188,6 +191,9 @@
     </ClInclude>
     <ClInclude Include="ThreadHandlerEquipItemMessage.h">
       <Filter>ThreadHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionTable.h">
+      <Filter>DB</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -614,3 +614,38 @@ public:
     }                                                           
 };                                                              
 
+class EquipItemResultMessage : public GameServerMessage                    
+{                                                               
+public:                                                         
+	FCharacterInfo CharacterInfo;
+                                                                
+public:                                                         
+    EquipItemResultMessage()                                               
+        : GameServerMessage(static_cast<uint32_t>(MessageId::EquipItemResult))                    
+        , CharacterInfo()
+    {                                                           
+                                                                
+    }                                                           
+                                                                
+    virtual ~EquipItemResultMessage() {}                                   
+                                                                
+    virtual int SizeCheck()                                     
+    {                                                           
+		return DataSizeCheck(CharacterInfo);
+    }                                                           
+                                                                
+    void Serialize(GameServerSerializer& _Serializer)           
+    {                                                           
+        GameServerMessage::Serialize(_Serializer);              
+        CharacterInfo.Serialize(_Serializer);
+
+    }                                                           
+                                                                
+    void DeSerialize(GameServerSerializer& _Serializer)         
+    {                                                           
+        GameServerMessage::DeSerialize(_Serializer);            
+        CharacterInfo.DeSerialize(_Serializer);
+
+    }                                                           
+};                                                              
+

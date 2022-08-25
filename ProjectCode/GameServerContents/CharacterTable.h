@@ -169,3 +169,22 @@ public:
 	bool DoQuery() override;
 };
 
+class CharacterTable_UpdateCharacter : public DBQuery
+{
+public:
+	int			CharacterId;
+	int			Att;
+	int			Armor;
+	int			HpMax;
+	int			MpMax;
+	int			Hp;
+	int			Mp;
+	int			HpRecovery;
+	int			MpRecovery;
+	int			CriticalPercent;
+	int			CriticalDamage;
+public:
+	CharacterTable_UpdateCharacter(int _CharacterId, int _Att, int _Armor, int _HpMax, int _MpMax, int _Hp, int _Mp, int _HpRecovery, int _MpRecovery, int _CriticalPercent, int _CriticalDamage);
+	bool DoQuery() override;
+};
+

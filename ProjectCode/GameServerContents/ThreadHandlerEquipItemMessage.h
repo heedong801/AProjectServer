@@ -1,6 +1,7 @@
 #pragma once
 #include <GameServerCore\ThreadHandlerBase.h>
 #include "ClientToServer.h"
+#include "ServerToClient.h"
 // 용도 : 
 // 분류 :
 // 첨언 : 
@@ -8,7 +9,7 @@ class ThreadHandlerEquipItemMessage final
 	: public ThreadHandlerBase<EquipItemMessage>
 {
 private: // Member Var
-
+	EquipItemResultMessage Result_;
 public: // Default
 	ThreadHandlerEquipItemMessage();
 	~ThreadHandlerEquipItemMessage();
@@ -26,6 +27,7 @@ public: // Member Function
 
 	void Start() override;
 	void DBCheck();
+	void ResultSend();
 
 };
 

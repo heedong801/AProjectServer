@@ -60,3 +60,6 @@ EGameServerCode Code;
 
 |GetEquipmentResult-
 std::vector<FPlayerItemData> EquipItemData;
+
+|EquipItemResult-
+FCharacterInfo CharacterInfo;
