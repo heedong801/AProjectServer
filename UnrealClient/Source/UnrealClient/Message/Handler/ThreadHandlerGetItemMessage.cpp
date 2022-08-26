@@ -2,6 +2,8 @@
 #include "ThreadHandlerGetItemMessage.h"
 #include "../../Play/PlayGameMode.h"
 #include "../../DebugClass.h"
+#include "../../Global/HitCameraShake.h"
+
 void ThreadHandlerGetItemMessage::Start()
 {
 	APlayGameMode* PGameMode = Cast<APlayGameMode>(UGameplayStatics::GetGameMode(World_));
@@ -26,6 +28,8 @@ void ThreadHandlerGetItemMessage::Start()
 		return;
 	}
 	
+	World_->GetFirstPlayerController()->ClientStartCameraShake(
+		UHitCameraShake::StaticClass());
 
 	PGameMode->ObjectPushMessage(Message_->ItemData.ObjectIndex, Message_);
 	

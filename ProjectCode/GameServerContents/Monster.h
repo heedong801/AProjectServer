@@ -37,6 +37,7 @@ protected:
 
 	GameServerCollision* PlayerSensorCollision;
 	GameServerCollision* HitCollision;
+	GameServerCollision* AttackCollision;
 
 private:
 	void Update(float _Time) override;

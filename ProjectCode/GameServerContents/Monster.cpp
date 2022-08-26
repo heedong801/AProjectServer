@@ -8,6 +8,8 @@
 Monster::Monster()
 	: Target(nullptr)
 	, HitCollision(nullptr)
+	, AttackCollision(nullptr)
+	, PlayerSensorCollision(nullptr)
 	, UpdateTime(0.0f)
 	, IsDeath(false)
 {
@@ -18,7 +20,21 @@ Monster::Monster()
 Monster::~Monster() 
 {
 	Target = nullptr;
-	HitCollision = nullptr;
+	if (nullptr != HitCollision)
+	{
+		HitCollision->Death();
+		HitCollision = nullptr;
+	}
+	if (nullptr != AttackCollision)
+	{
+		AttackCollision->Death();
+		AttackCollision = nullptr;
+	}
+	if (nullptr != PlayerSensorCollision)
+	{
+		PlayerSensorCollision->Death();
+		PlayerSensorCollision = nullptr;
+	}
 }
 
 void Monster::StateUpdate(float _DeltaTime)
@@ -54,6 +70,7 @@ void Monster::Update(float _Time)
 	// 맵자체를 여기서 가지고 있어야할수도 있고.
 	UpdateTime += _Time;
 
+	AttackCollision->SetPivot(GetDir() * 105.f);
 
 	if (nullptr != Target && false == Target->GetSectionCompare(GetSection()))
 	{
@@ -135,6 +152,8 @@ bool Monster::InsertSection()
 	HitCollision = GetSection()->CreateCollision(ECollisionGroup::MONSTER, this);
 
 	HitCollision->SetScale({ 50.0f, 50.0f, 50.0f });
+
+	AttackCollision->SetScale({ 125.0f, 125.0f, 100.0f });
 	ChangeState(EMonsterState::MState_Idle);
 
 	return true;
@@ -215,6 +234,7 @@ void Monster::DeathStart()
 	BroadcastingMonsterUpdateMessage(false);
 	HitCollision->Death();
 	PlayerSensorCollision->Death();
+	AttackCollision->Death();
 	// GetSection()->DeleteActor(DynamicCast<GameServerActor>());
 }
 

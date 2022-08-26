@@ -3,6 +3,8 @@
 #include "ObjectMessageComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "../Global/ClientGameInstance.h"
+#include "../Global/HitCameraShake.h"
+
 #include "../Play/PlayGameMode.h"
 #include "../Play/ClientMonster.h"
 #include "../Message/ClientToServer.h"
@@ -205,8 +207,11 @@ void AClientPlayCharacter::Tick(float DeltaTime)
 			{
 				const FUIItemTextureTableInfo* Info = Inst->FindItemTextureInfo(FString::FromInt(ItemMessage->ItemData.ItemIndex));
 				
-				if( Info != nullptr)
+				if (Info != nullptr)
+				{
+				
 					Inventory->AddItem(ItemMessage->ItemData, Info->IconTexture);
+				}
 			}
 		}
 		else 

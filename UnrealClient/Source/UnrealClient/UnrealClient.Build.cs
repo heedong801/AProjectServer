@@ -8,7 +8,7 @@ public class UnrealClient : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "SlateCore", "UMG" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "SlateCore", "UMG", "MovieScene", "GameplayCameras" });
 
 
 		PublicDependencyModuleNames.AddRange(new string[] { "Sockets", "Networking" });
