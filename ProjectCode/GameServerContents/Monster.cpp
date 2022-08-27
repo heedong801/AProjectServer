@@ -12,6 +12,8 @@ Monster::Monster()
 	, PlayerSensorCollision(nullptr)
 	, UpdateTime(0.0f)
 	, IsDeath(false)
+	, CanAttack(false)
+	, DelayAttackTime(0.5f)
 {
 	ChangeState(EMonsterState::MState_Idle);
 
@@ -152,6 +154,8 @@ bool Monster::InsertSection()
 	HitCollision = GetSection()->CreateCollision(ECollisionGroup::MONSTER, this);
 
 	HitCollision->SetScale({ 50.0f, 50.0f, 50.0f });
+
+	AttackCollision = GetSection()->CreateCollision(ECollisionGroup::MONSTER, this);
 
 	AttackCollision->SetScale({ 125.0f, 125.0f, 100.0f });
 	ChangeState(EMonsterState::MState_Idle);
@@ -302,8 +306,35 @@ void Monster::TraceUpdate(float _DeltaTime)
 void Monster::AttUpdate(float _DeltaTime) 
 {
 	AttTime -= _DeltaTime;
+
+	if (0.5f >= AttTime && CanAttack)
+	{
+		std::vector<GameServerCollision*> Result;
+
+		if (true == AttackCollision->CollisionCheckResult(CollisionCheckType::SPHERE, ECollisionGroup::PLAYER, CollisionCheckType::SPHERE, Result))
+		{
+			for (auto el : Result)
+			{
+				Player* PlayerPtr = el->GetOwnerActorConvert<Player>();
+
+				if (nullptr == PlayerPtr)
+				{
+					GameServerDebug::AssertDebugMsg("몬스터에 잘못된 객체가 들어가 있었습니다.");
+					return;
+				}
+
+				// 플레이어면 데미지 주기
+				PlayerPtr->TakeDamage(50);
+
+
+			}
+
+		}
+		CanAttack = false;
+	}
 	if (0.0f >= AttTime)
 	{
+		CanAttack = true;
 		AttTime = 0.0f;
 		ChangeState(EMonsterState::MState_Idle);
 		return;

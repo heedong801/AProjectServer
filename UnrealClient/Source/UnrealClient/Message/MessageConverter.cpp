@@ -92,6 +92,9 @@ MessageConverter::MessageConverter(const std::vector<unsigned char>&_buffer)
 	case MessageId::EquipItemResult:
 		Message_ = std::make_shared<EquipItemResultMessage>();
 		break;
+	case MessageId::TakeDamage:
+		Message_ = std::make_shared<TakeDamageMessage>();
+		break;
 	case MessageId::Chat:
 		Message_ = std::make_shared<ChatMessage>();
 		break;

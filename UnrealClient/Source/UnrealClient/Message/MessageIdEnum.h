@@ -28,6 +28,7 @@ enum class MessageId
 	GetInventoryResult,
 	GetEquipmentResult,
 	EquipItemResult,
+	TakeDamage,
 	Chat,
 	PlayerUpdate,
 	MAX

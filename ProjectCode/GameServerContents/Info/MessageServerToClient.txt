@@ -63,3 +63,6 @@ std::vector<FPlayerItemData> EquipItemData;
 
 |EquipItemResult-
 FCharacterInfo CharacterInfo;
+
+|TakeDamage-
+int Hp;

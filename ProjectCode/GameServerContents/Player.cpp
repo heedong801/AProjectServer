@@ -526,3 +526,36 @@ void Player::DelayAttack(EPlayerState state)
 		}
 	}
 }
+
+void Player::TakeDamage(int Damage)
+{
+	DBQueue::Queue([=]
+		{
+			std::shared_ptr<ContentsUserData> Ptr = GetTCPSession()->GetLink<ContentsUserData>(EDataIndex::USERDATA);
+
+			int Damage = 0;
+			Damage = (Damage - Ptr->SelectData.Armor) >= 0 ? Damage - Ptr->SelectData.Armor : 0;
+			int Hp = Ptr->SelectData.Hp - Damage;
+			CharacterTable_UpdateCharacter UpdateCharacterQuery = CharacterTable_UpdateCharacter(Ptr->SelectData.Index, Ptr->SelectData.Att, Ptr->SelectData.Armor, Ptr->SelectData.HpMax
+				, Ptr->SelectData.MpMax, Hp, Ptr->SelectData.Mp, Ptr->SelectData.HpRecovery, Ptr->SelectData.MpRecovery, Ptr->SelectData.CriticalPercent, Ptr->SelectData.CriticalDamage);
+
+			if (false == UpdateCharacterQuery.DoQuery())
+			{
+
+			}
+			else
+			{
+				
+				TakeDamageMessage Message;
+				Message.Hp = Hp;
+
+				GameServerSerializer Sr;
+				Message.Serialize(Sr);
+
+				GetTCPSession()->Send(Sr.GetData());
+			}
+
+			
+
+		});
+}

@@ -35,6 +35,9 @@ protected:
 	GameServerSerializer& GetSerializeMonsterUpdateMessage();
 	void BroadcastingMonsterUpdateMessage(bool UDP = true);
 
+	float DelayAttackTime;
+	bool CanAttack;
+
 	GameServerCollision* PlayerSensorCollision;
 	GameServerCollision* HitCollision;
 	GameServerCollision* AttackCollision;

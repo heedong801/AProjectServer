@@ -41,6 +41,7 @@ public:
 	void LevelMoveReplyMessageProcess(std::shared_ptr<class LevelMoveReplyMessage> _Message);
 	void ChatMessageProcess(std::shared_ptr<class ChatMessage> _Message);
 
+	void TakeDamage(int Damage);
 
 protected:
 	PlayerUpdateMessage& GetPlayerUpdateMessage();
