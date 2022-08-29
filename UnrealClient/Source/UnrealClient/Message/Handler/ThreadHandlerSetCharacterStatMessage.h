@@ -1,7 +1,7 @@
 #pragma once
 #include "../ThreadHandlerBase.h"
 
-class ThreadHandlerEquipItemResultMessage : public ThreadHandlerBase<EquipItemResultMessage>
+class ThreadHandlerSetCharacterStatMessage : public ThreadHandlerBase<SetCharacterStatMessage>
 {
 private:
 

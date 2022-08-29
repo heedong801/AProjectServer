@@ -12,7 +12,8 @@ Monster::Monster()
 	, PlayerSensorCollision(nullptr)
 	, UpdateTime(0.0f)
 	, IsDeath(false)
-	, CanAttack(false)
+	, CanAttack(true)
+	, OneTimeAttack(false)
 	, DelayAttackTime(0.5f)
 {
 	ChangeState(EMonsterState::MState_Idle);
@@ -228,7 +229,10 @@ void Monster::TraceStart()
 
 void Monster::AttStart() 
 {
-	AttTime = 1.0f;
+	GameServerDebug::Log(LOGTYPE::LOGTYPE_INFO, "Monster AttackStart");
+	AttTime = 1.5f;
+	CanAttack = false;
+	OneTimeAttack = true;
 }
 
 void Monster::DeathStart()
@@ -267,7 +271,7 @@ void Monster::TraceUpdate(float _DeltaTime)
 		return;
 	}
 
-	if ( 150.0f >= (Target->GetPos() - GetPos()).Length3DReturn())
+	if ( 150.0f >= (Target->GetPos() - GetPos()).Length3DReturn() && CanAttack == true )
 	{
 		ChangeState(EMonsterState::MState_Att);
 		// BroadcastingMonsterUpdateMessage();
@@ -307,8 +311,9 @@ void Monster::AttUpdate(float _DeltaTime)
 {
 	AttTime -= _DeltaTime;
 
-	if (0.5f >= AttTime && CanAttack)
+	if (0.9f >= AttTime && OneTimeAttack)
 	{
+		OneTimeAttack = false;
 		std::vector<GameServerCollision*> Result;
 
 		if (true == AttackCollision->CollisionCheckResult(CollisionCheckType::SPHERE, ECollisionGroup::PLAYER, CollisionCheckType::SPHERE, Result))
@@ -324,13 +329,14 @@ void Monster::AttUpdate(float _DeltaTime)
 				}
 
 				// 플레이어면 데미지 주기
-				PlayerPtr->TakeDamage(50);
+				
+				PlayerPtr->TakeDamage(10);
+
 
 
 			}
-
 		}
-		CanAttack = false;
+		
 	}
 	if (0.0f >= AttTime)
 	{

@@ -79,6 +79,7 @@ void UPlayUIUserWidget::NativeConstruct()
 	Inst->EquipmentUI = GetWidgetFromName(TEXT("UI_Equipment"));
 	Inst->InventoryUI = GetWidgetFromName(TEXT("UI_Inventory"));
 	Inst->RankWindow = GetWidgetFromName(TEXT("RankWindow"));
+	Inst->CharacterHUD = GetWidgetFromName(TEXT("UI_CharacterHUD"));
 
 	if (nullptr == Inst->RankWindow ||
 		false == Inst->RankWindow->IsValidLowLevel())
@@ -100,6 +101,14 @@ void UPlayUIUserWidget::NativeConstruct()
 		UE_LOG(ClientLog, Error, TEXT("InventoryUI List View Is Nullptr"));
 		return;
 	}
+
+	if (nullptr == Inst->CharacterHUD ||
+		false == Inst->CharacterHUD->IsValidLowLevel())
+	{
+		UE_LOG(ClientLog, Error, TEXT("CharacterHUD List View Is Nullptr"));
+		return;
+	}
+
 	Super::NativeConstruct();
 
 

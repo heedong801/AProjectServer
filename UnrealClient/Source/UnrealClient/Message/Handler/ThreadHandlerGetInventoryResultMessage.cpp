@@ -21,6 +21,7 @@ void ThreadHandlerGetInventoryResultMessage::Start()
 			for (int i = 0; i < Message_->ItemData.size(); i++)
 			{
 				const FUIItemTextureTableInfo* Info = Inst->FindItemTextureInfo(FString::FromInt(Message_->ItemData[i].ItemIndex));
+				
 				//Inst->m_EquipItemList.Add(ItemMessage->ItemData);
 				if (Info != nullptr)
 					Inventory->AddItem(Message_->ItemData[i], Info->IconTexture);

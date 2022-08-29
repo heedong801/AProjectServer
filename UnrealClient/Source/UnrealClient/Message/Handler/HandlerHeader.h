@@ -18,8 +18,7 @@
 #include "ThreadHandlerGetItemMessage.h"
 #include "ThreadHandlerGetInventoryResultMessage.h"
 #include "ThreadHandlerGetEquipmentResultMessage.h"
-#include "ThreadHandlerEquipItemResultMessage.h"
-#include "ThreadHandlerTakeDamageMessage.h"
+#include "ThreadHandlerSetCharacterStatMessage.h"
 #include "ThreadHandlerChatMessage.h"
 #include "ThreadHandlerPlayerUpdateMessage.h"
 																												  
@@ -55,8 +54,7 @@ void CheckHandler(UDispatcher& Dis, class UClientGameInstance* Inst, UWorld* Wor
 	Dis.AddHandler(MessageId::GetItem, std::bind(&OnMessageProcess<ThreadHandlerGetItemMessage, GetItemMessage>, std::placeholders::_1, Inst, World));	
 	Dis.AddHandler(MessageId::GetInventoryResult, std::bind(&OnMessageProcess<ThreadHandlerGetInventoryResultMessage, GetInventoryResultMessage>, std::placeholders::_1, Inst, World));	
 	Dis.AddHandler(MessageId::GetEquipmentResult, std::bind(&OnMessageProcess<ThreadHandlerGetEquipmentResultMessage, GetEquipmentResultMessage>, std::placeholders::_1, Inst, World));	
-	Dis.AddHandler(MessageId::EquipItemResult, std::bind(&OnMessageProcess<ThreadHandlerEquipItemResultMessage, EquipItemResultMessage>, std::placeholders::_1, Inst, World));	
-	Dis.AddHandler(MessageId::TakeDamage, std::bind(&OnMessageProcess<ThreadHandlerTakeDamageMessage, TakeDamageMessage>, std::placeholders::_1, Inst, World));	
+	Dis.AddHandler(MessageId::SetCharacterStat, std::bind(&OnMessageProcess<ThreadHandlerSetCharacterStatMessage, SetCharacterStatMessage>, std::placeholders::_1, Inst, World));	
 	Dis.AddHandler(MessageId::Chat, std::bind(&OnMessageProcess<ThreadHandlerChatMessage, ChatMessage>, std::placeholders::_1, Inst, World));	
 	Dis.AddHandler(MessageId::PlayerUpdate, std::bind(&OnMessageProcess<ThreadHandlerPlayerUpdateMessage, PlayerUpdateMessage>, std::placeholders::_1, Inst, World));	
 }																																													

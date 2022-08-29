@@ -614,20 +614,20 @@ public:
     }                                                           
 };                                                              
 
-class EquipItemResultMessage : public GameServerMessage                    
+class SetCharacterStatMessage : public GameServerMessage                    
 {                                                               
 public:                                                         
 	FCharacterInfo CharacterInfo;
                                                                 
 public:                                                         
-    EquipItemResultMessage()                                               
-        : GameServerMessage(static_cast<uint32_t>(MessageId::EquipItemResult))                    
+    SetCharacterStatMessage()                                               
+        : GameServerMessage(static_cast<uint32_t>(MessageId::SetCharacterStat))                    
         , CharacterInfo()
     {                                                           
                                                                 
     }                                                           
                                                                 
-    virtual ~EquipItemResultMessage() {}                                   
+    virtual ~SetCharacterStatMessage() {}                                   
                                                                 
     virtual int SizeCheck()                                     
     {                                                           
@@ -645,41 +645,6 @@ public:
     {                                                           
         GameServerMessage::DeSerialize(_Serializer);            
         CharacterInfo.DeSerialize(_Serializer);
-
-    }                                                           
-};                                                              
-
-class TakeDamageMessage : public GameServerMessage                    
-{                                                               
-public:                                                         
-	int Hp;
-                                                                
-public:                                                         
-    TakeDamageMessage()                                               
-        : GameServerMessage(static_cast<uint32_t>(MessageId::TakeDamage))                    
-        , Hp()
-    {                                                           
-                                                                
-    }                                                           
-                                                                
-    virtual ~TakeDamageMessage() {}                                   
-                                                                
-    virtual int SizeCheck()                                     
-    {                                                           
-		return DataSizeCheck(Hp);
-    }                                                           
-                                                                
-    void Serialize(GameServerSerializer& _Serializer)           
-    {                                                           
-        GameServerMessage::Serialize(_Serializer);              
-        _Serializer << Hp;
-
-    }                                                           
-                                                                
-    void DeSerialize(GameServerSerializer& _Serializer)         
-    {                                                           
-        GameServerMessage::DeSerialize(_Serializer);            
-        _Serializer >> Hp;
 
     }                                                           
 };                                                              

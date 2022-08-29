@@ -188,3 +188,26 @@ public:
 	bool DoQuery() override;
 };
 
+class CharacterTable_SelectCharacterHpArmor : public DBQuery
+{
+public:
+	int CharacterId_;
+	int Hp;
+	int Armor;
+public:
+	CharacterTable_SelectCharacterHpArmor(int _CharacterId);
+	bool DoQuery() override;
+};
+
+
+
+class CharacterTable_UpdateHp : public DBQuery
+{
+public:
+	int CharacterId_;
+	int Hp;
+public:
+	CharacterTable_UpdateHp(int _CharacterId, int _Hp);
+	bool DoQuery() override;
+};
+

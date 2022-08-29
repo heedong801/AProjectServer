@@ -9,7 +9,7 @@ class ThreadHandlerEquipItemMessage final
 	: public ThreadHandlerBase<EquipItemMessage>
 {
 private: // Member Var
-	EquipItemResultMessage Result_;
+	SetCharacterStatMessage Result_;
 public: // Default
 	ThreadHandlerEquipItemMessage();
 	~ThreadHandlerEquipItemMessage();

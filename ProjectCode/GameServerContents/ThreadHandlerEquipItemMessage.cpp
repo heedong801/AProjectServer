@@ -283,8 +283,7 @@ void ThreadHandlerEquipItemMessage::DBCheck()
 		Ptr->SelectData.Armor -= SelectItemQuery.RowData->Armor;
 		Ptr->SelectData.HpMax -= SelectItemQuery.RowData->HpMax;
 		Ptr->SelectData.MpMax -= SelectItemQuery.RowData->MpMax;
-		Ptr->SelectData.Hp -= SelectItemQuery.RowData->Hp;
-		Ptr->SelectData.Mp -= SelectItemQuery.RowData->Mp;
+
 		Ptr->SelectData.HpRecovery -= SelectItemQuery.RowData->HpRecovery;
 		Ptr->SelectData.MpRecovery -= SelectItemQuery.RowData->MpRecovery;
 		Ptr->SelectData.CriticalPercent -= SelectItemQuery.RowData->CriticalPercent;
@@ -302,8 +301,7 @@ void ThreadHandlerEquipItemMessage::DBCheck()
 		Ptr->SelectData.Armor += SelectCurrentItemQuery.RowData->Armor;
 		Ptr->SelectData.HpMax += SelectCurrentItemQuery.RowData->HpMax;
 		Ptr->SelectData.MpMax += SelectCurrentItemQuery.RowData->MpMax;
-		Ptr->SelectData.Hp += SelectCurrentItemQuery.RowData->Hp;
-		Ptr->SelectData.Mp += SelectCurrentItemQuery.RowData->Mp;
+
 		Ptr->SelectData.HpRecovery += SelectCurrentItemQuery.RowData->HpRecovery;
 		Ptr->SelectData.MpRecovery += SelectCurrentItemQuery.RowData->MpRecovery;
 		Ptr->SelectData.CriticalPercent += SelectCurrentItemQuery.RowData->CriticalPercent;

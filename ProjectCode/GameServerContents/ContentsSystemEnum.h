@@ -13,4 +13,5 @@ enum class ECollisionGroup
 	POTAL,
 	MONSTER,
 	MONSTERSENSOR,
+	PLAYERATTACK,
 };

@@ -37,7 +37,7 @@ protected:
 
 	float DelayAttackTime;
 	bool CanAttack;
-
+	bool OneTimeAttack;
 	GameServerCollision* PlayerSensorCollision;
 	GameServerCollision* HitCollision;
 	GameServerCollision* AttackCollision;

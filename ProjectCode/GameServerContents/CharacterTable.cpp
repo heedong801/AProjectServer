@@ -177,3 +177,61 @@ bool CharacterTable_UpdateCharacter::DoQuery()
 	return true;
 }
 
+/// ///////////////////////// CharacterTable_SelectCharacterHp
+
+CharacterTable_SelectCharacterHpArmor::CharacterTable_SelectCharacterHpArmor(int _CharacterId)
+	: DBQuery("SELECT Hp, Armor FROM userver2.characterinfo WHERE Idx = ?")
+	, CharacterId_(_CharacterId)
+	, Hp(0)
+	, Armor(0)
+{
+}
+
+bool CharacterTable_SelectCharacterHpArmor::DoQuery()
+{
+	std::unique_ptr<DBStmt> Stmt = DBConnecterPtr->CreateStmt(QueryString);
+
+	Stmt->ParamBindInt(CharacterId_);
+
+	std::unique_ptr<DBStmtResult> Result(Stmt->Execute());
+
+	uint64_t Row = Stmt->AffectedRows();
+
+	if (0 == Row)
+	{
+		return false;
+	}
+	Result->Next();
+	Hp = Result->GetInt(0);
+	Armor = Result->GetInt(1);
+	return true;
+}
+
+/// ///////////////////////// CharacterTable_UpdateHp
+
+CharacterTable_UpdateHp::CharacterTable_UpdateHp(int _CharacterId, int _Hp)
+	: DBQuery("UPDATE userver2.characterinfo Set Hp = ? Where Idx =  ?")
+	, CharacterId_(_CharacterId)
+	, Hp(_Hp)
+{
+}
+
+bool CharacterTable_UpdateHp::DoQuery()
+{
+	std::unique_ptr<DBStmt> Stmt = DBConnecterPtr->CreateStmt(QueryString);
+
+	Stmt->ParamBindInt(Hp);
+	Stmt->ParamBindInt(CharacterId_);
+
+	Stmt->Execute();
+
+	uint64_t Row = Stmt->AffectedRows();
+
+	if (0 == Row)
+	{
+		return false;
+	}
+
+	return true;
+}
+

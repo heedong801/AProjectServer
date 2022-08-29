@@ -61,8 +61,5 @@ EGameServerCode Code;
 |GetEquipmentResult-
 std::vector<FPlayerItemData> EquipItemData;
 
-|EquipItemResult-
+|SetCharacterStat-
 FCharacterInfo CharacterInfo;
-
-|TakeDamage-
-int Hp;

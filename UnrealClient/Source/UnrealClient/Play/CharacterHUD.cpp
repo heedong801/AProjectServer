@@ -3,6 +3,7 @@
 
 #include "CharacterHUD.h"
 #include "../DebugClass.h"
+#include "../Play/ClientPlayCharacter.h"
 //#include "SkillImageWidget.h"
 void UCharacterHUD::NativeConstruct()
 {
@@ -15,13 +16,22 @@ void UCharacterHUD::NativeConstruct()
 	//m_SkillArray.Add(Cast<USkillImageWidget>(GetWidgetFromName(TEXT("UI_Skill1"))));
 	//m_SkillArray.Add(Cast<USkillImageWidget>(GetWidgetFromName(TEXT("UI_Skill2"))));
 
-	//APlayerCharacter* Player = Cast<APlayerCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	AClientPlayCharacter* Player = Cast<AClientPlayCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
-	/*if (Player)
-	{
-		SetLevelText(Player->GetPlayerInfo().Level);
-		SetEXPPercent(Player->GetPlayerInfo().Exp);
-	}*/
+	if (Player)
+	{	
+		UClientGameInstance* Inst = Cast<UClientGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+		if (nullptr == Inst || false == Inst->IsValidLowLevel())
+		{
+			return;
+		}
+		FCharacterInfo Data = Inst->SelectCharacter;
+
+		SetHPPercent(Data.Hp / (float)Data.HpMax);
+		//SetLevelText();
+		//SetEXPPercent(Player->GetPlayerInfo().Exp);
+	}
 }
 
 void UCharacterHUD::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)

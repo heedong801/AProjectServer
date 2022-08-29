@@ -375,12 +375,12 @@ void Player::SectionInitialize()
 	}
 	if (nullptr == AttackCollision)
 	{
-		AttackCollision = GetSection()->CreateCollision(ECollisionGroup::PLAYER, this);
+		AttackCollision = GetSection()->CreateCollision(ECollisionGroup::PLAYERATTACK, this);
 		AttackCollision->SetScale({ 125.0f, 125.0f, 100.0f });
 	}
 	if (nullptr == SlamCollision)
 	{
-		SlamCollision = GetSection()->CreateCollision(ECollisionGroup::PLAYER, this);
+		SlamCollision = GetSection()->CreateCollision(ECollisionGroup::PLAYERATTACK, this);
 		SlamCollision->SetScale({ 500.0f, 500.0f, 2500.0f });
 	}
 	UDPReady_ = false;
@@ -449,7 +449,7 @@ void Player::DelayAttack(EPlayerState state)
 			if (PrevPlayerState == EPlayerState::PState_Att1)
 				return;
 			AttTime = GetAccTime();
-			GameServerDebug::Log(LOGTYPE::LOGTYPE_ERROR, "Attack1");
+			//GameServerDebug::Log(LOGTYPE::LOGTYPE_ERROR, "Attack1");
 			IsAttack = true;
 			CurrentCollision = AttackCollision;
 			DelayAttackTime = 0.2f;
@@ -458,7 +458,7 @@ void Player::DelayAttack(EPlayerState state)
 		case EPlayerState::PState_Att2:
 			if (PrevPlayerState == EPlayerState::PState_Att2)
 				return;
-			GameServerDebug::Log(LOGTYPE::LOGTYPE_ERROR, "Attack2");
+			//GameServerDebug::Log(LOGTYPE::LOGTYPE_ERROR, "Attack2");
 
 			AttTime = GetAccTime();
 			IsAttack = true;
@@ -469,7 +469,7 @@ void Player::DelayAttack(EPlayerState state)
 		case EPlayerState::PState_Att3:
 			if (PrevPlayerState == EPlayerState::PState_Att3)
 				return;
-			GameServerDebug::Log(LOGTYPE::LOGTYPE_ERROR, "Attack3");
+			//GameServerDebug::Log(LOGTYPE::LOGTYPE_ERROR, "Attack3");
 
 			AttTime = GetAccTime();
 			IsAttack = true;
@@ -480,7 +480,7 @@ void Player::DelayAttack(EPlayerState state)
 		case EPlayerState::PState_Att4:
 			if (PrevPlayerState == EPlayerState::PState_Att4)
 				return;
-			GameServerDebug::Log(LOGTYPE::LOGTYPE_ERROR, "Attack4");
+			//GameServerDebug::Log(LOGTYPE::LOGTYPE_ERROR, "Attack4");
 
 			AttTime = GetAccTime();
 			IsAttack = true;
@@ -491,7 +491,7 @@ void Player::DelayAttack(EPlayerState state)
 		case EPlayerState::PState_JumpAtt:
 			if (PrevPlayerState == EPlayerState::PState_JumpAtt)
 				return;
-			GameServerDebug::Log(LOGTYPE::LOGTYPE_ERROR, "Jump");
+			//GameServerDebug::Log(LOGTYPE::LOGTYPE_ERROR, "Jump");
 
 			AttTime = GetAccTime();
 			IsAttack = true;
@@ -502,7 +502,7 @@ void Player::DelayAttack(EPlayerState state)
 		case EPlayerState::PState_SlamAtt:
 			if (PrevPlayerState == EPlayerState::PState_SlamAtt)
 				return;
-			GameServerDebug::Log(LOGTYPE::LOGTYPE_ERROR, "SLAM");
+			//GameServerDebug::Log(LOGTYPE::LOGTYPE_ERROR, "SLAM");
 			AttTime = GetAccTime();
 			IsAttack = true;
 			CurrentCollision = AttackCollision;
@@ -529,33 +529,48 @@ void Player::DelayAttack(EPlayerState state)
 
 void Player::TakeDamage(int Damage)
 {
+	//GameServerDebug::Log(LOGTYPE::LOGTYPE_INFO, "DAMAGE");
 	DBQueue::Queue([=]
 		{
-			std::shared_ptr<ContentsUserData> Ptr = GetTCPSession()->GetLink<ContentsUserData>(EDataIndex::USERDATA);
+			CharacterTable_SelectCharacterHpArmor SelectHpQuery = CharacterTable_SelectCharacterHpArmor(UserData->SelectData.Index);
 
-			int Damage = 0;
-			Damage = (Damage - Ptr->SelectData.Armor) >= 0 ? Damage - Ptr->SelectData.Armor : 0;
-			int Hp = Ptr->SelectData.Hp - Damage;
-			CharacterTable_UpdateCharacter UpdateCharacterQuery = CharacterTable_UpdateCharacter(Ptr->SelectData.Index, Ptr->SelectData.Att, Ptr->SelectData.Armor, Ptr->SelectData.HpMax
-				, Ptr->SelectData.MpMax, Hp, Ptr->SelectData.Mp, Ptr->SelectData.HpRecovery, Ptr->SelectData.MpRecovery, Ptr->SelectData.CriticalPercent, Ptr->SelectData.CriticalDamage);
-
-			if (false == UpdateCharacterQuery.DoQuery())
+			if (false == SelectHpQuery.DoQuery())
 			{
 
 			}
 			else
 			{
-				
-				TakeDamageMessage Message;
-				Message.Hp = Hp;
+				int RealDamage = 0;
+				RealDamage = (Damage - SelectHpQuery.Armor) >= 0 ? Damage - SelectHpQuery.Armor : 0;
+				int Hp = SelectHpQuery.Hp - Damage;
+				//GameServerDebug::Log(LOGTYPE::LOGTYPE_INFO, std::to_string(Hp));
 
-				GameServerSerializer Sr;
-				Message.Serialize(Sr);
+				CharacterTable_UpdateHp UpdateCharacterQuery = CharacterTable_UpdateHp(UserData->SelectData.Index, Hp);
 
-				GetTCPSession()->Send(Sr.GetData());
+				if (false == UpdateCharacterQuery.DoQuery())
+				{
+
+				}
+				else
+				{
+					SetCharacterStatMessage Message;
+
+					Message.CharacterInfo.Att = -1;
+					Message.CharacterInfo.Armor = -1;
+					Message.CharacterInfo.HpMax = -1;
+					Message.CharacterInfo.MpMax = -1;
+					Message.CharacterInfo.Mp = -1;
+					Message.CharacterInfo.HpRecovery = -1;
+					Message.CharacterInfo.MpRecovery = -1;
+					Message.CharacterInfo.CriticalPercent = -1;
+					Message.CharacterInfo.CriticalDamage = -1;
+					Message.CharacterInfo.Hp = Hp;
+
+					GameServerSerializer Sr;
+					Message.Serialize(Sr);
+
+					GetTCPSession()->Send(Sr.GetData());
+				}
 			}
-
-			
-
 		});
 }

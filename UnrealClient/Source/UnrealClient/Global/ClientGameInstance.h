@@ -158,6 +158,7 @@ public:
 	uint64_t TargetObjectIndex;
 	ESlateVisibility RankWindowMode;
 
+	class UWidget* CharacterHUD;
 	class UWidget* RankWindow;
 	class UWidget* EquipmentUI;
 	class UWidget* InventoryUI;
