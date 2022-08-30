@@ -168,7 +168,6 @@ UClientGameInstance::UClientGameInstance()
 	static ConstructorHelpers::FObjectFinder<UDataTable> ItemTexutureInfoTableAsset(TEXT("DataTable'/Game/UI/DT_ItemTextureInfo.DT_ItemTextureInfo'"));
 	if (ItemTexutureInfoTableAsset.Succeeded())
 		m_ItemTextureTable = ItemTexutureInfoTableAsset.Object;
-
 }
 
 UClientGameInstance::~UClientGameInstance() 

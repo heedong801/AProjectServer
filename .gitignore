@@ -81,5 +81,9 @@ UnrealClient/Intermediate
 UnrealClient/Saved
 UnrealClient/Script
 UnrealClient/UnrealClient.sln
-
+UnrealClient/Content/ParagonSunWukong
+UnrealClient/Content/ParagonProps
+UnrealClient/Content/KiteDemo
+UnrealClient/Content/Lighting
+UnrealClient/Content/SampleMap
 ProjectCode/Bin

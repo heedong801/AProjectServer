@@ -6,7 +6,7 @@
 #include "../../Global/ClientBlueprintFunctionLibrary.h"
 #include "Components/ListView.h"
 #include "../../UnrealClient.h"
-
+#include "../../DebugClass.h"
 void ThreadHandlerSectionInsertResultMessage::Start()
 {
 	if (EGameServerCode::FAIL == Message_->Code)
@@ -40,7 +40,12 @@ void ThreadHandlerSectionInsertResultMessage::Start()
 	FString NextLevelName;
 	UClientBlueprintFunctionLibrary::UTF8ToFString(Message_->MoveLevel, NextLevelName);
 
-	UGameplayStatics::OpenLevel(World_, *NextLevelName);
+	LOG(TEXT("%s"), *NextLevelName);
+	if(NextLevelName == TEXT("PlayLevel"))
+		UGameplayStatics::OpenLevel(World_, TEXT("Select"));
+	else
+		UGameplayStatics::OpenLevel(World_, *NextLevelName);
+
 
 	int a = 0;
 }

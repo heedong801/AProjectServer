@@ -43,8 +43,6 @@ void ThreadHandlerSetCharacterStatMessage::Start()
 	UCharacterHUD* CharacterHUD = Cast<UCharacterHUD>(Inst->CharacterHUD);
 	if (IsValid(CharacterHUD) && CharacterHUD != nullptr)
 	{
-		LOG(TEXT("%d AAAAAA"), Inst->SelectCharacter.Hp);
-		LOG(TEXT("%d DDDDDD"), Inst->SelectCharacter.HpMax);
 
 		if (Inst->SelectCharacter.Hp <= 0)
 			Inst->SelectCharacter.Hp = 0;

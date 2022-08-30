@@ -166,7 +166,7 @@ void UClientAnimInstance::AnimNotify_AttackEnd()
 		m_IsAttack = false;
 		m_CanAttack = true;
 		Player->SetCurrentCombo(0);
-		LOG(TEXT("ATTACKEND"));
+
 		ChangeAnimation(ClientAnimationType::Idle);
 		//Player->SetMovable(true);
 		//Player->CameraArmYawReset();
