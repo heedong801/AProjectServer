@@ -27,6 +27,7 @@ void ThreadHandlerPlayerUpdateMessage::Start()
 	{
 		GameServerDebug::LogError("Login TCPSession Error");
 	}
+	//GameServerDebug::Log(LOGTYPE::LOGTYPE_INFO, "TCPUpdate");
 
 	ActorWork(Message_->Data.ThreadIndex, Message_->Data.SectionIndex, Message_->Data.ObjectIndex, Message_);
 }

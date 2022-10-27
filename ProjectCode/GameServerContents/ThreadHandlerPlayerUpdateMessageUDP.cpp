@@ -27,6 +27,7 @@ void ThreadHandlerPlayerUpdateMessageUDP::Start()
 	{
 		GameServerDebug::LogError("Login TCPSession Error");
 	}
+	//GameServerDebug::Log(LOGTYPE::LOGTYPE_INFO, "UDPUpdate");
 
 	// 이액터가 처음 받았다면
 	ActorPointWork(Message_->Data.ThreadIndex, Message_->Data.SectionIndex, Message_->Data.ObjectIndex, Point, Message_);

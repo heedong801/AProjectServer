@@ -76,6 +76,7 @@ void ThreadHandlerLoginMessage::ResultSend()
 {
 	if (LoginResult_.Code == EGameServerCode::OK)
 	{
+		GameServerDebug::LogInfo("Login Result Success Send");
 		UserData = std::make_shared<ContentsUserData>();
 		UserData->Data = *RowData;
 		Session_->SetLink(EDataIndex::USERDATA, UserData);
@@ -86,7 +87,6 @@ void ThreadHandlerLoginMessage::ResultSend()
 	LoginResult_.Serialize(Sr);
 	Session_->Send(Sr.GetData());
 
-	GameServerDebug::LogInfo("Login Result Send");
 
 	// 캐릭터 리스트 패킷을 받고 넘어가야죠.
 

@@ -68,10 +68,13 @@ void ThreadHandlerCreateCharacterMessage::DBCheck()
 		}
 
 		Ptr->Characters.push_back(Result_.ResultCharacter);
+		GameServerDebug::LogInfo("Character Create Success Send");
+
 	}
 	else 
 	{
 		Result_.Code = EGameServerCode::FAIL;
+		GameServerDebug::LogInfo("Character Create Fail Send");
 	}
 
 	NetWork(&ThreadHandlerCreateCharacterMessage::Result);
@@ -87,7 +90,6 @@ void ThreadHandlerCreateCharacterMessage::Result()
 	Result_.Serialize(Sr);
 	Session_->Send(Sr.GetData());
 
-	GameServerDebug::LogInfo("Character Create Send");
 
 
 }

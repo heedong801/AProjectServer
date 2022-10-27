@@ -156,7 +156,7 @@ bool Monster::InsertSection()
 
 	HitCollision->SetScale({ 50.0f, 50.0f, 50.0f });
 
-	AttackCollision = GetSection()->CreateCollision(ECollisionGroup::MONSTER, this);
+	AttackCollision = GetSection()->CreateCollision(ECollisionGroup::MONSTERATT, this);
 
 	AttackCollision->SetScale({ 125.0f, 125.0f, 100.0f });
 	ChangeState(EMonsterState::MState_Idle);
@@ -240,9 +240,9 @@ void Monster::DeathStart()
 	IsDeath = true;
 	DeleteTime = GetAccTime();
 	BroadcastingMonsterUpdateMessage(false);
-	HitCollision->Death();
-	PlayerSensorCollision->Death();
-	AttackCollision->Death();
+	//HitCollision->Death();
+	//PlayerSensorCollision->Death();
+	//AttackCollision->Death();
 	// GetSection()->DeleteActor(DynamicCast<GameServerActor>());
 }
 

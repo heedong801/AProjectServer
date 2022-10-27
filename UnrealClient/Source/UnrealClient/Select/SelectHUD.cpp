@@ -54,7 +54,7 @@ void USelectHUD::WukongClick()
 	
 	GetWorld()->GetTimerManager().SetTimer(m_PlayerAnimTimerHandle, this, &USelectHUD::ChangeAnim, 0.1f, false, 0.2f);
 
-	OpenLevel();
+	//OpenLevel();
 
 }
 void USelectHUD::NoneClick()

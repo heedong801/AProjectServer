@@ -344,6 +344,7 @@ bool Player::InsertSection()
 		SectionInsertResultMessage Msg;
 		Msg.Code = EGameServerCode::OK;
 		Msg.UDPPort = GetUDPPort();
+		GameServerDebug::Log(LOGTYPE::LOGTYPE_INFO, std::to_string(Msg.UDPPort));
 		Msg.ObjectIndex = GetIndex();
 		Msg.SectionIndex = GetSectionIndex();
 		Msg.ThreadIndex = GetThreadIndex();
@@ -360,7 +361,7 @@ bool Player::InsertSection()
 
 
 
-	GameServerDebug::LogInfo("Select Result OK Send");
+	GameServerDebug::LogInfo("Insert Section");
 
 	return true;
 }

@@ -15,15 +15,6 @@ void UCharacterListItem::CharacterSelect()
 {
 	UClientGameInstance* Inst = Cast<UClientGameInstance>(GetGameInstance());
 
-	if (true == Inst->GetClientMode())
-	{
-		std::shared_ptr<CharacterSelectResultMessage> Message = std::make_shared<CharacterSelectResultMessage>();
-		Message->Code = EGameServerCode::OK;
-		Inst->PushClientMessage(Message);
-		return;
-	}
-
-
 	std::string ConvertNickName;
 	UClientBlueprintFunctionLibrary::FStringToUTF8(NickName, ConvertNickName);
 
