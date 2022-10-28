@@ -65,7 +65,7 @@ void AClientPlayCharacter::BeginPlay()
 		return;
 	}
 
-	Inst->LoadData();
+	//Inst->LoadData();
 	GetCharacterMovement()->JumpZVelocity = 800.f;
 	SetObjectType(EGameObjectType::Player);
 	SetObjectId(Inst->ObjectIndex);
@@ -170,7 +170,7 @@ void AClientPlayCharacter::Tick(float DeltaTime)
 
 		if (MessageId::LevelMove == Message->GetId<MessageId>())
 		{
-			Inst->SaveData();
+			//Inst->SaveData();
 
 			ServerPost = false;
 			LevelMoveReplyMessage MoveReplyMsg;
@@ -288,6 +288,7 @@ void AClientPlayCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	PlayerInputComponent->BindAction(TEXT("Equipment"), EInputEvent::IE_Pressed, this, &AClientPlayCharacter::EquipmentKey);
 	PlayerInputComponent->BindAction(TEXT("Inventory"), EInputEvent::IE_Pressed, this, &AClientPlayCharacter::InventoryKey);
 
+
 	/*PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &APlayerCharacter::LookUp);
 	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &APlayerCharacter::Turn);
 	PlayerInputComponent->BindAxis(TEXT("Zoom"), this, &APlayerCharacter::ZoomInKey);
@@ -321,6 +322,7 @@ void AClientPlayCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	GetWorld()->GetFirstPlayerController()->SetInputMode(InputMode);
 	GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;
 }
+
 
 void AClientPlayCharacter::Sprint()
 {
@@ -781,3 +783,4 @@ void AClientPlayCharacter::EquipmentKey()
 	else if (Inst->EquipmentUI->GetVisibility() == ESlateVisibility::Visible)
 		Inst->EquipmentUI->SetVisibility(ESlateVisibility::Hidden);
 }
+

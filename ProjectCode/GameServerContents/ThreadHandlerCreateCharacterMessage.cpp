@@ -73,7 +73,7 @@ void ThreadHandlerCreateCharacterMessage::DBCheck()
 	}
 	else 
 	{
-		Result_.Code = EGameServerCode::FAIL;
+		Result_.Code = EGameServerCode::DuplicateID;
 		GameServerDebug::LogInfo("Character Create Fail Send");
 	}
 

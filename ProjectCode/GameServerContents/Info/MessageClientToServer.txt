@@ -34,3 +34,6 @@ int CharacterIndex;
 int CurrentItemIndex;
 int ChangeItemIndex;
 int ItemPart;
+
+|Logout-
+std::string ID;

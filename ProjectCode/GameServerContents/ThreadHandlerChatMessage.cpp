@@ -23,7 +23,7 @@ void ThreadHandlerChatMessage::Start()
 		GameServerDebug::LogError("Login TCPSession Error");
 	}
 
-	
+
 	std::string TId = GameServerString::UTF8ToAnsi(Message_->ID);
 	std::string TMsg = GameServerString::UTF8ToAnsi(Message_->Message);
 	EChatMessageType Type = static_cast<EChatMessageType>(Message_->MessagaType);

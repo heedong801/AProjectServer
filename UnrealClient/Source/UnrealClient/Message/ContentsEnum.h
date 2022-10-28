@@ -4,6 +4,8 @@ enum class EGameServerCode
 {
 	OK,
 	FAIL,
+	AlreadyPlay,
+	DuplicateID,
 	LoginError,
 };
 

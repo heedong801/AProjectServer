@@ -19,6 +19,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CreateNickName")
 	FString NickName;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CreateNickName")
+	FString CreateStatus;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterList")
 	class UListView* CharacterListView_;
 

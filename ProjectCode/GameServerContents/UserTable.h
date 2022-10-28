@@ -7,6 +7,7 @@ public:
 	int			Index;
 	std::string Id;
 	std::string Pw;
+	int			ConnectStatus;
 
 public:
 	UserRow() 
@@ -16,11 +17,13 @@ public:
 	UserRow(
 		int _Index,
 		std::string _Id,
-		std::string _Pw
+		std::string _Pw,
+		int			_ConnectStatus
 	)
 		:Index(_Index),
 		Id(_Id),
-		Pw(_Pw)
+		Pw(_Pw),
+		ConnectStatus(_ConnectStatus)
 	{
 	}
 };
@@ -55,6 +58,17 @@ class UserTable_InsertUserInfo : public DBQuery
 
 public:
 	UserTable_InsertUserInfo(std::string _ID, std::string _PW);
+
+	bool DoQuery() override;
+};
+
+class UserTable_UpdateUserInfo : public DBQuery
+{
+	std::string ID;
+	int ConnectStatus;
+
+public:
+	UserTable_UpdateUserInfo(std::string _ID, int _ConnectStatus);
 
 	bool DoQuery() override;
 };

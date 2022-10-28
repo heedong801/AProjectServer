@@ -53,20 +53,42 @@ void ThreadHandlerLoginMessage::DBCheck(/*GameEngineThread* _Thread*/)
 	UserTable_SelectIDToUserInfo SelectQuery(Message_->ID);
 	SelectQuery.DoQuery();
 
-	// 그 캐릭터가 하나도 없으면 로그인 에러
 	if (nullptr == SelectQuery.RowData)
 	{
 		UserTable_InsertUserInfo Insert = UserTable_InsertUserInfo(Message_->ID, Message_->PW);
 		if (true == Insert.DoQuery())
 		{
 			UserTable_SelectIDToUserInfo InsertPostSelectQuery(Message_->ID);
-			InsertPostSelectQuery.DoQuery();
-			SelectQuery.RowData = InsertPostSelectQuery.RowData;
+			if (true == InsertPostSelectQuery.DoQuery())
+			{
+				SelectQuery.RowData = InsertPostSelectQuery.RowData;
+
+				UserTable_UpdateUserInfo UpdateQuery = UserTable_UpdateUserInfo(Message_->ID, 1);
+
+				if (true == UpdateQuery.DoQuery())
+				{
+					LoginResult_.Code = EGameServerCode::OK;
+					GameServerDebug::LogInfo("UserTable_UpdateUserInfo Success Send");
+				}
+			}
 		}
 	}
+	else
+	{
+		if (SelectQuery.RowData->ConnectStatus == 0)
+		{
+			UserTable_UpdateUserInfo UpdateQuery = UserTable_UpdateUserInfo(Message_->ID, 1);
 
-	// 무조건 ok로 처리하겠다.
-	LoginResult_.Code = EGameServerCode::OK;
+			if (true == UpdateQuery.DoQuery())
+			{
+				LoginResult_.Code = EGameServerCode::OK;
+				GameServerDebug::LogInfo("UserTable_UpdateUserInfo Success Send");
+
+			}
+		}
+		else
+			LoginResult_.Code = EGameServerCode::AlreadyPlay;
+	}
 	RowData = SelectQuery.RowData;
 
 	NetWork(&ThreadHandlerLoginMessage::ResultSend);

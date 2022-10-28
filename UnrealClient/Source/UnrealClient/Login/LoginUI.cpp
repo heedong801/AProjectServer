@@ -25,11 +25,11 @@ void ULoginUI::ServerConnect()
 	// 이녀석도 쓰레드로 보내야 합니다.
 	if (false == GameInst->ServerConnect(IPString, PORTString))
 	{
-		ConnectStatus = TEXT("접속 실패");
+		LoginStatus = TEXT("접속 실패");
 		return;
 	}
 
-	ConnectStatus = TEXT("접속 성공");
+	LoginStatus = TEXT("접속 성공");
 }
 
 
@@ -40,9 +40,14 @@ void ULoginUI::NativeConstruct()
 	IDString = TEXT("Test");
 	PWString = TEXT("Test");
 
-	ConnectStatus = TEXT("커넥트 필요");
-	LoginStatus = TEXT("로그인 필요");
+	//ConnectStatus = TEXT("커넥트 필요");
+	//LoginStatus = TEXT("로그인 필요");
 
+	UClientGameInstance* GameInst = Cast<UClientGameInstance>(GetGameInstance());
+
+	GameInst->LoginUI = this;
+
+	ServerConnect();
 }
 
 void ULoginUI::ServerLogin() 
@@ -50,13 +55,13 @@ void ULoginUI::ServerLogin()
 
 	UClientGameInstance* Inst = Cast<UClientGameInstance>(GetGameInstance());
 
-	if (true == Inst->GetClientMode())
-	{
-		std::shared_ptr<LoginResultMessage> Message = std::make_shared<LoginResultMessage>();
-		Message->Code = EGameServerCode::OK;
-		Inst->PushClientMessage(Message);
-		return;
-	}
+	//if (true == Inst->GetClientMode())
+	//{
+	//	std::shared_ptr<LoginResultMessage> Message = std::make_shared<LoginResultMessage>();
+	//	Message->Code = EGameServerCode::OK;
+	//	Inst->PushClientMessage(Message);
+	//	return;
+	//}
 
 	// 몇초간 기다린다.
 	if (true == Inst->LoginProcess_)
@@ -109,5 +114,6 @@ void ULoginUI::SetClientMode(bool _Mode)
 
 void ULoginUI::JoinUser() 
 {
-	UE_LOG(ClientLog, Error, TEXT("%S(%u) > JOIN BUTTON"), __FUNCTION__, __LINE__);
+	 
 }
+

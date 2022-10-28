@@ -6,7 +6,7 @@
 //////////////////////////////////////////////////////////////////// 
 
 UserTable_SelectIDToUserInfo::UserTable_SelectIDToUserInfo(std::string _ID)
-	: DBQuery("SELECT Idx, ID, PW FROM userver2.userinfo WHERE ID = ? LIMIT 1")
+	: DBQuery("SELECT Idx, ID, PW, ConnectStatus FROM userver2.userinfo WHERE ID = ? LIMIT 1")
 	, ID(_ID)
 	, RowData(nullptr)
 {
@@ -32,7 +32,7 @@ bool UserTable_SelectIDToUserInfo::DoQuery()
 		return false;
 	}
 
-	RowData = std::make_shared<UserRow>(Result->GetInt(0) , Result->GetString(1) , Result->GetString(2));
+	RowData = std::make_shared<UserRow>(Result->GetInt(0) , Result->GetString(1) , Result->GetString(2), Result->GetInt(3));
 	return true;
 }
 
@@ -57,7 +57,7 @@ bool UserTable_AllUserInfo::DoQuery()
 
 	while (Result->Next())
 	{
-		RowDatas.push_back(std::make_shared<UserRow>(Result->GetInt(0), Result->GetString(1), Result->GetString(2)));
+		RowDatas.push_back(std::make_shared<UserRow>(Result->GetInt(0), Result->GetString(1), Result->GetString(2), Result->GetInt(3)));
 	}
 	return true;
 }
@@ -77,6 +77,35 @@ bool UserTable_InsertUserInfo::DoQuery()
 
 	Stmt->ParamBindString(ID);
 	Stmt->ParamBindString(PW);
+
+	Stmt->Execute();
+
+	uint64_t Row = Stmt->AffectedRows();
+	uint64_t Id = Stmt->InsertId();
+
+	if (-1 == Row)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+//////////////////////////////////////////////////////////////////// 
+
+UserTable_UpdateUserInfo::UserTable_UpdateUserInfo(std::string _ID, int _ConnectStatus)
+	: DBQuery("Update userver2.userinfo SET ConnectStatus = ? Where ID = ?")
+	, ID(_ID)
+	, ConnectStatus(_ConnectStatus)
+{
+}
+
+bool UserTable_UpdateUserInfo::DoQuery()
+{
+	std::unique_ptr<DBStmt> Stmt = DBConnecterPtr->CreateStmt(QueryString);
+
+	Stmt->ParamBindInt(ConnectStatus);
+	Stmt->ParamBindString(ID);
 
 	Stmt->Execute();
 

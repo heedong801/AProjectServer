@@ -64,4 +64,5 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "GameMode")
 	void SetClientMode(bool _Mode);
 
+
 };

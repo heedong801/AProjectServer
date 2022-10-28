@@ -1,11 +1,9 @@
 #include "ThreadHandlerCharacterCreateResultMessage.h"
 #include "../../Global/ClientGameInstance.h"
-#include "Kismet/GameplayStatics.h"
 #include "../../CharacterSelect/CharacterListItemObject.h"
-#include "../../CharacterSelect/CharacterListItem.h"
 #include "../../Global/ClientBlueprintFunctionLibrary.h"
 #include "Components/ListView.h"
-
+#include "../../CharacterSelect/CharacterSelectUI.h"
 void ThreadHandlerCharacterCreateResultMessage::Start()
 {
 	if (EGameServerCode::OK == Message_->Code)
@@ -16,10 +14,16 @@ void ThreadHandlerCharacterCreateResultMessage::Start()
 		UClientBlueprintFunctionLibrary::UTF8ToFString(NewCharacterObject->Info.NickName, NewCharacterObject->ConvertNickName);
 		Inst_->CharacterListView_->AddItem(NewCharacterObject);
 		Inst_->CharacterListView_->SetScrollOffset(Inst_->CharacterListView_->GetNumItems() * 50.0f);
+
+		UCharacterSelectUI* CharacterUI = Cast<UCharacterSelectUI>(Inst_->CharacterSelectUI);
+		CharacterUI->CreateStatus = TEXT("Create Success");
+
 	}
-	else 
+	else if(EGameServerCode::DuplicateID == Message_->Code)
 	{
-		// 로그를 찍는다.
+		UCharacterSelectUI* CharacterUI = Cast<UCharacterSelectUI>(Inst_->CharacterSelectUI);
+
+		CharacterUI->CreateStatus = TEXT("Duplicate ID");
 	}
 }
 

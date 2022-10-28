@@ -359,3 +359,38 @@ public:
     }                                                           
 };                                                              
 
+class LogoutMessage : public GameServerMessage                    
+{                                                               
+public:                                                         
+	std::string ID;
+                                                                
+public:                                                         
+    LogoutMessage()                                               
+        : GameServerMessage(static_cast<uint32_t>(MessageId::Logout))                    
+        , ID()
+    {                                                           
+                                                                
+    }                                                           
+                                                                
+    virtual ~LogoutMessage() {}                                   
+                                                                
+    virtual int SizeCheck()                                     
+    {                                                           
+		return DataSizeCheck(ID);
+    }                                                           
+                                                                
+    void Serialize(GameServerSerializer& _Serializer)           
+    {                                                           
+        GameServerMessage::Serialize(_Serializer);              
+        _Serializer << ID;
+
+    }                                                           
+                                                                
+    void DeSerialize(GameServerSerializer& _Serializer)         
+    {                                                           
+        GameServerMessage::DeSerialize(_Serializer);            
+        _Serializer >> ID;
+
+    }                                                           
+};                                                              
+

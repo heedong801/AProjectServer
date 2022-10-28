@@ -68,6 +68,8 @@ void UCharacterSelectUI::NativeConstruct()
 		CharacterListView_->AddItem(NewCharacterObject);
 		CharacterListView_->SetScrollOffset(CharacterListView_->GetNumItems() * 50.0f);
 	}
+
+	Inst->CharacterSelectUI = this;
 }
 
 

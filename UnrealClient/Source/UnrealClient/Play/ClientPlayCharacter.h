@@ -83,6 +83,7 @@ private:
 	void JumpKey();
 	void InventoryKey();
 	void EquipmentKey();
+	void ExitKey();
 
 	bool SkillPlayAnim(int32 idx);
 

@@ -162,6 +162,10 @@ public:
 	class UWidget* RankWindow;
 	class UWidget* EquipmentUI;
 	class UWidget* InventoryUI;
+	class UWidget* LoginUI;
+	class UWidget* CharacterSelectUI;
+
+
 	class UPlayUIUserWidget* PlayUI;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
@@ -200,13 +204,10 @@ public:
 	//bool Recv();
 
 	void FinishDestroy() override;
-
+	void BeginDestroy() override;
 	void SetMsgType(EChatMessageType MsgType);
 
 	int GetMsgType();
 
 	const FUIItemTextureTableInfo* FindItemTextureInfo(const FString& Name);
-	void SaveData();
-	void LoadData();
-
 };

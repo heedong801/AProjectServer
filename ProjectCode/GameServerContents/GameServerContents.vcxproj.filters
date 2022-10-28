@@ -88,6 +88,9 @@
     <ClCompile Include="OptionTable.cpp">
       <Filter>DB</Filter>
     </ClCompile>
+    <ClCompile Include="ThreadHandlerLogoutMessage.cpp">
+      <Filter>ThreadHandler</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h" />
@@ -194,6 +197,9 @@
     </ClInclude>
     <ClInclude Include="OptionTable.h">
       <Filter>DB</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadHandlerLogoutMessage.h">
+      <Filter>ThreadHandler</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

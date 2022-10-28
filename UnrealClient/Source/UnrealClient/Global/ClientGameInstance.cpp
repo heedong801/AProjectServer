@@ -69,6 +69,7 @@ uint32 UnrealRecvThread::Run()
 			case SCS_ConnectionError:
 				// 내가 직접 종료했을때
 				// 아무것도 할필요가 없다.
+
 				break;
 			default:
 				break;
@@ -352,10 +353,20 @@ void UClientGameInstance::FinishDestroy()
 	Close();
 
 	Super::FinishDestroy();
-
-	int a = 0;
-
 	
+	//std::string tmpID;
+
+	//UClientBlueprintFunctionLibrary::FStringToUTF8(ID, tmpID);
+
+	//LogoutMessage NewPacket;
+	//NewPacket.ID = tmpID;
+	//GameServerSerializer Sr;
+	//NewPacket.Serialize(Sr);
+
+	//// 기한을 두고.
+	//if (false != Send(Sr.GetData()))
+	//{
+	//}
 }
 
 
@@ -398,34 +409,23 @@ const FUIItemTextureTableInfo* UClientGameInstance::FindItemTextureInfo(const FS
 	return m_ItemTextureTable->FindRow<FUIItemTextureTableInfo>(*Name, "");
 }
 
-void UClientGameInstance::LoadData()
+void UClientGameInstance::BeginDestroy()
 {
-	//UInventoryTile* InventoryTile = Cast<UInventoryTile>(InventoryUI);
-
-	//if (IsValid(InventoryTile))
-	//	InventoryTile->LoadData(m_EquipItemList, m_ConsumItemList, m_CurrentEquipList);
-
-	//UEquipmentWidget* EquipmentWidget = Cast<UEquipmentWidget>(EquipmentUI);
-	//if (IsValid(EquipmentWidget))
-	//	EquipmentWidget->LoadData(m_EquipmentItemArray);
-}
-void UClientGameInstance::SaveData()
-{
-	/*UInventoryTile* InventoryTile = Cast<UInventoryTile>(InventoryUI);
-
-	if (IsValid(InventoryTile))
+	if (ID != "")
 	{
-		m_EquipItemList = InventoryTile->GetEquipItemList();
-		m_CurrentEquipList = InventoryTile->GetCurrentEquipItemList();
-		m_ConsumItemList = InventoryTile->GetConsumItemList();
+		std::string tmpID;
+
+		UClientBlueprintFunctionLibrary::FStringToUTF8(ID, tmpID);
+
+		LogoutMessage NewPacket;
+		NewPacket.ID = tmpID;
+		GameServerSerializer Sr;
+		NewPacket.Serialize(Sr);
+
+		// 기한을 두고.
+		if (false != Send(Sr.GetData()))
+		{
+		}
 	}
-
-	UEquipmentWidget* EquipmentWidget = Cast<UEquipmentWidget>(EquipmentUI);
-
-	if (IsValid(EquipmentWidget))
-	{
-		m_EquipmentItemArray = EquipmentWidget->GetItemArray();
-	}*/
-
-
+	Super::BeginDestroy();
 }

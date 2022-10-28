@@ -75,6 +75,7 @@
     <ClCompile Include="ThreadHandlerGetInventoryMessage.cpp" />
     <ClCompile Include="ThreadHandlerLevelMoveReplyMessage.cpp" />
     <ClCompile Include="ThreadHandlerLoginMessage.cpp" />
+    <ClCompile Include="ThreadHandlerLogoutMessage.cpp" />
     <ClCompile Include="ThreadHandlerPlayerUpdateMessage.cpp" />
     <ClCompile Include="ThreadHandlerPlayerUpdateMessageUDP.cpp" />
     <ClCompile Include="ThreadHandlerRankRequestMessage.cpp" />
@@ -140,6 +141,7 @@
     <ClInclude Include="ThreadHandlerGetInventoryMessage.h" />
     <ClInclude Include="ThreadHandlerLevelMoveReplyMessage.h" />
     <ClInclude Include="ThreadHandlerLoginMessage.h" />
+    <ClInclude Include="ThreadHandlerLogoutMessage.h" />
     <ClInclude Include="ThreadHandlerPlayerUpdateMessage.h" />
     <ClInclude Include="ThreadHandlerPlayerUpdateMessageUDP.h" />
     <ClInclude Include="ThreadHandlerRankRequestMessage.h" />

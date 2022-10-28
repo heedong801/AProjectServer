@@ -41,6 +41,9 @@ MessageConverter::MessageConverter(const std::vector<unsigned char>&_buffer)
 	case MessageId::EquipItem:
 		Message_ = std::make_shared<EquipItemMessage>();
 		break;
+	case MessageId::Logout:
+		Message_ = std::make_shared<LogoutMessage>();
+		break;
 	case MessageId::LoginResult:
 		Message_ = std::make_shared<LoginResultMessage>();
 		break;

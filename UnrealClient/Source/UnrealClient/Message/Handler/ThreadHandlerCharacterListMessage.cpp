@@ -1,8 +1,7 @@
 #include "ThreadHandlerCharacterListMessage.h"
 #include "../../Global/ClientGameInstance.h"
-#include "Kismet/GameplayStatics.h"
 #include "../../Global/ClientBlueprintFunctionLibrary.h"
-#include "../ContentsStructure.h"
+
 
 void ThreadHandlerCharacterListMessage::Start()
 {

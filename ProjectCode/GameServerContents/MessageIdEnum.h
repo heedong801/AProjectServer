@@ -11,6 +11,7 @@ enum class MessageId
 	RankRequest,
 	GetInventory,
 	EquipItem,
+	Logout,
 	LoginResult,
 	CharacterCreateResult,
 	CharacterSelectResult,
