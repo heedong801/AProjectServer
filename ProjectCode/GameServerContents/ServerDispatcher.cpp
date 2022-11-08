@@ -16,7 +16,6 @@
 #include "ThreadHandlerPlayerUpdateMessage.h"
 																																													
 Dispatcher<TCPSession> Dis;																																							
-Dispatcher<UDPSession> UDPDis;																																							
 																																													
 template<typename MessageHandler, typename MessageType, typename SessionType = TCPSession>																																
 void OnMessageProcess(std::shared_ptr<SessionType> _Session, std::shared_ptr<GameServerMessage> _Message)																			
@@ -29,7 +28,7 @@ void OnMessageProcess(std::shared_ptr<SessionType> _Session, std::shared_ptr<Gam
 	}																																												
 																																													
 	std::shared_ptr<MessageHandler> Cmd = std::make_shared<MessageHandler>();																				
-	Cmd->Init(std::dynamic_pointer_cast<MessageType>(_Message), _Session);																																							
+	Cmd->Init(ConvertMessage, _Session);																																							
 	Cmd->Start();																																									
 }																																													
 																																													

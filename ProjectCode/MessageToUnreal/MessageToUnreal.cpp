@@ -472,7 +472,7 @@ int main()
 			}
 			DisText += "																																													\n";
 			DisText += "Dispatcher<TCPSession> Dis;																																							\n";
-			DisText += "Dispatcher<UDPSession> UDPDis;																																							\n";
+			//DisText += "Dispatcher<UDPSession> UDPDis;																																							\n";
 			DisText += "																																													\n";
 			DisText += "template<typename MessageHandler, typename MessageType, typename SessionType = TCPSession>																																\n";
 			DisText += "void OnMessageProcess(std::shared_ptr<SessionType> _Session, std::shared_ptr<GameServerMessage> _Message)																			\n";
@@ -485,7 +485,7 @@ int main()
 			DisText += "	}																																												\n";
 			DisText += "																																													\n";
 			DisText += "	std::shared_ptr<MessageHandler> Cmd = std::make_shared<MessageHandler>();																				\n";
-			DisText += "	Cmd->Init(std::dynamic_pointer_cast<MessageType>(_Message), _Session);																																							\n";
+			DisText += "	Cmd->Init(ConvertMessage, _Session);																																							\n";
 			DisText += "	Cmd->Start();																																									\n";
 			DisText += "}																																													\n";
 			DisText += "																																													\n";
