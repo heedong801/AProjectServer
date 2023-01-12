@@ -163,10 +163,7 @@ void GameServerQueue::EnQueue(const std::function<void()>& _callback)
 		GameServerDebug::AssertDebugMsg("콜백이 nullptr로 넘어 왔습니다.");
 		return;
 	}
-	// 이 바이트 사이즈를 
-	// -2면 Post 함수포인터를 처리해야하는 일이다.
 
-	// 정말 여러곳일수가 있죠
 	std::unique_ptr<PostJob> PostJobPtr = std::make_unique<PostJob>();
 	PostJobPtr->task_ = _callback;
 	Iocp.Post(static_cast<DWORD>(WORKMESSAGE_TYPE::MSG_POST), reinterpret_cast<ULONG_PTR>(PostJobPtr.get()));
@@ -194,12 +191,12 @@ bool GameServerQueue::NetWorkBind(SOCKET _Socket, std::function<void(BOOL, DWORD
 	{
 		GameServerDebug::GetLastErrorPrint();
 		return false;
-		// GameServerDebug::AssertDebugMsg("소켓 IOCP 바인드에 실패했습니다.");
 	}
 	OverJobPtr.release();
 
 	return true;
 }
+
 
 
 void GameServerQueue::SetExecuteWorkType(WORK_TYPE _WorkType)

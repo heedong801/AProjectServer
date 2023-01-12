@@ -3,7 +3,7 @@
 #include <GameServerNet\DBConnecter.h>
 #include "GameServerCore.h"
 #include <GameServerNet\RedisConnecter.h>
-
+#include <GameServerContents/UserTable.h>
 DBQueue* DBQueue::Inst_ = new DBQueue();
 
 // GameServerQueue DBQueue::JobQueue = GameServerQueue();
@@ -26,13 +26,13 @@ void InitDBConnecter()
 	// 락을 건다.
 	ConnectionRock.lock();
 
-	DBConnecter::InitConntor(GameServerCore::GetDBHost(),
+	DBConnecter::InitConnector(GameServerCore::GetDBHost(),
 		GameServerCore::GetDBUser(),
 		GameServerCore::GetDBPW(),
 		GameServerCore::GetDBName(),
 		GameServerCore::GetDBPort());
 
-	RedisConnecter::InitConntor("127.0.0.1", 6379);
+	RedisConnecter::InitConnector("127.0.0.1", 6379);
 
 	ConnectionRock.unlock();
 }
@@ -49,6 +49,15 @@ void DBQueue::Queue(const std::function<void()>& CallBack)
 
 void DBQueue::Destroy()
 {
+	Queue([=]
+		{
+			UserTable_UpdateAll_ConnectStatus UpdateQuery = UserTable_UpdateAll_ConnectStatus();
+
+			if (false == UpdateQuery.DoQuery())
+				GameServerDebug::Log(LOGTYPE::LOGTYPE_WARNING, "클라이언트가 정상 종료 되지 못하였습니다.");
+		});
+
+
 	if (nullptr != Inst_)
 	{
 		delete Inst_;

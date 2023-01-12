@@ -318,6 +318,10 @@ void AClientPlayCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	//PlayerInputComponent->BindAction("ClientPlayer_Attack", EInputEvent::IE_Released, this, &AClientPlayCharacter::Attack);
 	//PlayerInputComponent->BindAction("TestPacket0", EInputEvent::IE_Released, this, &AClientPlayCharacter::TestPacketUpdate0);
 
+	PlayerInputComponent->BindAction("SetChatType_InSection", EInputEvent::IE_Pressed, this, &AClientPlayCharacter::SetChatTypeInSec);
+	PlayerInputComponent->BindAction("SetChatType_OnePlayer", EInputEvent::IE_Pressed, this, &AClientPlayCharacter::SetChatTypeOne);
+	PlayerInputComponent->BindAction("SetChatType_All", EInputEvent::IE_Pressed, this, &AClientPlayCharacter::SetChatTypeAll);
+
 	FInputModeGameAndUI InputMode;
 	GetWorld()->GetFirstPlayerController()->SetInputMode(InputMode);
 	GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;

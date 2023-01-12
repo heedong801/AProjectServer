@@ -40,9 +40,6 @@
     <ClInclude Include="DBConnecter.h">
       <Filter>DB</Filter>
     </ClInclude>
-    <ClInclude Include="DBManager.h">
-      <Filter>DB</Filter>
-    </ClInclude>
     <ClInclude Include="DBTableBase.h">
       <Filter>DB</Filter>
     </ClInclude>
@@ -88,9 +85,6 @@
       <Filter>IOCP</Filter>
     </ClCompile>
     <ClCompile Include="DBConnecter.cpp">
-      <Filter>DB</Filter>
-    </ClCompile>
-    <ClCompile Include="DBManager.cpp">
       <Filter>DB</Filter>
     </ClCompile>
     <ClCompile Include="DBTableBase.cpp">

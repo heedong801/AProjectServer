@@ -316,9 +316,6 @@ void GameServerSection::ActorPost(uint64_t _ObjectIndex, std::shared_ptr<GameSer
 
 void GameServerSection::ActorsPost(uint64_t _ObjectIndex, std::shared_ptr<GameServerMessage> _Message)
 {
-	// std::lock_guard<std::mutex> lock(WaitLock);
-
-	// 지역static은 1번만 초기화 되죠?
 	std::map<uint64_t, std::shared_ptr<GameServerActor>>::iterator FindIter;
 
 	FindIter = KeyActor_.find(_ObjectIndex);
@@ -354,9 +351,6 @@ void GameServerSection::ActorsPost(uint64_t _ObjectIndex, std::shared_ptr<GameSe
 
 void GameServerSection::ActorPointPost(uint64_t _ObjectIndex, const IPEndPoint& _EndPoint, std::shared_ptr<GameServerMessage> _Message) 
 {
-	// std::lock_guard<std::mutex> lock(WaitLock);
-
-	// 지역static은 1번만 초기화 되죠?
 	std::map<uint64_t, std::shared_ptr<GameServerActor>>::iterator FindIter;
 
 	FindIter = KeyActor_.find(_ObjectIndex);

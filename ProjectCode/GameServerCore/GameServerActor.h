@@ -20,7 +20,8 @@ class GameServerMessage;
 class GameServerActor : public GameServerObjectBase, public GameServerNameBase
 {
 	friend GameServerSection;
-
+private:
+	std::queue<std::shared_ptr<GameServerMessage>> Messagequeue_;
 public:
 	uint64_t GetIndex()
 	{
@@ -134,7 +135,6 @@ private:
 		IsSectionMove_ = false;
 	}
 
-	// 유저의 ip와 port
 	IPEndPoint UDPEndPoint;
 
 	IPEndPoint GetUDPEndPoint()
@@ -155,14 +155,9 @@ private:
 
 	void SetUDPSession();
 
-
-
 	uint64_t Index_;
 	uint64_t ThreadIndex_;
 	uint64_t SectionIndex_;
-
-
-
 
 	void SetIndex(uint64_t _Index)
 	{
@@ -188,16 +183,8 @@ private:
 	virtual void PlayerbleActorEvent(GameServerActor* _Actor) {}
 	virtual void AIActorEvent(GameServerActor* _Actor) {}
 
-
-	std::queue<std::shared_ptr<GameServerMessage>> Messagequeue_;
-
-///////////////////////////////////////////
 private:
-	// 클라이언트 적으로 봤을때는 위치가 
-	// ??? 말이 되???
-	// 위치 어쩌라고?????
-	// 기하 서버가 지원해준다?
-	// 오히려 도움이 안되는겁니다.
+
 	FVector4 Pos_;
 	FVector4 Scale_;
 	FVector4 Dir_;
@@ -208,7 +195,6 @@ public:
 		return Pos_;
 	}
 
-	// 서버의 메모리
 	FVector4 GetDir()
 	{
 		return Dir_;

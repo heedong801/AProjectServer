@@ -1,7 +1,6 @@
 #pragma once
 #include "DBConnecter.h"
 
-// 설명 :
 class DBQuery
 {
 
@@ -14,15 +13,11 @@ public:
 	DBQuery& operator=(const DBQuery& _Other) = delete;
 	DBQuery& operator=(DBQuery&& _Other) noexcept = delete;
 
-	// 이함수를 실행해야만 쿼리가 db에 날아간다.
 	virtual bool DoQuery() = 0;
 
 protected:
 	std::shared_ptr<DBConnecter> DBConnecterPtr;
 	const char* QueryString;
 
-private:
-
-	
 };
 

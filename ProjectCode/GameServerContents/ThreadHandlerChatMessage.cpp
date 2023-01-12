@@ -43,7 +43,7 @@ void ThreadHandlerChatMessage::Start()
 	if (Type == EChatMessageType::ALL)
 		Parent->BroadCast(Data.GetData(), Session_);
 	else if (Type == EChatMessageType::ONEPLAYER)
-		ActorWork(Message_->ThreadIndex, Message_->SectionIndex, Message_->ObjectIndex, Message_);
+		ActorPost(Message_->ThreadIndex, Message_->SectionIndex, Message_->ObjectIndex, Message_);
 	else if (Type == EChatMessageType::INSECTION)
 		ActorsPost(Message_->ThreadIndex, Message_->SectionIndex, Message_->ObjectIndex, Message_);
 	//TCPSession_->Send(Data.GetData());

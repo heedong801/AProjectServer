@@ -66,7 +66,7 @@ bool TCPListener::Initialize(const IPEndPoint& _EndPoint, const std::function<vo
 		return false;
 	}
 
-	ErrorCode = listen(ListenSocket_, 512);
+	ErrorCode = listen(ListenSocket_, 1);
 	if (SOCKET_ERROR == ErrorCode)
 	{
 		GameServerDebug::GetLastErrorPrint();
@@ -91,7 +91,6 @@ bool TCPListener::BindQueue(GameServerQueue& _JobQueue)
 {
 	JobQueue_ = &_JobQueue;
 
-	// 한단계 숨겨놓은 함수로 연결해줄 겁니다.
 	return JobQueue_->NetWorkBind(ListenSocket_, std::bind(&TCPListener::OnAccept, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 
 }

@@ -6,7 +6,7 @@ class DBTableBase
 {
 public:
 	// constrcuter destructer
-	DBTableBase(DBConnecter* _Connecter);
+	DBTableBase();
 	~DBTableBase();
 
 	// delete Function
@@ -15,9 +15,5 @@ public:
 	DBTableBase& operator=(const DBTableBase& _Other) = delete;
 	DBTableBase& operator=(DBTableBase&& _Other) noexcept = delete;
 
-protected:
-
-private:
-	DBConnecter* Connecter_;
 };
 

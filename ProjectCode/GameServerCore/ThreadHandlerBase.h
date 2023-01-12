@@ -40,18 +40,13 @@ public:
 		NetQueue::Queue(std::bind(_ChildFunction, std::dynamic_pointer_cast<ChildThreadHandler>(this->shared_from_this())));
 	}
 
-	template<typename ChildThreadHandler>
-	void SectionWork(uint64_t _ThreadIndex, void(ChildThreadHandler::* _ChildFunction)())
-	{
-		GameServerSectionManager::GetInst()->MessagePost(_ThreadIndex, std::bind(_ChildFunction, std::dynamic_pointer_cast<ChildThreadHandler>(this->shared_from_this())));
-	}
 
 	void ActorsPost(uint64_t _ThreadIndex, uint64_t _SectionIndex, uint64_t _ActorIndex, std::shared_ptr<GameServerMessage> _Message)
 	{
 		GameServerSectionManager::GetInst()->ActorsPost(_ThreadIndex, _SectionIndex, _ActorIndex, _Message);
 	}
 
-	void ActorWork(uint64_t _ThreadIndex, uint64_t _SectionIndex, uint64_t _ActorIndex, std::shared_ptr<GameServerMessage> _Message)
+	void ActorPost(uint64_t _ThreadIndex, uint64_t _SectionIndex, uint64_t _ActorIndex, std::shared_ptr<GameServerMessage> _Message)
 	{
 		GameServerSectionManager::GetInst()->ActorPost(_ThreadIndex, _SectionIndex, _ActorIndex, _Message);
 	}

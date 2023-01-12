@@ -28,5 +28,5 @@ void ThreadHandlerLevelMoveReplyMessage::Start()
 		GameServerDebug::LogError("Login TCPSession Error");
 	}
 
-	ActorWork(Message_->ThreadIndex, Message_->SectionIndex, Message_->ObjectIndex, Message_);
+	ActorPost(Message_->ThreadIndex, Message_->SectionIndex, Message_->ObjectIndex, Message_);
 }

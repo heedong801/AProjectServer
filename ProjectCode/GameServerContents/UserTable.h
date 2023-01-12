@@ -72,3 +72,12 @@ public:
 
 	bool DoQuery() override;
 };
+
+class UserTable_UpdateAll_ConnectStatus : public DBQuery
+{
+public:
+	UserTable_UpdateAll_ConnectStatus();
+
+	bool DoQuery() override;
+};
+

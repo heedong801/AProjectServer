@@ -119,3 +119,25 @@ bool UserTable_UpdateUserInfo::DoQuery()
 
 	return true;
 }
+
+//////////////////////////////////////////////////////////////////// 
+
+UserTable_UpdateAll_ConnectStatus::UserTable_UpdateAll_ConnectStatus()
+	: DBQuery("Update userver2.userinfo SET ConnectStatus = 0")
+{
+}
+
+bool UserTable_UpdateAll_ConnectStatus::DoQuery()
+{
+	std::unique_ptr<DBStmt> Stmt = DBConnecterPtr->CreateStmt(QueryString);
+
+	Stmt->Execute();
+
+	uint64_t Row = Stmt->AffectedRows();
+	uint64_t Id = Stmt->InsertId();
+
+	if (-1 == Row)
+		return false;
+
+	return true;
+}

@@ -148,14 +148,5 @@ BOOL GameServerIocp::Execute(DWORD& NumberOfBytesTransferred, ULONG_PTR& Complet
 
 BOOL GameServerIocp::ExecuteEx(LPOVERLAPPED_ENTRY _Entry, PULONG _ulNumEntriesRemoved, DWORD _TimeOut)
 {
-	//_In_ HANDLE CompletionPort,
-	//	_Out_writes_to_(ulCount, *ulNumEntriesRemoved) LPOVERLAPPED_ENTRY lpCompletionPortEntries,
-	//	_In_ ULONG ulCount,
-	//	_Out_ PULONG ulNumEntriesRemoved,
-	//	_In_ DWORD dwMilliseconds,
-	//	_In_ BOOL fAlertable
-
-	// 16이 한번에 처리하는 개수
-	// 일단은 16
 	return GetQueuedCompletionStatusEx(Iocp_, _Entry, 16, _ulNumEntriesRemoved, _TimeOut, FALSE);
 }

@@ -41,12 +41,11 @@ void ThreadHandlerSectionInsertResultMessage::Start()
 	UClientBlueprintFunctionLibrary::UTF8ToFString(Message_->MoveLevel, NextLevelName);
 
 	LOG(TEXT("%s"), *NextLevelName);
-	if(NextLevelName == TEXT("PlayLevel"))
-		UGameplayStatics::OpenLevel(World_, TEXT("Select"));
+	/*if(NextLevelName == TEXT("PlayLevel"))
+		UGameplayStatics::OpenLevel(World_, TEXT("PlayLevel"));
 	else
-		UGameplayStatics::OpenLevel(World_, *NextLevelName);
+		UGameplayStatics::OpenLevel(World_, *NextLevelName);*/
 
-
-	int a = 0;
+	UGameplayStatics::OpenLevel(World_, *NextLevelName);
 }
 

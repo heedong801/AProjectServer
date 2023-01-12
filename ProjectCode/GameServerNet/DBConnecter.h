@@ -44,10 +44,6 @@ class DBStmt : public std::enable_shared_from_this<DBStmt>
 public:
 	DBStmt(DBConnecter* _Ptr, MYSQL_STMT* _stmt, std::string_view _Query);
 
-
-	// ??에 바인드 시키기 위한 정보체를 만들어줘야 합니다.
-	// 인자들에 대한 바인드 ? string
-
 	std::vector<unsigned long> ParamLengthBuffer_;
 	std::vector<char> ParamIsNullBuffer_;
 	std::vector<char> ParamBindBuffer_;
@@ -66,24 +62,21 @@ public:
 public:
 	std::unique_ptr<DBStmtResult> Execute();
 
-	// uint64_t Id = mysql_stmt_insert_id(Stmt_);
-	// 오토인클리먼트 했을때 아이디가 나올겁니다.
 	inline uint64_t InsertId() { return mysql_stmt_insert_id(Stmt_); };
 
 	inline uint64_t AffectedRows() { return mysql_stmt_affected_rows(Stmt_); };
 };
 
-// 설명 :
+
 class DBConnecter
 {
 private:
 	static thread_local std::vector<std::shared_ptr<DBConnecter>> AllConnector;
 
 public:
-	static bool InitConntor(const std::string& _Host, const std::string& _Id, const std::string& _Pw, const std::string& _Schema, unsigned int _Port, int _Index = 0);
+	static bool InitConnector(const std::string& _Host, const std::string& _Id, const std::string& _Pw, const std::string& _Schema, unsigned int _Port, int _Index = 0);
 
 	static std::shared_ptr<DBConnecter> GetConnector(int _Index = 0);
-
 
 public:
 	// constrcuter destructer
@@ -119,8 +112,6 @@ public:
 
 	inline bool IsConnect() const
 	{
-
-
 		return mysql_ != nullptr;
 	}
 
@@ -139,3 +130,4 @@ private:
 	unsigned int Port_;
 };
 
+ 

@@ -31,5 +31,5 @@ void ThreadHandlerClientToReadyMessage::Start()
 	}
 
 	// DB찾아오는 일이 있거나
-	ActorWork(Message_->ThreadIndex, Message_->SectionIndex, Message_->ObjectIndex, Message_);
+	ActorPost(Message_->ThreadIndex, Message_->SectionIndex, Message_->ObjectIndex, Message_);
 }

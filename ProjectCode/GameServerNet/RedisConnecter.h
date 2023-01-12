@@ -385,7 +385,7 @@ private:
 	static thread_local std::vector<std::shared_ptr<RedisConnecter>> AllConnector;
 
 public:
-	static void InitConntor(const std::string& _Host, unsigned int _Port, int _Index = 0);
+	static void InitConnector(const std::string& _Host, unsigned int _Port, int _Index = 0);
 
 	static std::shared_ptr<RedisConnecter> GetConnector(int _Index = 0);
 

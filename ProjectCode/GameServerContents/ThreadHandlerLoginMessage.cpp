@@ -46,7 +46,7 @@ void ThreadHandlerLoginMessage::Start()
 	DBWork(&ThreadHandlerLoginMessage::DBCheck);
 }
 
-void ThreadHandlerLoginMessage::DBCheck(/*GameEngineThread* _Thread*/)
+void ThreadHandlerLoginMessage::DBCheck()
 {
 	std::string Name = GameServerThread::GetThreadName();
 

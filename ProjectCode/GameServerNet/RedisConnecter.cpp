@@ -4,7 +4,7 @@
 thread_local std::vector<std::shared_ptr<RedisConnecter>> RedisConnecter::AllConnector;
 
 
-void RedisConnecter::InitConntor(const std::string& _Host, unsigned int _Port, int _Index /*= 0*/)
+void RedisConnecter::InitConnector(const std::string& _Host, unsigned int _Port, int _Index /*= 0*/)
 {
 	AllConnector.resize(_Index + 1);
 	AllConnector[_Index] = std::make_shared<RedisConnecter>();
