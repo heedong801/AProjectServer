@@ -178,11 +178,11 @@ void UEquipmentWidget::SetStat(UInventoryTileData* Item, bool bOnPlus)
 		{
 			for (int32 j = 0; j < Size; ++j)
 			{
-				EItemOption OptionType = Item->GetOption()[j].OptionType;
+				EItemOptionType OptionType = Item->GetOption()[j].OptionType;
 				float OptionValue = Item->GetOption()[j].Option;
 				switch (OptionType)
 				{
-				case EItemOption::Attack:
+				case EItemOptionType::Attack:
 					Info.Attack += OptionValue;
 					if (Item->GetType() == EItemType::Consumable)
 					{
@@ -191,33 +191,33 @@ void UEquipmentWidget::SetStat(UInventoryTileData* Item, bool bOnPlus)
 							m_ItemDurationDelegate, 0.1f, false, 3.f);
 					}
 					continue;
-				case EItemOption::Armor:
+				case EItemOptionType::Armor:
 					Info.Armor += OptionValue;
 					continue;
-				case EItemOption::HPMax:
+				case EItemOptionType::HPMax:
 					Info.HPMax += OptionValue;
 					continue;
-				case EItemOption::MPMax:
+				case EItemOptionType::MPMax:
 					Info.MPMax += OptionValue;
 					continue;
-				case EItemOption::HP:
+				case EItemOptionType::HP:
 					Info.HP += OptionValue;
 					Player->SetHPPercent();
 					continue;
-				case EItemOption::MP:
+				case EItemOptionType::MP:
 					Info.MP += OptionValue;
 					Player->SetMPPercent();
 					continue;
-				case EItemOption::HPRecovery:
+				case EItemOptionType::HPRecovery:
 					Info.HPRecovery += OptionValue;
 					continue;
-				case EItemOption::MPRecovery:
+				case EItemOptionType::MPRecovery:
 					Info.MPRecovery += OptionValue;
 					continue;
-				case EItemOption::CriticalPercent:
+				case EItemOptionType::CriticalPercent:
 					Info.CriticalPercent += OptionValue;
 					continue;
-				case EItemOption::CriticalDamage:
+				case EItemOptionType::CriticalDamage:
 					Info.CriticalDamage += OptionValue;
 					continue;
 				}
@@ -227,36 +227,36 @@ void UEquipmentWidget::SetStat(UInventoryTileData* Item, bool bOnPlus)
 		{
 			for (int32 j = 0; j < Size; ++j)
 			{
-				EItemOption OptionType = Item->GetOption()[j].OptionType;
+				EItemOptionType OptionType = Item->GetOption()[j].OptionType;
 				float OptionValue = Item->GetOption()[j].Option;
 				switch (OptionType)
 				{
-				case EItemOption::Attack:
+				case EItemOptionType::Attack:
 					Info.Attack -= OptionValue;
 					continue;
-				case EItemOption::Armor:
+				case EItemOptionType::Armor:
 					Info.Armor -= OptionValue;
 					continue;
-				case EItemOption::HPMax:
+				case EItemOptionType::HPMax:
 					Info.HPMax -= OptionValue;
 					continue;
-				case EItemOption::MPMax:
+				case EItemOptionType::MPMax:
 					Info.MPMax -= OptionValue;
 					continue;
-				case EItemOption::HP:
+				case EItemOptionType::HP:
 					continue;
-				case EItemOption::MP:
+				case EItemOptionType::MP:
 					continue;
-				case EItemOption::HPRecovery:
+				case EItemOptionType::HPRecovery:
 					Info.HPRecovery -= OptionValue;
 					continue;
-				case EItemOption::MPRecovery:
+				case EItemOptionType::MPRecovery:
 					Info.MPRecovery -= OptionValue;
 					continue;
-				case EItemOption::CriticalPercent:
+				case EItemOptionType::CriticalPercent:
 					Info.CriticalPercent -= OptionValue;
 					continue;
-				case EItemOption::CriticalDamage:
+				case EItemOptionType::CriticalDamage:
 					Info.CriticalDamage -= OptionValue;
 					continue;
 				}

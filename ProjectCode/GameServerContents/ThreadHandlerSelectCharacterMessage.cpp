@@ -118,7 +118,7 @@ void ThreadHandlerSelectCharacterMessage::SectionInsert()
 
 	if (Key == -1)
 	{
-		Key = static_cast<int>(ESectionType::NONEFIGHT);
+		Key = static_cast<int>(ESectionType::NONEFIGHT); 
 	}
 
 
@@ -127,16 +127,11 @@ void ThreadHandlerSelectCharacterMessage::SectionInsert()
 
 	if (nullptr == NewPlayer)
 	{
-		// 액터를 못만들었으니까 그에 대한 정보를 클라이언트한테 보내줘야 한다.
+		GameServerDebug::AssertDebugMsg("액터를 만들지 못하였습니다.");
 	}
 
 	std::shared_ptr<ContentsPlayerData> NewPlayableData = Session_->CreateLink<ContentsPlayerData>(EDataIndex::PLAYABLE);
-	// 순환참조 때문에 그냥 포인터로 처리
 	NewPlayableData->ConnectPlayer = NewPlayer.get();
 
-
-	//std::shared_ptr<GameServerSection> LastSection = GameServerSectionManager::GetInst()->FindSection(Key);
-	//LastSection->CreateActor<Monster>();
-	 // TCPSession_
 	
 }

@@ -27,7 +27,6 @@ ALoginGameMode::ALoginGameMode()
 
 	int Test = sizeof(FPlayerUpdateData);
 
-	UE_LOG(ClientLog, Error, TEXT("%S(%u) > %d size"), __FUNCTION__, __LINE__, Test);
 }
 
 void ALoginGameMode::Tick(float _Delta) 

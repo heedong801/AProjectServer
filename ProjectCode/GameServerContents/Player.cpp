@@ -27,6 +27,7 @@ Player::Player()
 	, CurrentCollision(nullptr)
 	, IsAttack(false)
 	, PrevPlayerState(EPlayerState::NONE)
+	, firstLogin(true)
 {
 }
 
@@ -166,7 +167,7 @@ void Player::ClientToReadyMessageProcess(std::shared_ptr<ClientToReadyMessage> _
 		GetTCPSession()->Send(Sr.GetData());
 		BroadcastingPlayerUpdateMessage();
 	}
-
+	firstLogin = true;
 	SelfTCPMessage(GetSerializePlayerUpdateMessage().GetData());
 }
 
@@ -348,7 +349,14 @@ bool Player::InsertSection()
 		Msg.ObjectIndex = GetIndex();
 		Msg.SectionIndex = GetSectionIndex();
 		Msg.ThreadIndex = GetThreadIndex();
-		Msg.MoveLevel = GetSection()->GetNameCopy();
+		if(firstLogin == false)
+			Msg.MoveLevel = GetSection()->GetNameCopy();
+		else
+		{
+			Msg.MoveLevel = "Select";
+			firstLogin = false;
+		}
+
 		GameServerSerializer Sr;
 		Msg.Serialize(Sr);
 		GetTCPSession()->Send(Sr.GetData());

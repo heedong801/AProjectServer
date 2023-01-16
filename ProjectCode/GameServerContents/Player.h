@@ -64,7 +64,7 @@ private:
 	bool IsAttack;
 	PlayerUpdateMessage Message_;
 	GameServerSerializer Serializer_;
-
+	bool firstLogin;
 	std::shared_ptr<ContentsUserData> UserData;
 
 	EPlayerState PrevPlayerState;

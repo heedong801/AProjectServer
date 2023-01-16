@@ -38,7 +38,7 @@ enum class EItemPart : uint8
 };
 
 UENUM(BlueprintType)
-enum class EItemOption : uint8
+enum class EItemOptionType : uint8
 {
 	Attack,
 	Armor,
@@ -58,7 +58,7 @@ struct FItemOption
 	GENERATED_BODY()
 
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-		EItemOption	OptionType;
+		EItemOptionType	OptionType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 		float	Option;
