@@ -40,3 +40,8 @@ void UCharacterHUD::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 }
 
 
+void UCharacterHUD::FadeOut()
+{
+	PlayAnimation(m_HudFadeAnim);
+
+}

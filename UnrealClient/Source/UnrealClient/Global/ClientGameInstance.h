@@ -121,7 +121,8 @@ private:
 
 private:
 	bool ClientMode_;
-
+	void OpenPlayLevel();
+	void OpenLoginLevel();
 public:
 	UFUNCTION(BlueprintCallable, Category = "Instance")
 	FORCEINLINE int GetClientIndex()
@@ -147,7 +148,7 @@ public:
 	TAtomic<bool> LoginProcess_;
 	std::vector<FCharacterInfo> Characters_;
 	std::vector<FPlayerItemData> InventoryItem_;
-
+	bool firstLogin;
 	class UListView* CharacterListView_;
 	class UListView* TopRankListView_;
 	class UListView* MyRankListView_;
@@ -157,7 +158,7 @@ public:
 	uint64_t SectionIndex;
 	uint64_t TargetObjectIndex;
 	ESlateVisibility RankWindowMode;
-
+	FTimerHandle m_LevelOpenTimerHandle;
 	class UWidget* CharacterHUD;
 	class UWidget* RankWindow;
 	class UWidget* EquipmentUI;
@@ -208,6 +209,6 @@ public:
 	void SetMsgType(EChatMessageType MsgType);
 
 	int GetMsgType();
-
+	void OpenLevel(const FString& levelName);
 	const FUIItemTextureTableInfo* FindItemTextureInfo(const FString& Name);
 };

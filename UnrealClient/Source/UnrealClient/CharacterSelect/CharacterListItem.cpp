@@ -2,14 +2,9 @@
 
 
 #include "CharacterListItem.h"
-#include "../Global/ClientGameInstance.h"
-#include "Kismet/GameplayStatics.h"
-#include "../Global/ClientBlueprintFunctionLibrary.h"
 #include "../Message/Messages.h"
-#include "../UnrealClient.h"
-#include "../Message/ServerToClient.h"
-#include "../Message/ServerAndClient.h"
-#include "../Message/ClientToServer.h"
+#include "../Global/ClientBlueprintFunctionLibrary.h"
+#include "../Global/ClientGameInstance.h"
 
 void UCharacterListItem::CharacterSelect()
 {
@@ -21,7 +16,7 @@ void UCharacterListItem::CharacterSelect()
 	Inst->NickName = NickName;
 	Inst->NickNameUTF8 = ConvertNickName;
 
-	SelectCharacterMessage NewPacket;
+	/*SelectCharacterMessage NewPacket;
 	NewPacket.NickName = ConvertNickName;
 	GameServerSerializer Sr;
 	NewPacket.Serialize(Sr);
@@ -29,5 +24,8 @@ void UCharacterListItem::CharacterSelect()
 	if (false != Inst->Send(Sr.GetData()))
 	{
 		int a = 0;
-	}
+	}*/
+
+	UGameplayStatics::OpenLevel(GetWorld(), TEXT("Select"));
+
 }

@@ -9,6 +9,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "../Global/ClientGameInstance.h"
 #include "../DebugClass.h"
+#include "../Global/ClientBlueprintFunctionLibrary.h"
+#include "../Message/ClientToServer.h"
 void USelectHUD::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -72,7 +74,20 @@ void USelectHUD::StartClick()
 	
 	GetOwningPlayerCameraManager()->StartCameraFade(0.0f, 1.f, 3.f, FLinearColor(0.f, 0.f, 0.f), true, true);
 	
-	OpenLevel();
+
+
+	UClientGameInstance* Inst = Cast<UClientGameInstance>(GetGameInstance());
+
+
+	SelectCharacterMessage NewPacket;
+	NewPacket.NickName = Inst->NickNameUTF8;
+	GameServerSerializer Sr;
+	NewPacket.Serialize(Sr);
+
+	if (false != Inst->Send(Sr.GetData()))
+	{
+		int a = 0;
+	}
 }
 
 void USelectHUD::OpenLevel()

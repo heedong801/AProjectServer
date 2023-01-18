@@ -349,13 +349,8 @@ bool Player::InsertSection()
 		Msg.ObjectIndex = GetIndex();
 		Msg.SectionIndex = GetSectionIndex();
 		Msg.ThreadIndex = GetThreadIndex();
-		if(firstLogin == false)
-			Msg.MoveLevel = GetSection()->GetNameCopy();
-		else
-		{
-			Msg.MoveLevel = "Select";
-			firstLogin = false;
-		}
+		Msg.MoveLevel = GetSection()->GetNameCopy();
+
 
 		GameServerSerializer Sr;
 		Msg.Serialize(Sr);

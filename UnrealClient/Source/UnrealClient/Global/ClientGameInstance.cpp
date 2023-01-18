@@ -149,23 +149,13 @@ void UnrealUDPRecvThread::Close()
 	IsAppClose_ = false;
 }
 
-
-
-// 언리얼을 사용한다는것은
-// 기능을 찾아본다.
-// 95%는 있어
-// 5% 조합하면 있어요.
-// 100% 있어
-// 다른 사람들의 기준으로는
-// 떼쓰는것 <= 자동
-
 UClientGameInstance::UClientGameInstance()
 {
 	ClientMode_ = false;
 	LoginProcess_ = false;
 	RankWindowMode = ESlateVisibility::Hidden;
 	ChatMessageType = static_cast<int>(EChatMessageType::ALL);
-
+	firstLogin = true;
 	static ConstructorHelpers::FObjectFinder<UDataTable> ItemTexutureInfoTableAsset(TEXT("DataTable'/Game/UI/DT_ItemTextureInfo.DT_ItemTextureInfo'"));
 	if (ItemTexutureInfoTableAsset.Succeeded())
 		m_ItemTextureTable = ItemTexutureInfoTableAsset.Object;
@@ -422,10 +412,27 @@ void UClientGameInstance::BeginDestroy()
 		GameServerSerializer Sr;
 		NewPacket.Serialize(Sr);
 
-		// 기한을 두고.
 		if (false != Send(Sr.GetData()))
 		{
 		}
 	}
 	Super::BeginDestroy();
+}
+
+void UClientGameInstance::OpenLevel(const FString& levelName)
+{
+	if( levelName == "PlayLevel")
+		GetWorld()->GetTimerManager().SetTimer(m_LevelOpenTimerHandle, this, &UClientGameInstance::OpenPlayLevel, 3.1f, false, -1.f);
+	else
+		GetWorld()->GetTimerManager().SetTimer(m_LevelOpenTimerHandle, this, &UClientGameInstance::OpenLoginLevel, 3.1f, false, -1.f);
+
+}
+void UClientGameInstance::OpenLoginLevel()
+{
+	UGameplayStatics::OpenLevel(this, "LoginLevel");
+}
+
+void UClientGameInstance::OpenPlayLevel()
+{
+	UGameplayStatics::OpenLevel(this, "PlayLevel");
 }

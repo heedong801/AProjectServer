@@ -30,6 +30,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 		UProgressBar* m_EXPBar;
 
+	UPROPERTY(meta = (BindWidgetAnim), meta = (AllowPrivateAccess = "true"), Transient)
+		class UWidgetAnimation* m_HudFadeAnim;
 	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 		TArray<class USkillImageWidget*> m_SkillArray;*/
 	//FNameDelegate	m_NameDelegate;
@@ -57,6 +59,7 @@ public:
 		m_LevelText->SetText(FText::FromString(FString::FromInt(Level)));
 	}
 
+	void FadeOut();
 protected:
 	virtual void NativeConstruct();
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime);

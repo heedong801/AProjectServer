@@ -4,7 +4,6 @@
 #include "Kismet/GameplayStatics.h"
 #include "../Global/ClientGameInstance.h"
 #include "../Global/HitCameraShake.h"
-
 #include "../Play/PlayGameMode.h"
 #include "../Play/ClientMonster.h"
 #include "../Message/ClientToServer.h"
@@ -18,6 +17,7 @@
 #include "DrawDebugHelpers.h"
 #include"../DebugClass.h"
 #include"InventoryTile.h"
+
 // Sets default values
 AClientPlayCharacter::AClientPlayCharacter()
 {
@@ -301,15 +301,11 @@ void AClientPlayCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	PlayerInputComponent->BindAction(TEXT("Interaction"), EInputEvent::IE_Pressed, this, &APlayerCharacter::InteractionKey);
 	*/
 
-	// 얼마나 지속적으로 오래눌렀고 세게 눌렀다 약하게 눌렀다는 체크해야할때가 많습니다.
-	// 정의 내린 키가 입력되었을대 
 	//PlayerInputComponent->BindAxis("DefaultPawn_MoveForward", this, &AClientPlayCharacter::MoveForward);
 	//PlayerInputComponent->BindAxis("ClientPlayer_MoveRight", this, &AClientPlayCharacter::MoveRight);
 	//PlayerInputComponent->BindAction("ClientPlayer_Move", EInputEvent::IE_Pressed, this, &AClientPlayCharacter::MoveStart);
 	//PlayerInputComponent->BindAction("ClientPlayer_Move", EInputEvent::IE_Released, this, &AClientPlayCharacter::MoveEnd);
 
-	// 얼마나 지속적으로 오래눌렀고 세게 눌렀다 약하게 눌렀다는 체크해야할때가 많습니다.
-	// 정의 내린 키가 입력되었을대 
 	//PlayerInputComponent->BindAxis("DefaultPawn_MoveForward", this, &AClientPlayCharacter::MoveForward);
 	//PlayerInputComponent->BindAxis("ClientPlayer_MoveRight", this, &AClientPlayCharacter::MoveRight);
 	PlayerInputComponent->BindAction("ClientPlayer_Move", EInputEvent::IE_Pressed, this, &AClientPlayCharacter::MoveStart);
@@ -322,11 +318,47 @@ void AClientPlayCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	PlayerInputComponent->BindAction("SetChatType_OnePlayer", EInputEvent::IE_Pressed, this, &AClientPlayCharacter::SetChatTypeOne);
 	PlayerInputComponent->BindAction("SetChatType_All", EInputEvent::IE_Pressed, this, &AClientPlayCharacter::SetChatTypeAll);
 
+	PlayerInputComponent->BindAction("LogOut", EInputEvent::IE_Pressed, this, &AClientPlayCharacter::LogOut);
+
+
 	FInputModeGameAndUI InputMode;
 	GetWorld()->GetFirstPlayerController()->SetInputMode(InputMode);
 	GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;
 }
 
+void AClientPlayCharacter::LogOut()
+{
+	UClientGameInstance* Inst = Cast<UClientGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if (nullptr == Inst || false == Inst->IsValidLowLevel())
+	{
+		return;
+	}
+	std::string tmpID;
+
+	UClientBlueprintFunctionLibrary::FStringToUTF8(Inst->ID, tmpID);
+
+	LogoutMessage NewPacket;
+	NewPacket.ID = tmpID;
+	GameServerSerializer Sr;
+	NewPacket.Serialize(Sr);
+
+	// 기한을 두고.
+	if (false != Inst->Send(Sr.GetData()))
+	{
+		Inst->firstLogin = true;
+
+		APlayerController* PC = Cast<APlayerController>(GetController());
+		PC->PlayerCameraManager->StartCameraFade(0.0f, 1.f, 3.f, FLinearColor(0.f, 0.f, 0.f), true, true);
+		UCharacterHUD* CharacterHUD = Cast<UCharacterHUD>(Inst->CharacterHUD);
+		if (IsValid(CharacterHUD) && CharacterHUD != nullptr)
+		{
+			CharacterHUD->FadeOut();
+		}
+		Inst->OpenLevel("LoginLevel");
+
+	}
+}
 
 void AClientPlayCharacter::Sprint()
 {

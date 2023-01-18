@@ -84,7 +84,7 @@ private:
 	void InventoryKey();
 	void EquipmentKey();
 	void ExitKey();
-
+	void LogOut();
 	bool SkillPlayAnim(int32 idx);
 
 	class UClientAnimInstance* m_AnimInst;
