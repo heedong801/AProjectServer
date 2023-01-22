@@ -3,6 +3,7 @@
 #include <string>
 
 
+constexpr int MAX_DATA = 1024;
 class GameServerSerializer
 {
 private:
@@ -19,7 +20,7 @@ public:
 	{
 		Offset_ = 0;
 		Data_.clear();
-		Data_.resize(1024);
+		Data_.resize(MAX_DATA);
 	}
 
 	const std::vector<unsigned char>& GetData() {

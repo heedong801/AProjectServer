@@ -42,7 +42,7 @@ uint32 UnrealRecvThread::Run()
 	while (IsAppClose_)
 	{
 		std::vector<uint8> RecvData;
-		RecvData.resize(1024);
+		RecvData.resize(8192);
 		int32 RecvDataSize_ = 0;
 
 		if (false == RecvSocket_->Recv(&RecvData[0], RecvData.size(), RecvDataSize_))
@@ -122,7 +122,7 @@ uint32 UnrealUDPRecvThread::Run()
 	int32 RecvByte;
 
 	std::vector<uint8> RecvData;
-	RecvData.resize(1024);
+	RecvData.resize(8192);
 	int32 RecvDataSize_ = 0;
 
 	while (IsAppClose_)

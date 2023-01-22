@@ -78,12 +78,12 @@ public:
 
 struct FPlayerUpdateData
 {
-	uint64_t ObjectIndex;
-	uint64_t ThreadIndex;
-	uint64_t SectionIndex;
 	FVector4 Dir;
 	FVector4 Pos;
 	FVector4 Rot;
+	uint64_t ObjectIndex;
+	uint64_t ThreadIndex;
+	uint64_t SectionIndex;
 	int State;
 
 	template<typename EnumType>
@@ -136,12 +136,12 @@ struct FPlayerUpdateData
 
 struct FMonsterUpdateData
 {
-	uint64_t ObjectIndex;
-	uint64_t ThreadIndex;
-	uint64_t SectionIndex;
 	FVector4 Dir;
 	FVector4 Pos;
 	FVector4 Rot;
+	uint64_t ObjectIndex;
+	uint64_t ThreadIndex;
+	uint64_t SectionIndex;
 	float DeltaTime;
 	int State;
 
@@ -203,7 +203,7 @@ struct FPlayerItemData
 
 	int GetDataSize()
 	{
-		return (4 * 5) + 4 + static_cast<int>(ItemName.size());
+		return ( 8 * 2 ) + (4 * 3) + 4 + static_cast<int>(ItemName.size());
 	}
 
 	void Serialize(GameServerSerializer& _Ser)

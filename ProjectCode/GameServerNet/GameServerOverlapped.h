@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TypeDefine.h"
+#include <GameServerBase/GameServerSerializer.h>
 #include <memory>
 
 
@@ -84,7 +85,7 @@ public:
 private:
 	// 절대로 겹치면 안됩니다.
 	// 받은 데이터가 들어가야 하니까.
-	char Buffer[1024];
+	char Buffer[8192];
 	WSABUF wsaBuffer;
 	TCPSession* TCPSession_;
 };
@@ -157,7 +158,7 @@ private:
 	std::weak_ptr<class UDPSession> UDPSession_;
 	// 절대로 겹치면 안됩니다.
 	// 받은 데이터가 들어가야 하니까.
-	char Buffer[1024];
+	char Buffer[8192];
 	WSABUF wsaBuffer;
 	DWORD numberofBytes_;
 };
@@ -197,7 +198,7 @@ private:
 	std::weak_ptr<class UDPSession> UDPSession_;
 	// 절대로 겹치면 안됩니다.
 	// 받은 데이터가 들어가야 하니까.
-	char Buffer[1024];
+	char Buffer[MAX_DATA];
 	WSABUF wsaBuffer;
 	DWORD numberofBytes_;
 };

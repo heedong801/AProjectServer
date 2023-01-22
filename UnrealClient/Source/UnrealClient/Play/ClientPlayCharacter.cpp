@@ -220,28 +220,6 @@ void AClientPlayCharacter::Tick(float DeltaTime)
 		}
 	}
 
-	//if (IsAttack == true
-	//	&& AttTimeCheck <= 0.0f )
-	//{
-	//	IsAttack = false;
-	//	bool IsCheck = false;
-
-	//	// 1000데미지를 준다고 하겠습니다.
-	//	// 클라이언트 적인 판단으로
-	//	// 5번 맞춰서 3번 맞췄다.
-
-	//	GameMode->MonsterCollisionCallBack(this, 250.0f, 160.0f, [&](AClientMonster* Monster) 
-	//	{
-	//		IsCheck = true;
-	//		Monster->SetClientDamage(1000.0f);
-	//	});
-
-	//	if (true == IsCheck)
-	//	{
-	//		DebugCircle(FVector::ZeroVector, FColor::Red, 250.0f);
-	//	}
-	//}
-
 	if (false == ServerPost)
 	{
 		return;

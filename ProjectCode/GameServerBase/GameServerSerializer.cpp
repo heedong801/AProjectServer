@@ -82,7 +82,7 @@ void GameServerSerializer::operator>>(uint64_t& _Value)
 GameServerSerializer::GameServerSerializer()
 {
 	Offset_ = 0;
-	Data_.resize(1024);
+	Data_.resize(8192);
 }
 
 GameServerSerializer::GameServerSerializer(const std::vector<unsigned char>& _Data)

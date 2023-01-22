@@ -177,7 +177,7 @@ void StudyGameServerCore::CloseEvent(std::shared_ptr<TCPSession> _S)
 	Player* ConnectionPlayer = PlayerData->ConnectPlayer;
 
 	ConnectionPlayer->Death();
-
+	 
 
 	_S->ClearLinkObject();
 

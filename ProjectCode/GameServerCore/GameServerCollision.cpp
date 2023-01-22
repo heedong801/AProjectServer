@@ -153,8 +153,6 @@ void GameServerCollision::Death()
 		GameServerDebug::AssertDebugMsg("OwnerSection Is Null!!!!!!!!");
 	}
 
-	// 조금 불안한게 뭐냐면
-
 	OwnerSection->CollisionList[Index_].remove(this);
 	delete this;
 }
