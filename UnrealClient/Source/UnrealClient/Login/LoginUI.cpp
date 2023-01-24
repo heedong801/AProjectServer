@@ -35,7 +35,11 @@ void ULoginUI::ServerConnect()
 
 void ULoginUI::NativeConstruct()
 {
-	IPString = TEXT("127.0.0.1");
+	IPString = TEXT("3.39.223.3");
+
+	//IPString = TEXT("192.168.35.45");
+	//IPString = TEXT("127.0.0.1");
+
 	PORTString = TEXT("30001");
 	IDString = TEXT("Test");
 	PWString = TEXT("Test");
@@ -87,8 +91,10 @@ void ULoginUI::ServerLogin()
 
 	Inst->ID = IDString;
 
+	static int cnt = 0;
+	cnt++;
 	// 기한을 두고.
-	if (false != Inst->Send(Sr.GetData()))
+	if (true == Inst->Send(Sr.GetData()))
 	{
 		Inst->LoginProcess_ = true;
 	}
@@ -96,8 +102,8 @@ void ULoginUI::ServerLogin()
 
 void ULoginUI::ResetInfo()
 {
-	IPString = TEXT("127.0.0.1");
-	PORTString = TEXT("30001");
+	/*IPString = TEXT("127.0.0.1");
+	PORTString = TEXT("30001");*/
 }
 
 void ULoginUI::SetClientMode(bool _Mode)

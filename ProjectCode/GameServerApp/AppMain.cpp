@@ -1,8 +1,5 @@
 ﻿#include "PreCompile.h"
 #include <GameServerContents\StudyGameServerCore.h>
-#include <GameServerNet\RedisConnecter.h>
-#include <GameServerBase\GameServerString.h>
-#include <GameServerBase\GameServerSerializer.h>
 
 // 해결안됨.
 // 1. 두번째 접속자가 터지고 있죠.

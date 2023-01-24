@@ -24,7 +24,7 @@ void ThreadHandlerGetEquipmentResultMessage::Start()
 		{
 			for (int i = 0; i < Message_->EquipItemData.size(); i++)
 			{
-				if (Message_->EquipItemData[i].ItemIndex <= 7)
+				if (Message_->EquipItemData[i].ObjectIndex != 0 && Message_->EquipItemData[i].ItemIndex >= 0 && Message_->EquipItemData[i].ItemIndex <= 7)
 				{
 					const FUIItemTextureTableInfo* Info = Inst->FindItemTextureInfo(FString::FromInt(Message_->EquipItemData[i].ItemIndex));
 					//LOG(TEXT("%d"), Message_->EquipItemData[i].ItemIndex);

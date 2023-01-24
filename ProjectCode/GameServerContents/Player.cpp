@@ -118,10 +118,7 @@ void Player::PlayerUpdateMessageProcess(std::shared_ptr<class PlayerUpdateMessag
 		GameServerSerializer Sr;
 		Msg.Serialize(Sr);
 
-		// "SELECT Idx, NickName, UserIndex, ATT, HP, LastSectionid, LastSectionPosx, LastSectionPosy, LastSectionPosz FROM userver2.characterinfo WHERE NickName = ? LIMIT 1"
 		GetTCPSession()->Send(Sr.GetData());
-
-		// GetTCPSession()->Send("SELECT Idx, NickName, UserIndex, ATT, HP, LastSectionid, LastSectionPosx, LastSectionPosy, LastSectionPosz FROM userver2.characterinfo WHERE NickName = ? LIMIT 1");
 		return;
 	}
 
@@ -221,20 +218,20 @@ void Player::Update(float _DeltaTime)
 	}
 
 
-	if (0 == (static_cast<int>(GetAccTime()) % 10) )
-	{
-		// DBQueue::Queue(std::bind(_ChildFunction, std::dynamic_pointer_cast<ChildThreadHandler>(this->shared_from_this())));
+	//if (0 == (static_cast<int>(GetAccTime()) % 10) )
+	//{
+	//	// DBQueue::Queue(std::bind(_ChildFunction, std::dynamic_pointer_cast<ChildThreadHandler>(this->shared_from_this())));
 
-		std::string Name = UserData->SelectData.NickName;
+	//	std::string Name = UserData->SelectData.NickName;
 
-		DBQueue::Queue([=]
-		{
-			std::shared_ptr<RedisConnecter> Connecter = GetBaseRankConntor();
-			RedisCommend::ZADD MyAdd = RedisCommend::ZADD("UserRank", 10000, Name);
-			MyAdd.Process(*Connecter);
-		});
-		// dbqueue
-	}
+	//	DBQueue::Queue([=]
+	//	{
+	//		std::shared_ptr<RedisConnecter> Connecter = GetBaseRankConntor();
+	//		RedisCommend::ZADD MyAdd = RedisCommend::ZADD("UserRank", 10000, Name);
+	//		MyAdd.Process(*Connecter);
+	//	});
+	//	// dbqueue
+	//}
 
 	if (IsFrame(10))
 	{

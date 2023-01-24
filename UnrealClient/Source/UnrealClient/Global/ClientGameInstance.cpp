@@ -211,7 +211,7 @@ bool UClientGameInstance::ServerConnect(const FString& _IPString, const FString&
 
 	// 이 Level Login Level에서 만들어졌다고 치고
 
-	TCPSocket_ = SocketSubSystem_->CreateSocket(NAME_Stream, TEXT("Test"), false);
+	TCPSocket_ = SocketSubSystem_->CreateSocket(NAME_Stream, TEXT("TCP"), false);
 
 	if (nullptr == TCPSocket_)
 	{
@@ -256,9 +256,12 @@ bool UClientGameInstance::ServerUDPConnect(const FString& _PORTString, uint64 _S
 
 
 	ClientRecvUDPPort_ = static_cast<uint16>(FCString::Atoi(*_PORTString));
+
+	//FIPv4Address::Parse(FString("192.168.35.45"), ConnectAddress_);
+	
 	ClientRecvUDPEndPoint_ = FIPv4Endpoint(ConnectAddress_, ClientRecvUDPPort_);
 
-	UDPSocket_ = SocketSubSystem_->CreateSocket(NAME_DGram, TEXT("Test"));
+	UDPSocket_ = SocketSubSystem_->CreateSocket(NAME_DGram, TEXT("UDP"));
 
 	if (nullptr == UDPSocket_)
 	{
@@ -273,10 +276,14 @@ bool UClientGameInstance::ServerUDPConnect(const FString& _PORTString, uint64 _S
 	//	UE_LOG(ClientLog, Error, TEXT("Port Bind Error"));
 	//	return false;
 	//}
+	bool canBind = false;
+	TSharedRef<FInternetAddr> localIp = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->GetLocalHostAddr(*GLog, canBind);
+	localIp->SetPort(ClientRecvUDPPort_);
 
-	while (false == UDPSocket_->Bind(ClientRecvUDPEndPoint_.ToInternetAddr().Get()))
+	while (false == UDPSocket_->Bind(localIp.Get()))
 	{
-		ClientRecvUDPEndPoint_ = FIPv4Endpoint(ConnectAddress_, ++ClientRecvUDPPort_);
+		localIp->SetPort(++ClientRecvUDPPort_);
+		ESocketErrors err = SocketSubSystem_->GetLastErrorCode();
 	}
 
 	UDPRecvThread_ = new UnrealUDPRecvThread(SocketSubSystem_, UDPSocket_, &MessageQueue_);

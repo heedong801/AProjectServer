@@ -73,6 +73,8 @@ void ThreadHandlerGetInventoryMessage::DBCheck()
 			FPlayerItemData item = itemData.GetItemAtIndex(SelectAllQuery.Data[i]);
 			EquipResult_.EquipItemData[i] = item;
 		}
+		else
+			EquipResult_.EquipItemData[i].ItemIndex = -1;
 
 	}
 	NetWork(&ThreadHandlerGetInventoryMessage::ResultSend);

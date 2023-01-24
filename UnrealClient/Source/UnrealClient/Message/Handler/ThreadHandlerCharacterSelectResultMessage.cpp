@@ -10,10 +10,6 @@
 
 void ThreadHandlerCharacterSelectResultMessage::Start()
 {
-	// 로딩이건 뭐건 고려 안함.
-	// 지금 클라가 할게 없음
-	// 물어봐야지
-	// 로딩 고려하시면 됩니다.
 	FString Nick;
 	UClientBlueprintFunctionLibrary::UTF8ToFString(Message_->NickName, Nick);
 
