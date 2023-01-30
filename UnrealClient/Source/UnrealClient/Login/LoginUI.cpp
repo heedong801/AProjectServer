@@ -35,9 +35,9 @@ void ULoginUI::ServerConnect()
 
 void ULoginUI::NativeConstruct()
 {
-	IPString = TEXT("3.39.223.3");
+	//IPString = TEXT("3.39.223.3");
 
-	//IPString = TEXT("192.168.35.45");
+	IPString = TEXT("192.168.35.45");
 	//IPString = TEXT("127.0.0.1");
 
 	PORTString = TEXT("30001");

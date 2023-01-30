@@ -91,7 +91,6 @@ private:
 	static std::vector<std::shared_ptr<UDPSession>> AllUDPSession_;
 
 	// UDP에 무슨일이 생겼을때 함수
-	static std::function<void(std::shared_ptr<UDPSession>, const std::vector<unsigned char>&, IPEndPoint&)>  UDPCallBack_;
 
 
 };

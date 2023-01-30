@@ -112,11 +112,7 @@ void RecvOverlapped::Clear()
 
 void RecvOverlapped::Execute(BOOL Result, DWORD _ByteSize)
 {
-	// 그냥 연결이 끈긴겁니다.
-	// Recv가 리턴됐는데 0
-	// 뭔가 크게 잘못됐습니다.
-	// 정리 단계로 넘어가야 합니다.
-	// 무조건 잘못된것.
+
 	if (0 == _ByteSize)
 	{
 		TCPSession_->Close();

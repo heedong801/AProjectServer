@@ -217,7 +217,6 @@ void StudyGameServerCore::UDPRecvEvent(std::shared_ptr<UDPSession> _S, const std
 		return;
 	}
 
-	// 이 오브젝트 번째의 액터가
 	std::shared_ptr<PlayerUpdateMessage> ConvertMessage = std::dynamic_pointer_cast<PlayerUpdateMessage>(Converter.GetServerMessage());
 	if (nullptr == ConvertMessage)
 	{
@@ -229,18 +228,5 @@ void StudyGameServerCore::UDPRecvEvent(std::shared_ptr<UDPSession> _S, const std
 	Cmd->Point = EndPoint;
 	Cmd->Init(ConvertMessage, _S);
 	Cmd->Start();
-
-
-	//// n초동안 연락이 완전히 두절된 커넥션도 좀비 커넥션이라고 보고 잘라내야 한다.
-	//MessageHandler<UDPSession> Handler;
-	//// std::string MessageCode = std::to_string(Converter.GetMessageIdUint());
-	//// GameServerDebug::LogInfo(MessageCode + " Message In");
-	//if (false == UDPDis.GetHandler(Converter.GetMessageIdUint(), Handler))
-	//{
-	//	// 여기서는 메세지를 잘못처리한 시간을 
-	//	GameServerDebug::AssertDebugMsg("Message Error");
-	//	return;
-	//}
-	//Handler(_S, Converter.GetServerMessage());
 }
 

@@ -30,7 +30,6 @@ std::atomic<int> GameServerCore::MaxUDPPortNumber_;
 TCPListener GameServerCore::Listener_;
 std::vector<std::shared_ptr<UDPSession>> GameServerCore::AllUDPSession_;
 std::function<void(std::shared_ptr<TCPSession>)> GameServerCore::AcceptCallBack_;
-std::function<void(std::shared_ptr<UDPSession>, const std::vector<unsigned char>&, IPEndPoint&)>  GameServerCore::UDPCallBack_;
 
 
 GameServerCore::GameServerCore() 
@@ -160,7 +159,6 @@ void GameServerCore::SetAcceptCallBack(const std::function<void(std::shared_ptr<
 
 void GameServerCore::InitUDP(int UDPCount, const std::function<void(std::shared_ptr<UDPSession>, const std::vector<unsigned char>&, IPEndPoint&)>& _CallBack)
 {
-	UDPCallBack_ = _CallBack;
 	MaxUDPPortNumber_ = UDPCount;
 	UDPPortNumber_ = 0;
 
@@ -171,7 +169,7 @@ void GameServerCore::InitUDP(int UDPCount, const std::function<void(std::shared_
 		// udp·Î
 		// 30001 30002 30003
 		IPEndPoint UDPPoint(ServerEndPoint.GetAddress(), ServerEndPoint.GetPort() + i);
-		UDPSessionPtr->Initialize(UDPPoint, UDPCallBack_);
+		UDPSessionPtr->Initialize(UDPPoint, _CallBack);
 		if (false == UDPSessionPtr->BindQueue(NetQueue::GetQueue()))
 		{
 			int a = 0;
