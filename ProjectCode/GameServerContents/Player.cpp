@@ -189,12 +189,12 @@ void Player::LevelMoveReplyMessageProcess(std::shared_ptr<class LevelMoveReplyMe
 	Msg.ObjectIndex = GetIndex();
 	Msg.SectionIndex = GetSectionIndex();
 	Msg.ThreadIndex = GetThreadIndex();
-	Msg.MoveLevel = PortalPtr->LinkSection->GetNameCopy();
+	//Msg.MoveLevel = PortalPtr->LinkSection->GetNameCopy();
 	GameServerSerializer Sr;
 	Msg.Serialize(Sr);
 	GetSection()->TCPBroadcasting(Sr.GetData(), GetIndex());
 
-	GetSection()->SectionMove(DynamicCast<GameServerActor>(), PortalPtr->LinkSection);
+	GetSection()->SectionMove(DynamicCast<GameServerActor>(), PortalPtr->GetLinkedSection());
 	PortalPtr = nullptr;
 }
 
@@ -261,7 +261,7 @@ void Player::Update(float _DeltaTime)
 			Msg.ObjectIndex = GetIndex();
 			Msg.SectionIndex = GetSectionIndex();
 			Msg.ThreadIndex = GetThreadIndex();
-			Msg.MoveLevel = PortalPtr->LinkSection->GetNameCopy();
+			//Msg.MoveLevel = PortalPtr->GetLinkedSection()->GetNameCopy();
 			GameServerSerializer Sr;
 			Msg.Serialize(Sr);
 			// GetSection()->TCPBroadcasting(Sr.GetData(), GetIndex());

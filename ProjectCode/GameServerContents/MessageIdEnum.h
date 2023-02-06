@@ -6,7 +6,6 @@ enum class MessageId
 	CreateCharacter,
 	SelectCharacter,
 	ClientToReady,
-	UDPConnectResult,
 	LevelMoveReply,
 	RankRequest,
 	GetInventory,

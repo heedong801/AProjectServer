@@ -123,7 +123,6 @@ public:
 	uint64_t ObjectIndex;
 	uint64_t ThreadIndex;
 	uint64_t SectionIndex;
-	std::string MoveLevel;
                                                                 
 public:                                                         
     LevelMoveMessage()                                               
@@ -131,7 +130,6 @@ public:
         , ObjectIndex()
         , ThreadIndex()
         , SectionIndex()
-        , MoveLevel()
     {                                                           
                                                                 
     }                                                           
@@ -140,7 +138,7 @@ public:
                                                                 
     virtual int SizeCheck()                                     
     {                                                           
-		return DataSizeCheck(ObjectIndex) + DataSizeCheck(ThreadIndex) + DataSizeCheck(SectionIndex) + DataSizeCheck(MoveLevel);
+		return DataSizeCheck(ObjectIndex) + DataSizeCheck(ThreadIndex) + DataSizeCheck(SectionIndex);
     }                                                           
                                                                 
     void Serialize(GameServerSerializer& _Serializer)           
@@ -149,7 +147,6 @@ public:
         _Serializer << ObjectIndex;
         _Serializer << ThreadIndex;
         _Serializer << SectionIndex;
-        _Serializer << MoveLevel;
 
     }                                                           
                                                                 
@@ -159,7 +156,6 @@ public:
         _Serializer >> ObjectIndex;
         _Serializer >> ThreadIndex;
         _Serializer >> SectionIndex;
-        _Serializer >> MoveLevel;
 
     }                                                           
 };                                                              

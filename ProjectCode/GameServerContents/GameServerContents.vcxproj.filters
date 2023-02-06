@@ -43,9 +43,6 @@
     <ClCompile Include="ThreadHandlerPlayerUpdateMessageUDP.cpp">
       <Filter>ThreadHandler</Filter>
     </ClCompile>
-    <ClCompile Include="ThreadHandlerUDPConnectResultMessage.cpp">
-      <Filter>ThreadHandler</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Object\Actor</Filter>
     </ClCompile>
@@ -154,9 +151,6 @@
       <Filter>Contents</Filter>
     </ClInclude>
     <ClInclude Include="ThreadHandlerPlayerUpdateMessageUDP.h">
-      <Filter>ThreadHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="ThreadHandlerUDPConnectResultMessage.h">
       <Filter>ThreadHandler</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">

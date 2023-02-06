@@ -6,7 +6,6 @@
 #include "ThreadHandlerCreateCharacterMessage.h"
 #include "ThreadHandlerSelectCharacterMessage.h"
 #include "ThreadHandlerClientToReadyMessage.h"
-#include "ThreadHandlerUDPConnectResultMessage.h"
 #include "ThreadHandlerLevelMoveReplyMessage.h"
 #include "ThreadHandlerRankRequestMessage.h"
 #include "ThreadHandlerGetInventoryMessage.h"
@@ -38,7 +37,6 @@ void DispatcherRegistration()
 	Dis.AddHandler(static_cast<uint32_t>(MessageId::CreateCharacter), std::bind(&OnMessageProcess<ThreadHandlerCreateCharacterMessage, CreateCharacterMessage>, std::placeholders::_1, std::placeholders::_2));	
 	Dis.AddHandler(static_cast<uint32_t>(MessageId::SelectCharacter), std::bind(&OnMessageProcess<ThreadHandlerSelectCharacterMessage, SelectCharacterMessage>, std::placeholders::_1, std::placeholders::_2));	
 	Dis.AddHandler(static_cast<uint32_t>(MessageId::ClientToReady), std::bind(&OnMessageProcess<ThreadHandlerClientToReadyMessage, ClientToReadyMessage>, std::placeholders::_1, std::placeholders::_2));	
-	Dis.AddHandler(static_cast<uint32_t>(MessageId::UDPConnectResult), std::bind(&OnMessageProcess<ThreadHandlerUDPConnectResultMessage, UDPConnectResultMessage>, std::placeholders::_1, std::placeholders::_2));	
 	Dis.AddHandler(static_cast<uint32_t>(MessageId::LevelMoveReply), std::bind(&OnMessageProcess<ThreadHandlerLevelMoveReplyMessage, LevelMoveReplyMessage>, std::placeholders::_1, std::placeholders::_2));	
 	Dis.AddHandler(static_cast<uint32_t>(MessageId::RankRequest), std::bind(&OnMessageProcess<ThreadHandlerRankRequestMessage, RankRequestMessage>, std::placeholders::_1, std::placeholders::_2));	
 	Dis.AddHandler(static_cast<uint32_t>(MessageId::GetInventory), std::bind(&OnMessageProcess<ThreadHandlerGetInventoryMessage, GetInventoryMessage>, std::placeholders::_1, std::placeholders::_2));	

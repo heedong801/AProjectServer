@@ -13,11 +13,6 @@ uint64_t ObjectIndex;
 uint64_t ThreadIndex;
 uint64_t SectionIndex;
 
-|UDPConnectResult-
-uint64_t ObjectIndex;
-uint64_t ThreadIndex;
-uint64_t SectionIndex;
-
 |LevelMoveReply-
 uint64_t ObjectIndex;
 uint64_t ThreadIndex;

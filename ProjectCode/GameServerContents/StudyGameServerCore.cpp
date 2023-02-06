@@ -75,9 +75,9 @@ void StudyGameServerCore::UserStart()
 		std::shared_ptr<FightZone> Zone = GameServerSectionManager::GetInst()->CreateSection<FightZone>(1, ESectionType::FIGHTZONE1);
 		Zone->SetName("FightZone0");
 		std::shared_ptr<Portal> FightZonePortal = Zone->CreateActor<Portal>(FVector4(-1700.0f, 640.0f, -300.0f), FVector4(100.0f, 100.0f, 100.0f));
-		FightZonePortal->LinkSection = MainZone.get();
+		FightZonePortal->SetLinkedSection(MainZone.get());
 
-		PlayLevelPortal0->LinkSection = Zone.get();
+		PlayLevelPortal0->SetLinkedSection(Zone.get());
 		// Zone->CreateActor<HealingPoint>(FVector4(2500.0f, 300.0f, -300.0f), FVector4(100.0f, 100.0f, 100.0f));
 	}
 
@@ -86,9 +86,9 @@ void StudyGameServerCore::UserStart()
 		Zone->SetName("FightZone1");
 
 		std::shared_ptr<Portal> FightZonePortal = Zone->CreateActor<Portal>(FVector4(160.0f, 2300.0f, -300.0f), FVector4(100.0f, 100.0f, 100.0f));
-		FightZonePortal->LinkSection = MainZone.get();
+		FightZonePortal->SetLinkedSection(MainZone.get());
 
-		PlayLevelPortal1->LinkSection = Zone.get();
+		PlayLevelPortal1->SetLinkedSection(Zone.get());
 	}
 
 	{
@@ -96,10 +96,10 @@ void StudyGameServerCore::UserStart()
 		Zone->SetName("FightZone2");
 
 		std::shared_ptr<Portal> FightZonePortal = Zone->CreateActor<Portal>(FVector4(300.0f, -1600.0f, -300.0f), FVector4(100.0f, 100.0f, 100.0f));
-		FightZonePortal->LinkSection = MainZone.get();
+		FightZonePortal->SetLinkedSection(MainZone.get());
 
 
-		PlayLevelPortal2->LinkSection = Zone.get();
+		PlayLevelPortal2->SetLinkedSection(Zone.get());
 	}
 
 	{
@@ -107,10 +107,10 @@ void StudyGameServerCore::UserStart()
 		Zone->SetName("FightZone3");
 
 		std::shared_ptr<Portal> FightZonePortal = Zone->CreateActor<Portal>(FVector4(2500.0f, 300.0f, -300.0f), FVector4(100.0f, 100.0f, 100.0f));
-		FightZonePortal->LinkSection = MainZone.get();
+		FightZonePortal->SetLinkedSection(MainZone.get());
 
 
-		PlayLevelPortal3->LinkSection = Zone.get();
+		PlayLevelPortal3->SetLinkedSection(Zone.get());
 	}
 }
 

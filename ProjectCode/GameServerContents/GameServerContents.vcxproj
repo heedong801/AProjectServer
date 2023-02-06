@@ -80,7 +80,6 @@
     <ClCompile Include="ThreadHandlerPlayerUpdateMessageUDP.cpp" />
     <ClCompile Include="ThreadHandlerRankRequestMessage.cpp" />
     <ClCompile Include="ThreadHandlerSelectCharacterMessage.cpp" />
-    <ClCompile Include="ThreadHandlerUDPConnectResultMessage.cpp" />
     <ClCompile Include="UserTable.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -146,7 +145,6 @@
     <ClInclude Include="ThreadHandlerPlayerUpdateMessageUDP.h" />
     <ClInclude Include="ThreadHandlerRankRequestMessage.h" />
     <ClInclude Include="ThreadHandlerSelectCharacterMessage.h" />
-    <ClInclude Include="ThreadHandlerUDPConnectResultMessage.h" />
     <ClInclude Include="UserTable.h" />
     <ClInclude Include="ContentsStructure.h" />
   </ItemGroup>

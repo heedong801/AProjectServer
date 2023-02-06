@@ -15,11 +15,13 @@ public:
 	Portal& operator=(const Portal& _Other) = delete;
 	Portal& operator=(Portal&& _Other) noexcept = delete;
 
-	GameServerSection* LinkSection;
-
+	GameServerSection* GetLinkedSection() { return LinkSection; }
+	void SetLinkedSection(GameServerSection* _Section) { LinkSection = _Section; }
 protected:
 
 private:
+	GameServerSection* LinkSection;
+
 	void SectionInitialize() override;
 	void TCPSessionInitialize() override {}
 	void UDPSessionInitialize() override {}
@@ -27,7 +29,6 @@ private:
 	void Update(float _Time) {}
 	bool InsertSection() { return true; }
 	void DeathEvent() {}
-
 
 };
 

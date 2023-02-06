@@ -156,49 +156,6 @@ public:
     }                                                           
 };                                                              
 
-class UDPConnectResultMessage : public GameServerMessage                    
-{                                                               
-public:                                                         
-	uint64_t ObjectIndex;
-	uint64_t ThreadIndex;
-	uint64_t SectionIndex;
-                                                                
-public:                                                         
-    UDPConnectResultMessage()                                               
-        : GameServerMessage(static_cast<uint32_t>(MessageId::UDPConnectResult))                    
-        , ObjectIndex()
-        , ThreadIndex()
-        , SectionIndex()
-    {                                                           
-                                                                
-    }                                                           
-                                                                
-    virtual ~UDPConnectResultMessage() {}                                   
-                                                                
-    virtual int SizeCheck()                                     
-    {                                                           
-		return DataSizeCheck(ObjectIndex) + DataSizeCheck(ThreadIndex) + DataSizeCheck(SectionIndex);
-    }                                                           
-                                                                
-    void Serialize(GameServerSerializer& _Serializer)           
-    {                                                           
-        GameServerMessage::Serialize(_Serializer);              
-        _Serializer << ObjectIndex;
-        _Serializer << ThreadIndex;
-        _Serializer << SectionIndex;
-
-    }                                                           
-                                                                
-    void DeSerialize(GameServerSerializer& _Serializer)         
-    {                                                           
-        GameServerMessage::DeSerialize(_Serializer);            
-        _Serializer >> ObjectIndex;
-        _Serializer >> ThreadIndex;
-        _Serializer >> SectionIndex;
-
-    }                                                           
-};                                                              
-
 class LevelMoveReplyMessage : public GameServerMessage                    
 {                                                               
 public:                                                         

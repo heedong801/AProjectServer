@@ -26,9 +26,6 @@ MessageConverter::MessageConverter(const std::vector<unsigned char>&_buffer)
 	case MessageId::ClientToReady:
 		Message_ = std::make_shared<ClientToReadyMessage>();
 		break;
-	case MessageId::UDPConnectResult:
-		Message_ = std::make_shared<UDPConnectResultMessage>();
-		break;
 	case MessageId::LevelMoveReply:
 		Message_ = std::make_shared<LevelMoveReplyMessage>();
 		break;

@@ -81,10 +81,6 @@ bool GameServerSection::Update(float _Time)
 		// PlayableActor_.begin();
 	}
 
-	// 몬스터가 움직인다.
-	// 조건을 다 두겠습니다.
-	// 먼저 락을 걸지 않고.
-	// 이녀석 자체는 락이 아니고.
 	if (0 != WaitActorCount_)
 	{
 		std::lock_guard<std::mutex> lock(WaitLock);
@@ -222,8 +218,7 @@ void GameServerSection::InsertActor(uint64_t _ID, std::shared_ptr<GameServerActo
 {
 	if (_ID == -1)
 	{
-		GameServerDebug::AssertDebugMsg("actor index is -1 Fuck you !!!!!!");
-		// GameServerDebug::AssertDebugMsg("조해근 대리님한테 오세요!!!!!!");
+		GameServerDebug::AssertDebugMsg("no index actor");
 		return;
 	}
 	
