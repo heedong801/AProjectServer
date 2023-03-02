@@ -99,9 +99,9 @@ bool TCPSession::Initialize()
 	{
 		LINGER lin;
 
-		// 보낼 데이터 바로 패기
+
 		lin.l_onoff = 1;
-		// 연결 종료 과정은 거친다.
+
 		lin.l_linger = 0;
 
 		ErrorCode = setsockopt(SessionSocket_, SOL_SOCKET, SO_LINGER, reinterpret_cast<const char*>(&lin), sizeof(lin));

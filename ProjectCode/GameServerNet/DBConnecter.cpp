@@ -253,6 +253,8 @@ DBConnecter::DBConnecter()
 
 DBConnecter::~DBConnecter()
 {
+	if( mysql_ != nullptr )
+		mysql_close(mysql_);
 }
 
 void DBConnecter::Reset() 

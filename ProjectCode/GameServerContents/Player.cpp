@@ -189,7 +189,7 @@ void Player::LevelMoveReplyMessageProcess(std::shared_ptr<class LevelMoveReplyMe
 	Msg.ObjectIndex = GetIndex();
 	Msg.SectionIndex = GetSectionIndex();
 	Msg.ThreadIndex = GetThreadIndex();
-	//Msg.MoveLevel = PortalPtr->LinkSection->GetNameCopy();
+
 	GameServerSerializer Sr;
 	Msg.Serialize(Sr);
 	GetSection()->TCPBroadcasting(Sr.GetData(), GetIndex());

@@ -189,45 +189,12 @@ bool TCPListener::StartAccept(int _BackLog)
 
 void TCPListener::AsyncAccept()
 {
-	// 이함수의 의미가 뭐죠?
-	// 대기하는 소켓 1개를 만든다.
-	
-	// 제한을 걸지는 않겠지만.
-	
-	// 1000명 이하일때
-	// 10개 대기시켜 놨습니다 => 10개의 소켓을 만들었다는 이야기.
-	// 유저가 접속했어 10 => 9개 됐죠?
-	// 1명의 유저는 그대로 => 그 접속된 소켓을 가진채로 플레이를 시작해.
-	// ->AsyncAccept()
 
-	// 1000명이 다 꽉찼어요.
-	// 일반적인 접속도 받고 있는 상황이겠죠? 
-	// 플레이하는 유저가 됐습니다.
-	// 유저들이 플레이하다가 나가는 상황도 있을것이고?
-	
-	// 한명이 나갔어.
-	// 새로운 소켓을 만드는게 아니라.
-	// 소켓을 재활용하는 겁니다.
-	// 자리 비었다 개념이 되서 그 소켓으로 다시 ACCEPTEX 걸어도 그대로 쓸수 있다.
-	
-
-	// 쓰레드 핸들링은 메모리 동시접근을 제어해주는게 아니다
-	// 쓰레드는 동시에 10개 만들었으면 10개가 동시에 깨어날수도 있다.
-	// 10개 깨어나서 동시에 AsyncAccpet()를 호출했다고 한다면
-	// AsyncAccpet() 함수가 쓰레드 핸들
 	PtrSTCPSession NewSession = nullptr;
 	{
 		// std::lock_guard<std::mutex> lock(connectPoolLock_);
 
 		connectPoolLock_.lock();
-
-		// 어떤 컨텐츠를 보게되면
-		
-		// 이미 만들어졌다가 다시 등록기다리는 소켓이 생길수 있는 구조.
-		// 소켓을 모아놔야합니다.
-		// 시퀸스
-		// list
-		// [접속대기][접속대기][접속대기][접속대기][접속대기][][][][]
 		
 		if (true == connectionPool_.empty())
 		{
@@ -238,7 +205,7 @@ void TCPListener::AsyncAccept()
 			GameServerDebug::LogInfo(LogText + " Socket Create");
 
 			NewSession->SetParent(this);
-		}
+		} 
 		else 
 		{
 			// 여기에서 재활용된 소켓이겠죠?
@@ -253,34 +220,16 @@ void TCPListener::AsyncAccept()
 		connectPoolLock_.unlock();
 	}
 
-	// 동적할당되어서 
 
-	//SOCKET sListenSocket, 서버의 접속소켓
-	//SOCKET sAcceptSocket, 접속된 클라이언트와의 세션소켓
-	//PVOID lpOutputBuffer, 접속자의 ip주소를 보내주는 소켓
-	//DWORD dwReceiveDataLength, 최초패킷을 받을수 있는 0넣으면 안받는다.
-	//DWORD dwLocalAddressLength, // 
-	//DWORD dwRemoteAddressLength,
-	//LPDWORD lpdwBytesReceived,
-	//LPOVERLAPPED lpOverlapped
-
-	// unique_ptr 잘생각해봅시다.
-	// 쓰레드를 넘나들수는 있어도 같은 다른쓰레드에서 동시에 존재하는 일이 존재해서는 안되는
-	// 메모리들은 왠만하면 unique_ptr을 사용할 겁니다.
-	// 의도를 보여주고 있는것
 
 	AcceptExOverlapped* AcceptOver = nullptr;/* = std::make_unique<AcceptExOverlapped>(NewSession)*/;
 	{
-		// 이 순간순간 마다 컨텍스트 스위칭이 일어날 것이다.
 		if (true == AcceptExOverlappedPool_.IsEmpty())
 		{
 			AcceptOver = new AcceptExOverlapped(NewSession);
 		}
 		else
 		{
-			// 여기에서 재활용된 소켓이겠죠?
-			// 종료됐다고 그냥 이쪽에 안됩니다.
-			// OK?
 			AcceptOver = AcceptExOverlappedPool_.Pop();
 			AcceptOver->SetTCPSession(NewSession);
 		}

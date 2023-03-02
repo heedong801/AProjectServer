@@ -122,6 +122,8 @@ GameServerQueue::QUEUE_RETURN GameServerQueue::WorkDefault(std::shared_ptr<GameS
 		{
 			std::unique_ptr<PostJob> JobTesk = std::unique_ptr<PostJob>(_Work->GetConvertCompletionKey<PostJob*>());
 			JobTesk->task_();
+
+			LPOVERLAPPED overlapped = _Work->GetOverlappedPtr();
 		}
 		else
 		{
@@ -138,6 +140,10 @@ GameServerQueue::QUEUE_RETURN GameServerQueue::WorkDefault(std::shared_ptr<GameS
 			// 이것도 처리해야 합니다.
 			OverlappedJob* JobTesk = _Work->GetConvertCompletionKey<OverlappedJob*>();
 			JobTesk->task_(ReturnType, _Work->GetNumberOfBytes(), _Work->GetOverlappedPtr());
+
+			LPOVERLAPPED overlapped = _Work->GetOverlappedPtr();
+			
+
 		}
 		else
 		{
@@ -228,13 +234,9 @@ GameServerQueue::QUEUE_RETURN GameServerQueue::Execute(DWORD _Time)
 
 GameServerQueue::QUEUE_RETURN GameServerQueue::ExecuteOriginal(DWORD _Time)
 {
-	// 나는 이미 IOCP를 가지고 있고.
 	DWORD NumberOfBytesTransferred;
 	ULONG_PTR CompletionKey;
 	LPOVERLAPPED lpOverlapped;
-
-	// 한번에 1개의 POST만 뺄수 있다.
-	// GetQueuedCompletionStatus(Iocp_, &NumberOfBytesTransferred, &CompletionKey, &lpOverlapped, _Time)
 
 	// POST된게 있으면 빼준다.
 	BOOL Result = Iocp.Execute(NumberOfBytesTransferred, CompletionKey, lpOverlapped, _Time);

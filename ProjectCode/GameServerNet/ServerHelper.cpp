@@ -12,7 +12,7 @@ void ServerHelper::StartEngineStartUp()
 
 	WSAData wsaData;
 	int errorCode = WSAStartup(MAKEWORD(2, 2), &wsaData);
-	if (SOCKET_ERROR == errorCode)
+	if (0 != errorCode)
 	{
 		GameServerDebug::GetLastErrorPrint();
 		return;
